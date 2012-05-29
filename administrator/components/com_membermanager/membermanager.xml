@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="component" version="1.5.0" method="upgrade">
+    <name>Member Manager</name>
+    <author>Nick Swinford</author>
+    <creationDate>28/10/2011</creationDate>
+    <license>Copyright (c) 2011 - All Rights Reserved</license>
+    <version>1.0</version>
+    <description>Assists in managing membership of an MMO guild including membership ranks, application data and offers integration with the Character Manager</description>
+
+    <!-- installation part -->
+    <install>
+        <queries>
+           
+        </queries>
+    </install>
+
+    <installfile>install.membermanager.php</installfile>
+    <uninstallfile>uninstall.membermanager.php</uninstallfile>
+
+    <!-- user part -->
+    <files folder="components/com_membermanager">
+        <filename>controller.php</filename>
+        <filename>index.html</filename>
+        <filename>router.php</filename>
+        <filename>membermanager.php</filename>
+        <folder>models</folder>
+        <folder>views</folder>
+		<folder>controllers</folder>
+    </files>
+
+    <languages folder="language/en-GB">
+        <language tag="en-GB">en-GB.com_membermanager.ini</language>
+    </languages>
+
+    <!-- administration part -->
+    <administration>
+
+    <menu task="default" img="js/ThemeOffice/component.png">Member Manager</menu>
+    <submenu>
+        <menu link="option=com_membermanager">Member Manager</menu>
+    </submenu>
+
+    <files>
+        <filename>membermanager.xml</filename>
+    </files>
+    <files folder="administrator/components/com_membermanager">
+        <filename>config.xml</filename>
+        <filename>controller.php</filename>
+        <filename>index.html</filename>
+        <filename>install.membermanager.php</filename>
+        <filename>membermanager.php</filename>
+        <filename>uninstall.membermanager.php</filename>
+        <folder>helpers</folder>
+        <folder>models</folder>
+        <folder>tables</folder>
+        <folder>views</folder>
+    </files>
+
+    <languages folder="administrator/language/en-GB">
+        <language tag="en-GB">en-GB.com_membermanager.menu.ini</language>
+        <language tag="en-GB">en-GB.com_membermanager.ini</language>
+    </languages>
+
+    </administration>
+
+    <params>
+
+    </params>
+
+</install>

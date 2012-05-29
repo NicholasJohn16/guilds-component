@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Members">
+		<message>
+			<![CDATA[MEMBERMANAGER DEFAULT LAYOUT DESCRIPTION]]>
+		</message>
+	</layout>
+	<state>
+		<name>Member Manager Default Layout</name>
+		<description>Displays a list of Members currently registered on Stonewall Network sites.</description>
+        <url>
+
+        </url>
+		<params>
+
+		</params>
+		<advanced>
+
+		</advanced>
+	</state>
+</metadata>
