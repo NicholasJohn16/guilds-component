@@ -52,10 +52,10 @@
 						<?php echo $member->username; ?>
 					</a>
 					<button id="characterstoggle-<?php echo $member->id?>" class="btn btn-mini action" data-toggle="collapse" data-target="#accordion-body-<?php echo $member->id;?>" style="float:right;margin-left:2px;" title="Character(s)">
-						<img style="height:16px;width:16px;" src="components/com_membermanager/media/img/contacts.png"/>	
+						<img style="height:16px;width:16px;" src="media/guilds/img/contacts.png"/>	
 					</button>
 					<a class="btn btn-mini" style="float:right;height:16px;width:16px;" target="_blank" title="Profile" href="index.php?option=com_community&view=profile&userid=<?php echo $member->id; ?>">
-						<img src="components/com_membermanager/media/img/contact.png"/>
+						<img src="media/guilds/img/contact.png"/>
 					</a>
 				</div>
 			<div style="width:135px;" class="editable" id="handle-<?php echo $member->id;?>"><?php echo $member->value; ?></div>

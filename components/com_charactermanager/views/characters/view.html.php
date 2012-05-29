@@ -37,8 +37,8 @@ class CharactermanagerViewCharacters extends JView {
     }
     
     function displayCharacters() {
-    	JHTML::stylesheet('bootstrap.css','components/com_charactermanager/media/css/');
-    	JHTML::stylesheet('characters.css','components/com_charactermanager/media/css/');
+    	JHTML::stylesheet('bootstrap.css','media/guilds/css/');
+    	JHTML::stylesheet('characters.css','media/guilds/css/');
 		
 		$characters =& $this->get('Characters');
 		$types =& $this->get('Types');
@@ -51,11 +51,11 @@ class CharactermanagerViewCharacters extends JView {
     }
     
     function displayRoster() {
-		JHTML::stylesheet('characters.css','components/com_charactermanager/media/css/');
-		JHTML::stylesheet('bootstrap.css','components/com_charactermanager/media/css/');
+		JHTML::stylesheet('characters.css','media/guilds/css/');
+		JHTML::stylesheet('bootstrap.css','media/guilds/css/');
 		JHTML::script('jquery.js','https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/');
-		JHTML::script('bootstrap.js','components/com_charactermanager/media/js/',false);
-		JHTML::script('characters.jquery.js','components/com_charactermanager/media/js/',false);
+		JHTML::script('bootstrap.js','media/guilds/js/',false);
+		JHTML::script('characters.jquery.js','media/guilds/js/',false);
 		
 		global $mainframe, $option;
 		
@@ -88,11 +88,11 @@ class CharactermanagerViewCharacters extends JView {
     }
     
     function displayForm() {
-    	JHTML::stylesheet('members.css','components/com_charactermanager/media/css/');
-		JHTML::stylesheet('bootstrap.css','components/com_charactermanager/media/css/');
+    	JHTML::stylesheet('members.css','media/guilds/css/');
+		JHTML::stylesheet('bootstrap.css','/media/guilds/css/');
 		JHTML::script('jquery.js','https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/');
-		JHTML::script('bootstrap.js','components/com_charactermanager/media/js/',false);
-		JHTML::script('characters.jquery.js','components/com_charactermanager/media/js/',false);
+		JHTML::script('bootstrap.js','media/guilds/js/',false);
+		JHTML::script('characters.jquery.js','media/guilds/js/',false);
     	
 		$character =& $this->get('Character');
 		$types =& $this->get('Types');

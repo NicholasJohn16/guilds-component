@@ -67,9 +67,9 @@
 				<div style="width:2%">
 					<?php
 						if($character->published == 1) {
-							echo '<img class="com-mm-icon" src="components/com_charactermanager/media/img/accept.png" alt="Published" title="Published">';
+							echo '<img class="com-mm-icon" src="media/guilds/img/accept.png" alt="Published" title="Published">';
 						} else {
-							echo '<img class="com-mm-icon" src="components/com_charactermanager/media/img/cancel.png" alt="Unpublished" title="Unpublished">';
+							echo '<img class="com-mm-icon" src="/media/guilds/img/cancel.png" alt="Unpublished" title="Unpublished">';
 						}
 					?>
 				</div>

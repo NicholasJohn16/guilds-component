@@ -31,11 +31,11 @@ class membermanagerViewMembers extends JView {
     
     function displayList() {
     	//TODO SW: Fix stylesheet PATH
-		JHTML::stylesheet('members.css','components/com_membermanager/media/css/');
-		JHTML::stylesheet('bootstrap.css','components/com_membermanager/media/css/');
+		JHTML::stylesheet('members.css','media/guilds/css/');
+		JHTML::stylesheet('bootstrap.css','media/guilds/css/');
 		JHTML::script('jquery.js','https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/');
-		JHTML::script('bootstrap.js','components/com_membermanager/media/js/',false);
-		JHTML::script('members.jquery.js','components/com_membermanager/media/js/',false);
+		JHTML::script('bootstrap.js','media/guilds/js/',false);
+		JHTML::script('members.jquery.js','media/guilds/js/',false);
 		
 		$members = $this->get('Members');
 		$pagination = $this->get('Pagination');
@@ -54,11 +54,11 @@ class membermanagerViewMembers extends JView {
     
     function displayForm() {
     	//TODO SW: Fix stylesheet PATH
-		JHTML::stylesheet('members.css','components/com_membermanager/media/css/');
-		JHTML::stylesheet('bootstrap.css','components/com_membermanager/media/css/');
+		JHTML::stylesheet('members.css','media/guilds/css/');
+		JHTML::stylesheet('bootstrap.css','media/guilds/css/');
 		JHTML::script('jquery.js','https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/');
-		JHTML::script('bootstrap.js','components/com_membermanager/media/js/',false);
-		JHTML::script('members.jquery.js','components/com_membermanager/media/js/',false);
+		JHTML::script('bootstrap.js','media/guilds/js/',false);
+		JHTML::script('members.jquery.js','media/guilds/js/',false);
 		
 		$member = $this->get('Member');
 		$ranks = $this->get('Ranks');
