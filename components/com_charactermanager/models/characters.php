@@ -36,7 +36,7 @@
 	function __construct() {
 		global $mainframe, $option;
 		parent::__construct();
-
+		
 		// Get pagination request variables
 		$limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
 		$limitstart = $mainframe->getUserStateFromRequest($option.'limitstart','limitstart',0);

@@ -64,21 +64,22 @@ class CharactermanagerViewCharacters extends JView {
 		$types		=& $this->get('Types');	
 		$categories =& $this->get('Categories');
 		
-		$filter_order		= $mainframe->getUserStateFromRequest($option."filter_order",'filter_order','a.name','cmd' );
-		$filter_order_dir	= $mainframe->getUserStateFromRequest($option."filter_order_Dir",'filter_order_Dir','','word');
-		$search		= $mainframe->getUserStateFromRequest($option."search",'search','','string' );
+		$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order",'filter_order','a.name','cmd' );
+		$filter_order_dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",'filter_order_Dir','','word');
+		$filter_search		= $mainframe->getUserStateFromRequest( "$option.search",'search','','string' );
 		foreach ($types as $type) {
 			$filter_type = 'filter_'.$type->name;
 			$$filter_type = $mainframe->getUserStateFromRequest($option,$filter_type,'','','int');
 			$this->assignRef($filter_type, $$filter_type);
 		}
-		$this->assignRef('search',$search);
+		$this->assignRef('filter_search',$filter_earch);
 		$this->assignRef('filter_order',$filter_order);
 		$this->assignRef('filter_order_dir',$filter_order_dir);
 		$this->assignRef('characters',$characters);
 		$this->assignRef('types', $types);
 		$this->assignRef('categories',$categories);
 		$this->assignRef('pagination',$pagination);
+		
     }
     
     function displayCharacter() {
