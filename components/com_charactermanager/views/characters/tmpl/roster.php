@@ -4,7 +4,8 @@
 			<div style="width:100%;" class="container">
 				<a class="brand" href="#">Roster</a>
 				    <div class="navbar-search pull-left">
-    					<input type="text" name="filter_search" class="search-query" placeholder="Search" value="<?php echo $this->filter_search; ?>">
+    					<input type="text" name="search" class="search-query" placeholder="Search" value="<?php echo $this->search; ?>">
+    					<?php dump($this->search,"Search");?>
     				</div>
     				<button class="btn btn-inverse btn-small" type="submit">Submit</button><button class="btn btn-inverse btn-small" type="reset">Reset</button>
 				<ul class="nav pull-right">
@@ -18,11 +19,11 @@
 	<div class="well" id="filters">
 	<?php foreach($this->types as $type):?>
 		<?php $filter_type = 'filter_'.$type->name;?>
-		<select name="category[<?php echo $type->name; ?>]">
-			<option value="" >Select <?php echo ucwords($type->name);?></option>
+		<select name="filter_type[<?php echo $type->name; ?>]">
+			<option value="0" >Select <?php echo ucwords($type->name);?></option>
 				<?php foreach($this->categories as $category):?>
 					<?php if($category->type == $type->name): ?>
-					<?php $selected = ($this->$filter_type == $category->id ? 'selected="selected"' : ""); ?>
+					<?php $selected = ($this->filter_type[$type->name] == $category->id ? 'selected="selected"' : ""); ?>
 					<option value="<?php echo $category->id;?>" <?php echo $selected;?> ><?php echo ucfirst($category->name);?></option>
 				<?php endif; ?>
 			<?php endforeach;?>
@@ -82,6 +83,8 @@
 	<input type="hidden" name="layout" value="roster"/>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="Itemid" value="99999999"/>
+	<input type="hidden" name="filter_order" value="a.id"/>
+	<input type="hidden" name="filter_order_dir" value="ASC"/>
 	<input type="hidden" name="limitstart" value="<?php echo $this->pagination->limitstart;?>"/>
 	<div style="clear:both"></div>
 	<?php echo $this->pagination(); ?>

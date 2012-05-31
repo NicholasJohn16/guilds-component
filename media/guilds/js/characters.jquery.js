@@ -28,4 +28,14 @@ $(document).ready(function() {
 		$('#form').submit();
 	});
 	
+	$('button[type="reset"]').click(function(event) {
+		console.log(this);
+		$('input[name="search"]').val("");
+		console.log($('select[name^="filter_type"]'));
+		$('select[name^="filter_type"]').each(function(){
+			console.log(this);
+			$(this).val("0");
+		});
+	});
+	
  });

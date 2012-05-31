@@ -94,6 +94,13 @@ function __construct(){
 			$view->display();
 		}
 		
+		function displayRoster() {
+			$filter_order		= $mainframe->getUserStateFromRequest($option."filter_order",'filter_order','a.name','cmd' );
+			$filter_order_dir	= $mainframe->getUserStateFromRequest($option."filter_order_Dir",'filter_order_Dir','','word');
+			$search				= $mainframe->getUserStateFromRequest($option."search",'search','','string' );
+			$filter_type 		= $mainframe->getUserStateFromRequest($option.'filter_type','filter_type','','array');
+		}
+		
 		function update() {
 			
 			
