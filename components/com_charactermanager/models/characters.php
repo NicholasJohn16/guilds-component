@@ -40,12 +40,22 @@
 		// Get pagination request variables
 		$limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
 		$limitstart = $mainframe->getUserStateFromRequest($option.'limitstart','limitstart',0);
+		
+		// Get filter values for Roster view
+		$filter_order		= $mainframe->getUserStateFromRequest($option."filter_order",'filter_order','a.name','cmd' );
+		$filter_order_dir	= $mainframe->getUserStateFromRequest($option."filter_order_Dir",'filter_order_Dir','','word');
+		$search				= $mainframe->getUserStateFromRequest($option."search",'search','','string' );
+		$filter_type 		= $mainframe->getUserStateFromRequest($option.'filter_type','filter_type',array(),'array');
 
 		// In case limit has been changed, adjust it
 		//$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 	 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
+		$this->setState('filter_order',$filter_order);
+		$this->setState('filter_order_dir',$filter_order_dir);
+		$this->setState('search',$search);
+		$this->setState('filter_type',$filter_type);
     }
     
 	//function buildWhere(){
@@ -87,9 +97,16 @@
 			return $this->categories;
 		}
 		
-		function buildQuery(){
-			//$orderby = $this->buildOrderBy(); 
+		function buildQuery() {
+			$select = $this->buildSelect();
 			$where = $this->buildWhere();
+			$order = $this->buildOrderBy();
+			dump($select.$where.$order,"Query");
+			return $select.$where.$order;
+			
+		}
+		
+		function buildSelect(){
 			$types = $this->getTypes();
 			$i = 99;
 			$n = 99;
@@ -105,60 +122,53 @@
 				$query .= " LEFT JOIN #__char_categories AS ".chr($n)." ON ".chr($n).".id = a.".$type->name." ";
 				$n++;
 			}
-			$query .= $where;
-			//$query .= $orderby;
-			
+					
 			return $query;
 		}
 		
-		function buildWhere(){
-			$character = $this->getState('character');
-			$user = $this->getState('user');
-			
-			$where = " WHERE ";
-			
-			$arrWhere = array();
-			
-			// Example of how to build where array
-			//$arrWhere[] = array('a.id',$character);
-			if($user != null || $user != 0) {
-				$where .= " a.user_id = ".$user;
-			}
-			if($character != null) {
-				$where .= " a.id = ".$character;
-			}
-
-			if($where != " WHERE ") {
-				return $where;	
-			}
-		}
 		
-		function buildOrderBy(){
-			
-		}
-		
-//		function getCharactersByUser() {
-//			$user = $this->getState('user');
-//			if($user == null) {
-//				$user = JFactory::getUser();
-//			}
-//			dump($user,"User");
-//			$db = $this->getDBO();
-//			$query = $this->buildQuery();
-//			$query .= " WHERE user_id = ".$user; 
-//			$db->setQuery($query);
-//			$characters = $db->loadObjectList();
-//			return $characters;
-//		}
-		
-		// Gets multiple characters
 		// 1. Gets the current user's characters
 		//	 if layout is default or user parameter is not set
 		// 2. Gets all current characters
 		//	 if layout is roster and user parameter is not set
 		// 3. Gets characters for a specific user
 		//	 if layout is ajax and user parameter is set
+		function buildWhere(){
+			$user = $this->getState('user');
+			$filter_order = $this->getState('filter_order');
+			$filter_order_dir = $this->getState('filter_order_dir');
+			$search = $this->getState('search');
+			$filter_type = $this->getState('filter_type');
+			
+			$where = " WHERE ";
+			$conditions = array();
+			
+			//Check to see if the user is set and if it is add it to the where array
+			if($user != null || $user != 0) {
+				$conditions[] = "a.user_id = ".$user;
+			}
+			// Add all the type filters to the Where array
+			foreach($filter_type as $type => $value) {
+				if($value != "") {
+					$conditions[] = "a.".$type." = ".$value;
+				}
+			}
+					
+			if(count($conditions) == 0 ) {
+				return "";
+			} elseif (count($conditions) == 1) {
+				return $where." ".$conditions[0];
+			} else {
+				$where .= implode(' AND ',$conditions);
+				return $where;
+			}
+		}
 		
+		function buildOrderBy(){
+			
+		}
+				
+		// Gets multiple characters
 		function getCharacters(){
 			$db = $this->getDBO();
 			
@@ -166,8 +176,7 @@
 				$query = $this->buildQuery();
 				$limit = $this->getState('limitstart');
 				$limitstart = $this->getState('limit');
-				$user = $this->getState('user');
-				
+								
 				$this->characters = $this->_getList($query,$this->getState('limitstart'),$this->getState('limit'));
 			}
 						
@@ -175,11 +184,14 @@
 		}
 		
 		
-		//Gets a single character
+		//Gets a single character by character id
 		function getCharacter() {
 			if(empty($this->character)){
 				$db =& JFactory::getDBO();
-				$db->setQuery($this->buildQuery());
+				$query = $this->buildSelect();
+				$character = $this->getState('character');
+				$query .= "WHERE a.id = ".$character;
+				$db->setQuery($query);
 				$this->character = $db->loadObject();
 			}
 			return $this->character;

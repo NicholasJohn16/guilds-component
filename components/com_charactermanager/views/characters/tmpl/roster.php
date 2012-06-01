@@ -5,7 +5,6 @@
 				<a class="brand" href="#">Roster</a>
 				    <div class="navbar-search pull-left">
     					<input type="text" name="search" class="search-query" placeholder="Search" value="<?php echo $this->search; ?>">
-    					<?php dump($this->search,"Search");?>
     				</div>
     				<button class="btn btn-inverse btn-small" type="submit">Submit</button><button class="btn btn-inverse btn-small" type="reset">Reset</button>
 				<ul class="nav pull-right">
@@ -20,11 +19,11 @@
 	<?php foreach($this->types as $type):?>
 		<?php $filter_type = 'filter_'.$type->name;?>
 		<select name="filter_type[<?php echo $type->name; ?>]">
-			<option value="0" >Select <?php echo ucwords($type->name);?></option>
+			<option value="">Select <?php echo ucwords($type->name);?></option>
 				<?php foreach($this->categories as $category):?>
 					<?php if($category->type == $type->name): ?>
-					<?php $selected = ($this->filter_type[$type->name] == $category->id ? 'selected="selected"' : ""); ?>
-					<option value="<?php echo $category->id;?>" <?php echo $selected;?> ><?php echo ucfirst($category->name);?></option>
+					<?php $selected = (@$this->filter_type[$type->name] == $category->id ? 'selected="selected"' : ""); ?>
+					<option value="<?php echo $category->id;?>" <?php echo $selected;?>><?php echo ucfirst($category->name);?></option>
 				<?php endif; ?>
 			<?php endforeach;?>
 		</select>
