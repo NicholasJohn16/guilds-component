@@ -1,39 +1,12 @@
-.com-cm-avatar {
-	height:215px;
-	width:200px;
-	padding:1px;
-	border:1px solid #eee;
-	background-position:1px 1px;
-	background-repeat:no-repeat;
-	float:left;
-	background-size:200px 200px;
-	margin:2px;
-	}
-.com-cm-avatar a{
-	display: block;
-	text-align:center;
-	position:relative;
-	top:200px;
-	}
-.com-cm-avatar img{
-	cursor:pointer;
-	position:absolute;
-	}
-	
 .com-cm-container {
-	-moz-border-bottom-colors: none;
-	-moz-border-image: none;
-	-moz-border-left-colors: none;
-	-moz-border-right-colors: none;
-	-moz-border-top-colors: none;
-	border-color: #DDDDDD #DDDDDD #DDDDDD -moz-use-text-color;
-	border-radius: 4px 4px 4px 4px;
-	border-style: solid solid solid none;
-	border-width: 1px 1px 1px 0;
-	float:left;
-}
+	float:left;width:100%;
+	}
+.com-cm-header {
+	border-top:1px solid #DDDDDD;
+	}
 .com-cm-header,.com-cm-row {
 	border-left:1px solid #DDDDDD;
+	border-right:1px solid #DDDDDD;
 	}
 .com-cm-header input,.com-cm-row input {
 	margin:0;
@@ -45,7 +18,7 @@
 	float:left;
 	font-weight:bold;
 	border-radius: 4px 4px 0 0;
-	width:99.9%;
+	width:100%;
 	}
 .com-cm-header div {
 	text-align:center !important;
@@ -53,7 +26,7 @@
 .com-cm-row{
 	float:left;
 	border-top:1px solid #DDDDDD;
-	width:99.9%;
+	width:100%;
 	height:30px;
 	}
 .com-cm-row div, .com-cm-header div{
@@ -72,14 +45,14 @@
 .com-cm-container div.com-cm-row div:first-child,.com-cm-container div.com-cm-header div:first-child{border-left:none;}
 .com-cm-container div.com-cm-header div:first-child {border-radius: 4px 0 0 0;}
 .com-cm-container div.com-cm-header div:last-child {border-radius: 0 4px 0 0;}
-.com-cm-container div.com-cm-row:last-child {border-radius: 0 0 4px 4px;}
+.com-cm-container div.com-cm-row:last-child {border-radius: 0 0 4px 4px;border:1px solid #DDDDDD;}
 .com-cm-container div.com-cm-row:last-child div:first-child {border-radius: 0 0 0 4px;}
 .com-cm-container div.com-cm-row:last-child div:last-child {border-radius: 0 0 4px 0;}
 
 	/* Category Classes */
 .com-cm-game {width:11%;}
-.com-cm-class {width:6%;display:none !important;}
-.com-cm-allegiance {width:12%;display:none !important;}
+.com-cm-class {width:6%;}
+.com-cm-allegiance {width:12%;}
 .com-cm-guild {width:15%;}
 
 	/*  Pagination */
