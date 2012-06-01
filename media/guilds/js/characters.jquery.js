@@ -25,17 +25,14 @@ $(document).ready(function() {
 	});
 	
 	$('select').change(function(event){
+		$('#form').children('input[name="limitstart"]').val(0);
 		$('#form').submit();
 	});
 	
 	$('button[type="reset"]').click(function(event) {
-		console.log(this);
 		$('input[name="search"]').val("");
-		console.log($('select[name^="filter_type"]'));
-		$('select[name^="filter_type"]').each(function(){
-			console.log(this);
-			$(this).val("0");
-		});
+		console.log($('select[name^="filter_type"]').children(":selected"));
+		$('select[name^="filter_type"]').val('');
 	});
 	
  });
