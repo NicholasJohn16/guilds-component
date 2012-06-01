@@ -51,6 +51,7 @@ class CharactermanagerViewCharacters extends JView {
     }
     
     function displayRoster() {
+    	// Add scripts and stylesheets to the head
 		JHTML::stylesheet('characters.css','media/guilds/css/');
 		JHTML::stylesheet('bootstrap.css','media/guilds/css/');
 		JHTML::script('jquery.js','https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/');
@@ -59,19 +60,19 @@ class CharactermanagerViewCharacters extends JView {
 		
 		global $mainframe, $option;
 		
+		// Get data from the model
 		$characters =& $this->get('Characters');
 		$pagination =& $this->get('Pagination');
 		$types		=& $this->get('Types');	
 		$categories =& $this->get('Categories');
 		
-		$user = $mainframe->getUserState('user');
-		dump($user);
-		
+		//Get values from the request for search and filters
 		$filter_order		= $mainframe->getUserStateFromRequest($option."filter_order",'filter_order','a.name','cmd' );
 		$filter_order_dir	= $mainframe->getUserStateFromRequest($option."filter_order_Dir",'filter_order_Dir','','word');
 		$search				= $mainframe->getUserStateFromRequest($option."search",'search','','string' );
-		$filter_type 		= $mainframe->getUserStateFromRequest($option.'filter_type','filter_type','','array');
+		$filter_type 		= $mainframe->getUserStateFromRequest($option.'filter_type','filter_type',array(),'array');
 		
+		// Assign them references so they can be accessed in the tmpl
 		$this->assignRef('search',$search);
 		$this->assignRef('filter_type',$filter_type);
 		$this->assignRef('filter_order',$filter_order);
@@ -99,10 +100,6 @@ class CharactermanagerViewCharacters extends JView {
 		$types =& $this->get('Types');
 		$categories =& $this->get('Categories');
 		
-		dump($types,"Types");
-		dump($categories,"Categories");
-		dump($character,'Character');
-		
 		$this->assignRef('character',$character);
 		$this->assignRef('types', $types);
 		$this->assignRef('categories', $categories);
@@ -121,7 +118,7 @@ class CharactermanagerViewCharacters extends JView {
 		$current_range = array(($cur_page-2 < 1 ? 1 : $cur_page-2), ($cur_page+2 > $total ? $total : $cur_page+2));
 		
 		// First and Last pages
-		$first_page = $cur_page > 3 ? '<li><a href="index.php?option=com_charactermanager&view=roster">First</a></li>' : null;
+		$first_page = $cur_page > 3 ? '<li><a href="'.$link.'0">First</a></li>' : null;
 		$last_page = $cur_page < $total-2 ? '<li><a href="'.$link.(($total-1)*$limit).'">Last</a></li>' : null;
 		
 		// Previous and next page
