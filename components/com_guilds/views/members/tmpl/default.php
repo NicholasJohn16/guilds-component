@@ -48,14 +48,14 @@
 		<div class="accordion-heading">
 			<div style="width:2%;text-align:right;"><?php echo $i+1+$this->pagination->limitstart; ?></div>
 				<div style="width:20%;">
-					<a href="index.php?option=com_membermanager&view=members&task=edit&user_id=<?php echo $member->id; ?>">
+					<a href="index.php?option=com_guilds&view=members&task=edit&user_id=<?php echo $member->id; ?>">
 						<?php echo $member->username; ?>
 					</a>
 					<button id="characterstoggle-<?php echo $member->id?>" class="btn btn-mini action" data-toggle="collapse" data-target="#accordion-body-<?php echo $member->id;?>" style="float:right;margin-left:2px;" title="Character(s)">
-						<img style="height:16px;width:16px;" src="media/guilds/img/contacts.png"/>	
+						<img style="height:16px;width:16px;" src="components/com_guilds/media/img/contacts.png"/>	
 					</button>
 					<a class="btn btn-mini" style="float:right;height:16px;width:16px;" target="_blank" title="Profile" href="index.php?option=com_community&view=profile&userid=<?php echo $member->id; ?>">
-						<img src="media/guilds/img/contact.png"/>
+						<img src="components/com_guilds/media/img/contact.png"/>
 					</a>
 				</div>
 			<div style="width:135px;" class="editable" id="handle-<?php echo $member->id;?>"><?php echo $member->value; ?></div>
@@ -77,7 +77,7 @@
 			<div class="accordion-footing">
 				<div class="accordion-inner">
 					<div class="btn-group">
-						<a class="btn" title="Add Character" href="index.php?option=com_charactermanager&view=character&task=add&id=<?php echo $member->id;?>" data-toggle="modal" data-target="#character-form" data-user="<?php echo $member->id; ?>" data-username="<?php echo $member->username; ?>">
+						<a class="btn" title="Add Character" href="index.php?option=com_guilds&view=character&task=add&id=<?php echo $member->id;?>" data-toggle="modal" data-target="#character-form" data-user="<?php echo $member->id; ?>" data-username="<?php echo $member->username; ?>">
 							<i class="icon-plus"></i>
 						</a>
 						<button class="btn action" title="Delete Character(s)" id="deletechars-<?php echo $member->id;?>"><i class="icon-remove"></i></button>
@@ -95,7 +95,7 @@
 		<div class="com-mm-footer">
 			
 		</div>
-		<input type="hidden" name="option" value="com_membermanager"/>
+		<input type="hidden" name="option" value="com_guilds"/>
 		<input type="hidden" name="view" value="members"/>
 		<input type="hidden" name="limitstart" value="<?php echo $this->pagination->limitstart;?>"/>
 </div>
@@ -183,7 +183,7 @@
 				<?php endforeach;?>
 		</fieldset>
 		<div style="clear:both"></div>
-		<input type="hidden" name="option" value="com_charactermanager" />
+		<input type="hidden" name="option" value="com_guilds" />
 		<input type="hidden" name="view" value="characters" />
 		<input type="hidden" name="id" value="" />
 		<input type="hidden" name="layout" value="roster"/>

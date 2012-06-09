@@ -1,11 +1,11 @@
 <?php
 /**
- * Joomla! 1.5 component Member Manager
+ * Joomla! 1.5 Component Guilds Manager
  *
  * @version $Id: controller.php 2011-10-28 10:20:36 svn $
  * @author Nick Swinford
  * @package Joomla
- * @subpackage Member Manager
+ * @subpackage Guilds Manager
  * @license Copyright (c) 2011 - All Rights Reserved
  */
 
@@ -14,10 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport( 'joomla.application.component.view');
 
-/**
- * HTML View class for the Member Manager component
- */
-class membermanagerViewMembers extends JView {
+class GuildsViewMembers extends JView {
 	function display($tmpl = null) {
 		switch($this->getLayout()) {
 			case 'form':
@@ -31,11 +28,11 @@ class membermanagerViewMembers extends JView {
     
     function displayList() {
     	//TODO SW: Fix stylesheet PATH
-		JHTML::stylesheet('members.css','media/guilds/css/');
-		JHTML::stylesheet('bootstrap.css','media/guilds/css/');
+		JHTML::stylesheet('members.css','components/com_guilds/media/css/');
+		JHTML::stylesheet('bootstrap.css','components/com_guilds/media/css/');
 		JHTML::script('jquery.js','https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/');
-		JHTML::script('bootstrap.js','media/guilds/js/',false);
-		JHTML::script('members.jquery.js','media/guilds/js/',false);
+		JHTML::script('bootstrap.js','components/com_guilds/media/js/',false);
+		JHTML::script('members.jquery.js','components/com_guilds/media/js/',false);
 		
 		$members = $this->get('Members');
 		$pagination = $this->get('Pagination');
@@ -54,11 +51,11 @@ class membermanagerViewMembers extends JView {
     
     function displayForm() {
     	//TODO SW: Fix stylesheet PATH
-		JHTML::stylesheet('members.css','media/guilds/css/');
-		JHTML::stylesheet('bootstrap.css','media/guilds/css/');
+		JHTML::stylesheet('members.css','components/com_guilds/guilds/css/');
+		JHTML::stylesheet('bootstrap.css','components/com_guilds/media/css/');
 		JHTML::script('jquery.js','https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/');
-		JHTML::script('bootstrap.js','media/guilds/js/',false);
-		JHTML::script('members.jquery.js','media/guilds/js/',false);
+		JHTML::script('bootstrap.js','components/com_guilds/media/js/',false);
+		JHTML::script('members.jquery.js','components/com_guilds/media/js/',false);
 		
 		$member = $this->get('Member');
 		$ranks = $this->get('Ranks');
@@ -74,12 +71,12 @@ class membermanagerViewMembers extends JView {
 		$limit = $pagination->limit;
 		$limitstart = $pagination->limitstart;
 		$cur_page = $limitstart/$limit +1;
-		$link = 'index.php?option=com_membermanager&view=members&limitstart=';
+		$link = 'index.php?option=com_guilds&view=members&limitstart=';
 		
 		$current_range = array(($cur_page-2 < 1 ? 1 : $cur_page-2), ($cur_page+2 > $total ? $total : $cur_page+2));
 		
 		// First and Last pages
-		$first_page = $cur_page > 3 ? '<li><a href="index.php?option=com_membermanager&view=members&limitstart=0">First</a></li>' : null;
+		$first_page = $cur_page > 3 ? '<li><a href="'.$link.'0">First</a></li>' : null;
 		$last_page = $cur_page < $total-2 ? '<li><a href="'.$link.(($total-1)*$limit).'">Last</a></li>' : null;
 		
 		// Previous and next page

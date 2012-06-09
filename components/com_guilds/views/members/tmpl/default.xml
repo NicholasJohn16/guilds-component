@@ -2,11 +2,11 @@
 <metadata>
 	<layout title="Members">
 		<message>
-			<![CDATA[MEMBERMANAGER DEFAULT LAYOUT DESCRIPTION]]>
+			<![CDATA[Guilds Manager Default Member Layout]]>
 		</message>
 	</layout>
 	<state>
-		<name>Member Manager Default Layout</name>
+		<name>Default Member Layout</name>
 		<description>Displays a list of Members currently registered on Stonewall Network sites.</description>
         <url>
 

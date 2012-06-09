@@ -1,11 +1,11 @@
 <?php
 /**
- * Joomla! 1.5 component Member Manager
+ * Joomla! 1.5 Component Guilds Manager
  *
  * @version $Id: controller.php 2011-10-28 10:20:36 svn $
  * @author Nick Swinford
  * @package Joomla
- * @subpackage Member Manager
+ * @subpackage Guilds Manager
  * @license Copyright (c) 2011 - All Rights Reserved
  */
 
@@ -15,9 +15,9 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.controller');
 
 /**
- * Member Manager Component Controller
+ * Guilds Manager Component Controller
  */
-class MembermanagerControllerMembers extends JController {
+class GuildsControllerMembers extends JController {
 	
 	function __construct() {
 		parent::__construct();
@@ -44,8 +44,8 @@ class MembermanagerControllerMembers extends JController {
 	}
 	
 	function test(){
-		JLoader::import('characters',JPATH_BASE.DS.'components'.DS.'com_charactermanager'.DS.'models');
-		$model = JModel::getInstance('characters','charactermanagerModel');
+		JLoader::import('characters',JPATH_BASE.DS.'components'.DS.'com_guilds'.DS.'models');
+		$model = JModel::getInstance('characters','GuildsModel');
 		dump($model);
 	}
 	

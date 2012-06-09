@@ -1,6 +1,6 @@
 <?php
 	/*
-	* @package		Character Manager
+	* @package		Guilds Manager
 	* @subpackage	Components
 	* @link			http://www.nicholasjohn16.com
 	* @license		GNU/GPL
@@ -86,7 +86,7 @@
 			<button class="btn btn-primary" type="submit">Submit</button>
 			<button class="btn">Cancel</button>
 		</div>
-		<input type="hidden" name="option" value="com_charactermanager" />
+		<input type="hidden" name="option" value="com_guilds" />
 		<input type="hidden" name="view" value="characters" />
 		<input type="hidden" name="id" value="<?php echo $this->character->id; ?>" />
 		<input type="hidden" name="layout" value="roster"/>

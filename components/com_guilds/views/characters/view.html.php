@@ -1,11 +1,11 @@
 <?php
 /**
- * Joomla! 1.5 component Character Manager
+ * Joomla! 1.5 Component Guilds Manager
  *
  * @version 
  * @author Nick Swinford
  * @package Joomla
- * @subpackage Character Manager
+ * @subpackage Guilds Manager
  * @license Copyright (c) 2011 - All Rights Reserved
  */
 
@@ -14,10 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport( 'joomla.application.component.view');
 
-/**
- * HTML View class for the Member Manager component
- */
-class CharactermanagerViewCharacters extends JView {
+class GuildsViewCharacters extends JView {
 	
 	function display($tmpl = null) {
 		switch($this->getLayout()) {
@@ -37,8 +34,8 @@ class CharactermanagerViewCharacters extends JView {
     }
     
     function displayCharacters() {
-    	JHTML::stylesheet('bootstrap.css','media/guilds/css/');
-    	JHTML::stylesheet('characters.css','media/guilds/css/');
+    	JHTML::stylesheet('bootstrap.css','components/com_guilds/media/css/');
+    	JHTML::stylesheet('characters.css','components/com_guilds/media/css/');
 		
 		$characters =& $this->get('Characters');
 		$types =& $this->get('Types');
@@ -52,11 +49,11 @@ class CharactermanagerViewCharacters extends JView {
     
     function displayRoster() {
     	// Add scripts and stylesheets to the head
-		JHTML::stylesheet('characters.css','media/guilds/css/');
-		JHTML::stylesheet('bootstrap.css','media/guilds/css/');
+		JHTML::stylesheet('characters.css','components/com_guilds/media/css/');
+		JHTML::stylesheet('bootstrap.css','components/com_guilds/media/css/');
 		JHTML::script('jquery.js','https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/');
-		JHTML::script('bootstrap.js','media/guilds/js/',false);
-		JHTML::script('characters.jquery.js','media/guilds/js/',false);
+		JHTML::script('bootstrap.js','components/com_guilds/media/js/',false);
+		JHTML::script('characters.jquery.js','components/com_guilds/media/js/',false);
 		
 		global $mainframe, $option;
 		
@@ -90,11 +87,11 @@ class CharactermanagerViewCharacters extends JView {
     }
     
     function displayForm() {
-    	JHTML::stylesheet('members.css','media/guilds/css/');
-		JHTML::stylesheet('bootstrap.css','/media/guilds/css/');
+    	JHTML::stylesheet('members.css','components/com_guilds/media/css/');
+		JHTML::stylesheet('bootstrap.css','components/com_guilds/media/css/');
 		JHTML::script('jquery.js','https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/');
-		JHTML::script('bootstrap.js','media/guilds/js/',false);
-		JHTML::script('characters.jquery.js','media/guilds/js/',false);
+		JHTML::script('bootstrap.js','components/com_guilds/media/js/',false);
+		JHTML::script('characters.jquery.js','components/com_guilds/media/js/',false);
     	
 		$character =& $this->get('Character');
 		$types =& $this->get('Types');
@@ -113,7 +110,7 @@ class CharactermanagerViewCharacters extends JView {
 		$limitstart = $pagination->limitstart;
 		$cur_page = $limitstart/$limit +1;
 		
-		$link = 'index.php?option=com_charactermanager&view=characters&layout='.$layout.'&limitstart=';
+		$link = 'index.php?option=com_guilds&view=characters&layout='.$layout.'&limitstart=';
 		
 		$current_range = array(($cur_page-2 < 1 ? 1 : $cur_page-2), ($cur_page+2 > $total ? $total : $cur_page+2));
 		

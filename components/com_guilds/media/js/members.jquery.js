@@ -83,7 +83,7 @@ $(document).ready(function() {
    function getCharactersByUserId(id){
 	   
 	   $.get('index.php',{
-		   option:'com_charactermanager',
+		   option:'com_guilds',
 		   view:'characters',
 		   //task:'ajax',
 		   format:'ajax',

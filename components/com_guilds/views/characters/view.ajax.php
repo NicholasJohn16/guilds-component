@@ -1,11 +1,11 @@
 <?php
 /**
- * Joomla! 1.5 component Character Manager
+ * Joomla! 1.5 Component Guilds Manager
  *
  * @version $Id: controller.php 2011-10-28 10:20:36 svn $
  * @author Nick Swinford
  * @package Joomla
- * @subpackage Character Manager
+ * @subpackage Guilds Manager
  * @license Copyright (c) 2011 - All Rights Reserved
  */
 
@@ -14,10 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport( 'joomla.application.component.view');
 
-/**
- * HTML View class for the Member Manager component
- */
-class CharactermanagerViewCharacters extends JView {
+class GuildsViewCharacters extends JView {
 	
 	function display(){
 		$characters = $this->get('Characters');
@@ -43,12 +40,12 @@ class CharactermanagerViewCharacters extends JView {
 		$limit = $pagination->limit;
 		$limitstart = $pagination->limitstart;
 		$cur_page = $limitstart/$limit +1;
-		$link = 'index.php?option=com_membermanager&view=members&limitstart=';
+		$link = 'index.php?option=com_guilds&view=members&limitstart=';
 		
 		$current_range = array(($cur_page-2 < 1 ? 1 : $cur_page-2), ($cur_page+2 > $total ? $total : $cur_page+2));
 		
 		// First and Last pages
-		$first_page = $cur_page > 3 ? '<button class="btn"><a href="index.php?option=com_membermanager&view=members">First</a></button>' : null;
+		$first_page = $cur_page > 3 ? '<button class="btn"><a href="index.php?option=com_guilds&view=members">First</a></button>' : null;
 		$last_page = $cur_page < $total-2 ? '<button class="btn"><a href="'.$link.(($total-1)*$limit).'">Last</a></button>' : null;
 		
 		// Previous and next page

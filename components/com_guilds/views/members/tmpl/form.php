@@ -117,6 +117,6 @@
 		<button class="btn btn-primary" type="submit">Submit</button>
 		<button class="btn">Cancel</button>
 	</div>
-	<input type="hidden" name="option" value="com_membermanager"/>
+	<input type="hidden" name="option" value="com_guilds"/>
 	<input type="hidden" name="view" value="members"/> 
 </form>

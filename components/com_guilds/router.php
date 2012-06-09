@@ -1,11 +1,11 @@
 <?php
 /**
- * Joomla! 1.5 component Member Manager
+ * Joomla! 1.5 Component Guilds Manager
  *
  * @version $Id: controller.php 2011-10-28 10:20:36 svn $
  * @author Nick Swinford
  * @package Joomla
- * @subpackage Member Manager
+ * @subpackage Guilds Manager
  * @license Copyright (c) 2011 - All Rights Reserved
  */
 
@@ -15,13 +15,13 @@ defined('_JEXEC') or die('Restricted access');
 /*
  * Function to convert a system URL to a SEF URL
  */
-function MembermanagerBuildRoute(&$query) {
+function GuildsBuildRoute(&$query) {
 
 }
 /*
  * Function to convert a SEF URL back to a system URL
  */
-function MembermanagerParseRoute($segments) {
+function GuildsParseRoute($segments) {
 
 }
 ?>

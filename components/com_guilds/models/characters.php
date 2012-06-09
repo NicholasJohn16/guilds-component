@@ -1,11 +1,11 @@
 <?php
 	/**
-	 * Joomla! 1.5 component Character Manager
+	 * Joomla! 1.5 Component Guilds Manager
 	 *
 	 * @version $Id: controller.php 2011-10-28 10:20:36 svn $
 	 * @author Nick Swinford
 	 * @package Joomla
-	 * @subpackage Character Manager
+	 * @subpackage Guilds Manager
 	 * @license Copyright (c) 2011 - All Rights Reserved
 	 */
 
@@ -14,7 +14,7 @@
 	
 	jimport('joomla.application.component.model');
 
-	class CharactermanagerModelCharacters extends JModel {
+	class GuildsModelCharacters extends JModel {
 		/**
 		 * array of Character objects
 		 * @var arrry
