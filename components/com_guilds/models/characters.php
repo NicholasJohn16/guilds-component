@@ -42,36 +42,22 @@
 		$limitstart = $mainframe->getUserStateFromRequest($option.'limitstart','limitstart',0);
 		
 		// Get filter values for Roster view
-		$filter_order		= $mainframe->getUserStateFromRequest($option."filter_order",'filter_order','a.name','cmd' );
-		$filter_order_dir	= $mainframe->getUserStateFromRequest($option."filter_order_Dir",'filter_order_Dir','','word');
-		$search				= $mainframe->getUserStateFromRequest($option."search",'search','','string' );
-		$filter_type 		= $mainframe->getUserStateFromRequest($option.'filter_type','filter_type',array(),'array');
+		$order		= $mainframe->getUserStateFromRequest($option."filter_order",'filter_order','a.name','cmd' );
+		$direction	= $mainframe->getUserStateFromRequest($option."filter_order_dir",'filter_order_dir','asc','word');
+		$search		= $mainframe->getUserStateFromRequest($option."search",'search','','string' );
+		$filter_type= $mainframe->getUserStateFromRequest($option.'filter_type','filter_type',array(),'array');
 
 		// In case limit has been changed, adjust it
 		//$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 	 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
-		$this->setState('filter_order',$filter_order);
-		$this->setState('filter_order_dir',$filter_order_dir);
+		$this->setState('order',$order);
+		$this->setState('direction',$direction);
 		$this->setState('search',$search);
 		$this->setState('filter_type',$filter_type);
     }
     
-	//function buildWhere(){
-//		$user = JRequest::getVar('user', 0, '', 'int');
-//		$approved_gids = Array(24,25,31);
-//		$current_user =& JFactory::getUser();
-//		if(!$user == 0 && in_array($current_user->gid,$approved_gids)){
-//			return $query = " WHERE user_id = ".$user;
-//		} elseif ($user == 0){
-//			return $query = " WHERE user_id = ".$current_user->id;
-//		} else {
-//			die("You are not authorized to view this resource.");
-//			//return $query = " WHERE a.name IS NULL";
-//		}
-	//}
-	
 	/* Query Functions */
 		
 		function getTypes(){
@@ -101,6 +87,7 @@
 			$select = $this->buildSelect();
 			$where = $this->buildWhere();
 			$order = $this->buildOrderBy();
+			
 			dump($select.$where.$order,"Query");
 			return $select.$where.$order;
 			
@@ -125,14 +112,7 @@
 					
 			return $query;
 		}
-		
-		
-		// 1. Gets the current user's characters
-		//	 if layout is default or user parameter is not set
-		// 2. Gets all current characters
-		//	 if layout is roster and user parameter is not set
-		// 3. Gets characters for a specific user
-		//	 if layout is ajax and user parameter is set
+
 		function buildWhere(){
 			$user = $this->getState('user');
 			$filter_order = $this->getState('filter_order');
@@ -145,27 +125,57 @@
 			
 			//Check to see if the user is set and if it is add it to the where array
 			if($user != null || $user != 0) {
-				$conditions[] = "a.user_id = ".$user;
+				$conditions[] = array("AND","a.user_id","=",$user);
+			}
+			
+			if($search != "" || !empty($search)) {
+				// Split the search string into an array
+				$terms = explode(",",$search);
+				// Trim each term, check if their ints and make strings lowercase
+				foreach($terms as $term) {
+					trim($term);
+					strtolower($term);
+					if(is_numeric($term)) {
+						$conditions[] = array("OR","a.user_id","=",intval($term));
+						$conditions[] = array("OR","a.id","=",intval($term));	
+					} else {
+						$conditions[] = array("OR","LOWER(a.name)","LIKE",'"%'.$term.'%"');
+						$conditions[] = array("OR","LOWER(b.username)","LIKE",'"%'.$term.'%"');
+					}
+				}
 			}
 			// Add all the type filters to the Where array
 			foreach($filter_type as $type => $value) {
 				if($value != "") {
-					$conditions[] = "a.".$type." = ".$value;
+					$conditions[] = array("AND","a.".$type,"=",$value);
 				}
 			}
-					
+			
 			if(count($conditions) == 0 ) {
-				return "";
+				$where = "";
 			} elseif (count($conditions) == 1) {
-				return $where." ".$conditions[0];
+				$where.= " ".$conditions[0][1]." ".$conditions[0][2]." ".$conditions[0][3];
 			} else {
-				$where .= implode(' AND ',$conditions);
-				return $where;
+				$count = count($conditions);
+				$where .= $conditions[0][1]." ".$conditions[0][2]." ".$conditions[0][3];
+				
+				for($i = 1;$i < $count; $i++) {
+					$where .= " ".$conditions[$i][0]." ".$conditions[$i][1]." ".$conditions[$i][2]." ".$conditions[$i][3]." ";
+				}
 			}
+
+			return $where;
 		}
 		
 		function buildOrderBy(){
+			$order = $this->getState("order");
+			$direction = $this->getState("direction");
 			
+			dump($order,"Order");
+			dump($direction,"Direction");
+			
+			$orderBy = "";
+			return $orderBy;
 		}
 				
 		// Gets multiple characters
@@ -240,8 +250,9 @@
 		function buildQueryforTotal(){
 			//$orderby = $this->_buildContentOrderBy();
 			$where = $this->buildWhere();
-			$query  = " SELECT id";
-			$query .= " FROM #__char_characters AS a";
+			$query  = " SELECT a.id";
+			$query .= " FROM #__char_characters AS a ";
+			$query .= " LEFT JOIN #__users AS b ON a.user_id = b.id ";
 			$query .= $where;
 			//$query .= $orderby;
 			return $query;

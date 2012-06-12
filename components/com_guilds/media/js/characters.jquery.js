@@ -1,12 +1,11 @@
 $(document).ready(function() {
 	
-//	$('option').click(function() {
-//		var parent = $(this).attr('data-parent');
-//		var children = $(this).attr('data-children');
-//		console.log(parent);
-//		console.log(children);
-//		selectParents(parent);
-//	});
+	$('option').click(function() {
+		var parent = $(this).attr('data-parent');
+		var children = $(this).attr('data-children');
+
+		selectParents(parent);
+	});
 	
 	function selectParents(parent_id) {
 		var options = $('option').each(function(index,element){
@@ -25,7 +24,6 @@ $(document).ready(function() {
 	});
 	
 	$('select').change(function(event){
-		$('#form').children('input[name="limitstart"]').val(0);
 		$('#form').submit();
 	});
 	
@@ -33,6 +31,30 @@ $(document).ready(function() {
 		$('input[name="search"]').val("");
 		console.log($('select[name^="filter_type"]').children(":selected"));
 		$('select[name^="filter_type"]').val('');
+	});
+	
+	$('.com-cm-header a').click(function(event){
+		event.preventDefault();
+		var order = $(this).attr('data-order').replace(" ","_");
+		var direction = $(this).attr('data-direction');
+				
+		$('input[name="filter_order"]').val(order);
+		$('input[name="filter_order_dir"]').val(direction);
+		
+		
+		$("#form").submit();
+	});
+	
+	
+	// Whenever the form is submitted, reset the limit to 0
+	// So the user is return to the first page
+	$('#form').submit(function(event){
+		$('#form').children('input[name="limitstart"]').val(0);
+	});
+	
+	$('#checkAll').click(function(event){
+		var checkboxes = $('input[name="id[]"]');
+		console.log(checkboxes);
 	});
 	
  });

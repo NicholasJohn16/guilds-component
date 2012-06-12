@@ -16,6 +16,17 @@ jimport( 'joomla.application.component.view');
 
 class GuildsViewCharacters extends JView {
 	
+	function __construct() {
+		global $mainframe, $option;
+		
+		$this->order		= $mainframe->getUserStateFromRequest($option."filter_order",'filter_order',null,'cmd' );
+		$this->direction	= $mainframe->getUserStateFromRequest($option."filter_order_Dir",'filter_order_Dir',null,'word');
+		$this->search		= $mainframe->getUserStateFromRequest($option."search",'search','','string' );
+		$this->filter_type	= $mainframe->getUserStateFromRequest($option.'filter_type','filter_type',array(),'array');
+		
+		parent::__construct();
+	}
+	
 	function display($tmpl = null) {
 		switch($this->getLayout()) {
 			case 'roster':
@@ -30,7 +41,8 @@ class GuildsViewCharacters extends JView {
 			default:
 				$this->displayCharacters();
 		}
-        parent::display($tmpl);
+		
+		parent::display($tmpl);
     }
     
     function displayCharacters() {
@@ -64,16 +76,16 @@ class GuildsViewCharacters extends JView {
 		$categories =& $this->get('Categories');
 		
 		//Get values from the request for search and filters
-		$filter_order		= $mainframe->getUserStateFromRequest($option."filter_order",'filter_order','a.name','cmd' );
-		$filter_order_dir	= $mainframe->getUserStateFromRequest($option."filter_order_Dir",'filter_order_Dir','','word');
-		$search				= $mainframe->getUserStateFromRequest($option."search",'search','','string' );
+		$filter_order		= $mainframe->getUserStateFromRequest($option."filter_order",'filter_order',null,'cmd' );
+		$filter_order_dir	= $mainframe->getUserStateFromRequest($option."filter_order_Dir",'filter_order_Dir',null,'word');
+		
 		$filter_type 		= $mainframe->getUserStateFromRequest($option.'filter_type','filter_type',array(),'array');
 		
 		// Assign them references so they can be accessed in the tmpl
-		$this->assignRef('search',$search);
-		$this->assignRef('filter_type',$filter_type);
-		$this->assignRef('filter_order',$filter_order);
-		$this->assignRef('filter_order_dir',$filter_order_dir);
+		$this->assignRef('search',$this->search);
+		$this->assignRef('filter_type',$this->filter_type);
+		$this->assignRef('filter_order',$this->order);
+		$this->assignRef('filter_order_dir',$this->direction);
 		$this->assignRef('characters',$characters);
 		$this->assignRef('types', $types);
 		$this->assignRef('categories',$categories);
@@ -109,7 +121,7 @@ class GuildsViewCharacters extends JView {
 		$limit = $pagination->limit;
 		$limitstart = $pagination->limitstart;
 		$cur_page = $limitstart/$limit +1;
-		
+
 		$link = 'index.php?option=com_guilds&view=characters&layout='.$layout.'&limitstart=';
 		
 		$current_range = array(($cur_page-2 < 1 ? 1 : $cur_page-2), ($cur_page+2 > $total ? $total : $cur_page+2));
@@ -122,12 +134,35 @@ class GuildsViewCharacters extends JView {
 		$previous_page = $cur_page > 1 ? '<li><a title="Previous" href="'.$link.($limitstart-$limit).'">&laquo;</a></li>' : null;
 		$next_page = $cur_page < $total ? '<li><a title="Next" href="'.$link.($limitstart+$limit).'">&raquo;</a></li>' : null;
 		
+		if($total == 0) {
+			$pages = array();
+		}
+		
 		// Display pages that are in range
 		for ($x=$current_range[0];$x <= $current_range[1]; ++$x) {
 			$pages[] = '<li '.($x == $cur_page ? 'class="active"':null).'><a href="'.$link.($x-1)*$limit.'">'.$x.'</a></li>';
 		}
 		
 		return '<div class="com-cm-pagination"><ul>'.$first_page.$previous_page.implode($pages).$next_page.$last_page.'</ul></div>';
+	}
+	
+	function sortable($title){
+		global $mainframe, $option;
+		
+		$order      = $mainframe->getUserStateFromRequest($option."filter_order",'filter_order',null,'cmd' );
+		$direction	= $mainframe->getUserStateFromRequest($option."filter_order_Dir",'filter_order_Dir','asc','word');
+		$images		= array( 'sort_asc.png', 'sort_desc.png' );
+		$index		= intval( $direction == 'desc' );
+		$direction	= ($direction == 'desc') ? 'asc' : 'desc';
+
+		$html  = '<a href="#" data-order="'.strtolower($title).'" data-direction="'.$direction.'">';
+		$html .= $title; 
+//		if ($title == $order ) {
+//			$html .= JHTML::_('image.administrator',  $images[$index], '/images/', NULL, NULL);
+//		}
+		$html .= '</a>';
+		
+		return $html;
 	}
     
 }

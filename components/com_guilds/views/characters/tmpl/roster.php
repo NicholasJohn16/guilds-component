@@ -31,24 +31,24 @@
 	</div>
 	<div class="com-cm-container">
 		<div class="com-cm-header">
-			<div style="width:4%">ID</div>
+			<div style="width:4%"><?php echo $this->sortable("ID");?></div>
 			<div style="width:2%"><input type="checkbox" name="toggle" value="" id="checkAll" /></div>
-			<div style="width:4%">User ID</div>
-			<div style="width:10%">Name</div>
-			<div style="width:12%">Username</div>
+			<div style="width:4%"><?php echo $this->sortable("User ID");?></div>
+			<div style="width:10%"><?php echo $this->sortable("Name");?></div>
+			<div style="width:12%"><?php echo $this->sortable("Username");?></div>
 			<?php foreach($this->types as $type):?>
 				<?php $type_name = $type->name.'_name'; ?>
-				<div class="com-cm-<?php echo $type->name;?>"><?php echo ucfirst($type->name); ?></div>
+				<div class="com-cm-<?php echo $type->name;?>"><?php echo $this->sortable(ucfirst($type->name)); ?></a></div>
 			<?php endforeach; ?>
-			<div style="width:8%">Checked</div>
-			<div style="width:2%"></div>
+			<div style="width:8%"><?php echo $this->sortable("Checked");?></div>
+			<div style="width:2%"><?php echo $this->sortable("Published");?></div>
 		</div>
 		<?php $i=0; ?>
 		<?php foreach($this->characters as $character):?>
 			<div class="com-cm-row">
-				<div style="width:4%"><?php echo $i+1+$this->pagination->limitstart;?></div>
+				<div style="width:4%"><?php echo $character->id; //$i+1+$this->pagination->limitstart;?></div>
 				<div style="width:2%"><input id="cb<?php echo $i ?>" type="checkbox" value="<?php echo $character->id; ?>" name="id[]"/></div>
-				<div style="width:4%"><?php echo $character->id; ?></div>
+				<div style="width:4%"><?php echo $character->user_id; //$character->id; ?></div>
 				<div style="width:10%" title="<?php echo $character->name;?>">
 					<a href="index.php?option=com_guilds&view=characters&task=edit&character=<?php echo $character->id;?>">
 						<?php echo $character->name;?>
