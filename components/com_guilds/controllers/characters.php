@@ -90,7 +90,7 @@ function __construct(){
 			}
 
 			$model->setState('user',$user);
-			
+			$model->setState('layout',$layout);
 			$view->display();
 		}
 		

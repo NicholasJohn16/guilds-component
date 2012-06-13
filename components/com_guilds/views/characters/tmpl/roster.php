@@ -15,6 +15,19 @@
 			</div>
 		</div>
 	</div>
+	<div class="btn-toolbar">
+		<div class="btn-group">
+			<button class="btn btn-large">
+				Add Character
+			</button>
+			<button class="btn btn-large">
+				Edit Character
+			</button>
+			<button class="btn btn-large">
+				Delete Character(s)
+			</button>
+		</div>
+	</div>
 	<div class="well" id="filters">
 	<?php foreach($this->types as $type):?>
 		<?php $filter_type = 'filter_'.$type->name;?>
@@ -63,7 +76,7 @@
 						?>
 					</div>
 				<?php endforeach; ?>
-				<div style="width:8%"><?php echo $character->rosterchecked;?></div>
+				<div style="width:8%"><?php echo $character->checked;?></div>
 				<div style="width:2%">
 					<?php
 						if($character->published == 1) {
@@ -82,8 +95,8 @@
 	<input type="hidden" name="layout" value="roster"/>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="Itemid" value="99999999"/>
-	<input type="hidden" name="filter_order" value="a.id"/>
-	<input type="hidden" name="filter_order_dir" value="ASC"/>
+	<input type="hidden" name="filter_order" value="<?php echo $this->order; ?>"/>
+	<input type="hidden" name="filter_order_dir" value="<?php echo $this->direction; ?>"/>
 	<input type="hidden" name="limitstart" value="<?php echo $this->pagination->limitstart;?>"/>
 	<div style="clear:both"></div>
 	<?php echo $this->pagination(); ?>

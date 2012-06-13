@@ -18,11 +18,13 @@ class GuildsViewCharacters extends JView {
 	
 	function __construct() {
 		global $mainframe, $option;
-		
-		$this->order		= $mainframe->getUserStateFromRequest($option."filter_order",'filter_order',null,'cmd' );
-		$this->direction	= $mainframe->getUserStateFromRequest($option."filter_order_Dir",'filter_order_Dir',null,'word');
-		$this->search		= $mainframe->getUserStateFromRequest($option."search",'search','','string' );
-		$this->filter_type	= $mainframe->getUserStateFromRequest($option.'filter_type','filter_type',array(),'array');
+		// Get the layout so it can be used to make request variable layout specific
+		$layout	= $this->getLayout();
+		 
+		$this->order		= $mainframe->getUserStateFromRequest($option.$layout."filter_order",'filter_order',null,'cmd' );
+		$this->direction	= $mainframe->getUserStateFromRequest($option.$layout."filter_order_dir",'filter_order_dir',null,'word');
+		$this->search		= $mainframe->getUserStateFromRequest($option.$layout."search",'search','','string' );
+		$this->filter_type	= $mainframe->getUserStateFromRequest($option.$layout.'filter_type','filter_type',array(),'array');
 		
 		parent::__construct();
 	}
@@ -53,7 +55,6 @@ class GuildsViewCharacters extends JView {
 		$types =& $this->get('Types');
 		$pagination =& $this->get('Pagination');
 		
-		//Change $items to $characters
 		$this->assignRef('characters',$characters);
 		$this->assignRef('types',$types);
 		$this->assignRef('pagination',$pagination);
@@ -75,17 +76,13 @@ class GuildsViewCharacters extends JView {
 		$types		=& $this->get('Types');	
 		$categories =& $this->get('Categories');
 		
-		//Get values from the request for search and filters
-		$filter_order		= $mainframe->getUserStateFromRequest($option."filter_order",'filter_order',null,'cmd' );
-		$filter_order_dir	= $mainframe->getUserStateFromRequest($option."filter_order_Dir",'filter_order_Dir',null,'word');
-		
-		$filter_type 		= $mainframe->getUserStateFromRequest($option.'filter_type','filter_type',array(),'array');
+		dump($characters,"Characters");
 		
 		// Assign them references so they can be accessed in the tmpl
 		$this->assignRef('search',$this->search);
 		$this->assignRef('filter_type',$this->filter_type);
-		$this->assignRef('filter_order',$this->order);
-		$this->assignRef('filter_order_dir',$this->direction);
+		$this->assignRef('order',$this->order);
+		$this->assignRef('direction',$this->direction);
 		$this->assignRef('characters',$characters);
 		$this->assignRef('types', $types);
 		$this->assignRef('categories',$categories);
@@ -147,13 +144,18 @@ class GuildsViewCharacters extends JView {
 	}
 	
 	function sortable($title){
-		global $mainframe, $option;
-		
-		$order      = $mainframe->getUserStateFromRequest($option."filter_order",'filter_order',null,'cmd' );
-		$direction	= $mainframe->getUserStateFromRequest($option."filter_order_Dir",'filter_order_Dir','asc','word');
+		$order      = $this->order;
+		$direction  = $this->direction;
+		// if the direction is not set, give it a default of ascending
+		$direction	= ($direction == null) ? 'asc' : $this->direction;
 		$images		= array( 'sort_asc.png', 'sort_desc.png' );
 		$index		= intval( $direction == 'desc' );
-		$direction	= ($direction == 'desc') ? 'asc' : 'desc';
+		
+		// If the current title is what's being ordered
+		if(str_replace(" ","_",strtolower($title)) == $order) {
+			// then set the direction for its click event to the opposite of what it currently is
+			$direction	= ($direction == 'desc') ? 'asc' : 'desc';
+		}
 
 		$html  = '<a href="#" data-order="'.strtolower($title).'" data-direction="'.$direction.'">';
 		$html .= $title; 

@@ -37,15 +37,18 @@
 		global $mainframe, $option;
 		parent::__construct();
 		
+		// Get the current layout so request variable can be specific to that layout
+		$layout = $this->getState('layout');
+		
 		// Get pagination request variables
 		$limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
-		$limitstart = $mainframe->getUserStateFromRequest($option.'limitstart','limitstart',0);
+		$limitstart = $mainframe->getUserStateFromRequest($option.$layout.'limitstart','limitstart',0);
 		
 		// Get filter values for Roster view
-		$order		= $mainframe->getUserStateFromRequest($option."filter_order",'filter_order','a.name','cmd' );
-		$direction	= $mainframe->getUserStateFromRequest($option."filter_order_dir",'filter_order_dir','asc','word');
-		$search		= $mainframe->getUserStateFromRequest($option."search",'search','','string' );
-		$filter_type= $mainframe->getUserStateFromRequest($option.'filter_type','filter_type',array(),'array');
+		$order		= $mainframe->getUserStateFromRequest($option.$layout."filter_order",'filter_order','a.name','cmd' );
+		$direction	= $mainframe->getUserStateFromRequest($option.$layout."filter_order_dir",'filter_order_dir','asc','word');
+		$search		= $mainframe->getUserStateFromRequest($option.$layout."search",'search','','string' );
+		$filter_type= $mainframe->getUserStateFromRequest($option.$layout.'filter_type','filter_type',array(),'array');
 
 		// In case limit has been changed, adjust it
 		//$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
@@ -97,7 +100,7 @@
 			$types = $this->getTypes();
 			$i = 99;
 			$n = 99;
-			$query  = " SELECT a.id,a.user_id,a.name,b.username,a.rosterchecked,a.published,a.unpublisheddate ";
+			$query  = " SELECT a.id,a.user_id,a.name,b.username,a.checked,a.published,a.unpublisheddate ";
 			foreach($types AS $type) {
 				$query .= ",a.".$type->name." AS ".$type->name."_id ";
 				$query .= ",".chr($i).".name AS ".$type->name."_name ";
@@ -171,10 +174,15 @@
 			$order = $this->getState("order");
 			$direction = $this->getState("direction");
 			
+			$orderBy = "ORDER BY ".$order." ".$direction;
+			
+			if( $order == null || $direction == null ) {
+				$orderBy = "";	
+			
+			}
 			dump($order,"Order");
 			dump($direction,"Direction");
 			
-			$orderBy = "";
 			return $orderBy;
 		}
 				
