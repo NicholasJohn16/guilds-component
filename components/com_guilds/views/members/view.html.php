@@ -15,6 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 jimport( 'joomla.application.component.view');
 
 class GuildsViewMembers extends JView {
+	
 	function display($tmpl = null) {
 		switch($this->getLayout()) {
 			case 'form':
@@ -40,7 +41,14 @@ class GuildsViewMembers extends JView {
 		$types = $this->get('Types');
 		$categories = $this->get('Categories');
 		
-		dump($members,"Members");
+		global $mainframe, $option;
+		// Get the layout so it can be used to make request variable layout specific
+		$layout	= $this->getLayout();
+		 
+		$this->order		= $mainframe->getUserStateFromRequest($option.$layout."order",'order',null,'cmd' );
+		$this->direction	= $mainframe->getUserStateFromRequest($option.$layout."direction",'direction',null,'word');
+		$this->search		= $mainframe->getUserStateFromRequest($option.$layout."search",'search','','string' );
+		$this->filter_type	= $mainframe->getUserStateFromRequest($option.$layout.'filter_type','filter_type',array(),'array');
 		
 		$this->assignRef('members',$members);
 		$this->assignRef('pagination', $pagination);
@@ -56,7 +64,7 @@ class GuildsViewMembers extends JView {
 		JHTML::script('jquery.js','https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/');
 		JHTML::script('bootstrap.js','components/com_guilds/media/js/',false);
 		JHTML::script('members.jquery.js','components/com_guilds/media/js/',false);
-		
+					
 		$member = $this->get('Member');
 		$ranks = $this->get('Ranks');
 		
@@ -89,5 +97,30 @@ class GuildsViewMembers extends JView {
 		}
 		return '<div class="com-cm-pagination"><ul>'.$first_page.$previous_page.implode($pages).$next_page.$last_page.'</ul></div>';
 	}
+	
+	function sortable($title,$order = null){
+		$direction  = $this->direction;
+		// if the direction is not set, give it a default of ascending
+		$direction	= ($direction == null) ? 'asc' : $this->direction;
+		// if the order is not set, set it equal to the title
+		$order 		= ($order == null) ? str_replace(" ","_",strtolower($title)) : $order;
+		$images		= array( 'arrow-up.png', 'arrow-down.png' );
+		$index		= intval( $direction == 'desc' );
+		
+		// If the current title is what's being ordered
+		if($this->order == $order ) {
+			// then set the direction for its click event to the opposite of what it currently is
+			$direction	= ($direction == 'desc') ? 'asc' : 'desc';
+		}
+
+		$html  = '<a href="#" data-order="'.$order.'" data-direction="'.$direction.'">';
+		$html .= $title; 
+		if ($this->order == $order) {
+			$html .= '<img src="components/com_guilds/media/img/'.$images[$index].'"/>';
+		}
+		$html .= '</a>';
+		
+		return $html;
+	}	
 }
 ?>

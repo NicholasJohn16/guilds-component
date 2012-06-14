@@ -169,4 +169,22 @@ $(document).ready(function() {
 //   	}	   
 //   });
    
+   $('.subnav a').click(function(event){
+		event.preventDefault();
+		var order = $(this).attr('data-order').replace(" ","_");
+		var direction = $(this).attr('data-direction');
+				
+		$('input[name="order"]').val(order);
+		$('input[name="direction"]').val(direction);
+		
+		
+		$("#members-form").submit();
+	});
+   
+   $('button[type="reset"]').click(function(event) {
+		$('input[name="search"]').val("");
+		$('select[name^="filter_type"]').val('');
+		$('#members-form').submit();
+	});
+   
  });

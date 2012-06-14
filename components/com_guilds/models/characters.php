@@ -157,7 +157,7 @@
 			if(count($conditions) == 0 ) {
 				$where = "";
 			} elseif (count($conditions) == 1) {
-				$where.= " ".$conditions[0][1]." ".$conditions[0][2]." ".$conditions[0][3];
+				$where.= " ".$conditions[0][1]." ".$conditions[0][2]." ".$conditions[0][3]." ";
 			} else {
 				$count = count($conditions);
 				$where .= $conditions[0][1]." ".$conditions[0][2]." ".$conditions[0][3];

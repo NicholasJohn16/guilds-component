@@ -28,7 +28,7 @@
 				</select>
 			</div>
 		<?php endforeach;?>
-		<div class="editable date" style="width:8%"><?php echo $character->rosterchecked; ?></div>
+		<div class="editable date" style="width:8%"><?php echo $character->checked; ?></div>
 		<div style="width:2%"><?php echo $character->published; ?></div>
 	</div>
 	<?php endforeach; ?>

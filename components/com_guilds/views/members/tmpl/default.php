@@ -6,7 +6,7 @@
 		<div class="container" style="width:100%">
 			<a class="brand" href="#">Members</a>
 			<div class="navbar-search pull-left">
-    			<input type="text" name="search" class="search-query" placeholder="Search">
+    			<input type="text" name="search" class="search-query" placeholder="Search" value="<?php echo $this->search; ?>">
     		</div>
     		<button class="btn btn-inverse btn-small" type="submit">Submit</button>
     		<button class="btn btn-inverse btn-small" type="reset">Reset</button>
@@ -29,13 +29,13 @@
 </div>
 <div class="subnav" style="margin-bottom:5px;">
 	<ul class="nav nav-pills">
-		<li style="width:2%;">#</li>
-		<li style="width:20%;">Username</li>
-		<li style="width:135px;">@Handle</li>
-		<li style="width:70px;">Intro Date</li>
-		<li style="width:12%;">Status</li>
-		<li style="width:106px;">TBD</li>
-		<li style="width:20%;">Forum Rank</li>
+		<li style="width:3%;"><?php echo $this->sortable("#","id");?></li>
+		<li style="width:20%;"><?php echo $this->sortable("Username");?></li>
+		<li style="width:135px;"><?php echo $this->sortable("@Handle","value");?></li>
+		<li style="width:70px;"><?php echo $this->sortable("Intro Date","appdate");?></li>
+		<li style="width:10%;"><?php echo $this->sortable("Status");?></li>
+		<li style="width:106px;"><?php echo $this->sortable("TBD");?></li>
+		<li style="width:20%;"><?php echo $this->sortable("Forum Rank","rank_title");?></li>
 	</ul>
 </div>
 <div class="accordion">
@@ -46,7 +46,7 @@
 	<div style="clear:both"></div>
 	<div class="accordion-group" id="<?php echo $member->id; ?>">
 		<div class="accordion-heading">
-			<div style="width:2%;text-align:right;"><?php echo $i+1+$this->pagination->limitstart; ?></div>
+			<div style="width:3%;text-align:right;"><?php echo $i+1+$this->pagination->limitstart; ?></div>
 				<div style="width:20%;">
 					<a href="index.php?option=com_guilds&view=members&task=edit&user_id=<?php echo $member->id; ?>">
 						<?php echo $member->username; ?>
@@ -58,9 +58,9 @@
 						<img src="components/com_guilds/media/img/contact.png"/>
 					</a>
 				</div>
-			<div style="width:135px;" class="editable" id="handle-<?php echo $member->id;?>"><?php echo $member->value; ?></div>
+			<div style="width:135px;" class="editable" id="handle-<?php echo $member->id;?>"><?php echo $member->id; ?></div>
 			<div style="width:70px;" class="editable date" id="appdate-<?php echo $member->id;?>"><?php echo ($member->appdate == NULL ? date('Y-m-d',strtotime($member->time)) : $member->appdate);?></div>
-			<div style="width:12%;" ><?php echo $member->status; ?></div>
+			<div style="width:10%;" ><?php echo $member->status; ?></div>
 			<div style="width:106px;" class="editable" id="tbd-<?php echo $member->id;?>"><?php echo $member->tbd; ?></div>
 			<div style="width:20%;padding:5px 10px;">
 				<select id="rank-<?php echo $member->id; ?>" style="width:200px;">
@@ -98,6 +98,8 @@
 		<input type="hidden" name="option" value="com_guilds"/>
 		<input type="hidden" name="view" value="members"/>
 		<input type="hidden" name="limitstart" value="<?php echo $this->pagination->limitstart;?>"/>
+		<input type="hidden" name="order" value="<?php echo $this->order; ?>" />
+		<input type="hidden" name="direction" value="<?php echo $this->direction; ?>" />
 </div>
 	<!--<span style="float:left"><?php echo $this->pagination->getPagesCounter();?></span> -->
 	<div style="clear:both"></div>

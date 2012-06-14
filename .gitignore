@@ -4,6 +4,7 @@
 .htaccess
 administrator/backups/*
 administrator/cache/*
+administrator/components/com_community/*
 administrator/components/com_admin/*
 administrator/components/com_banners/*
 administrator/components/com_cache/*
@@ -225,6 +226,7 @@ administrator/index.php
 administrator/index2.php
 administrator/index3.php
 cache/*
+components/com_community/*
 components/com_banners/*
 components/com_contact/*
 components/com_content/*
@@ -272,6 +274,7 @@ images/save_f2.png
 images/smilies/*
 includes/*
 installation/*
+language/en-GB/en-GB.com_community.ini
 language/en-GB/en-GB.com_banners.ini
 language/en-GB/en-GB.com_contact.ini
 language/en-GB/en-GB.com_content.ini

@@ -143,25 +143,26 @@ class GuildsViewCharacters extends JView {
 		return '<div class="com-cm-pagination"><ul>'.$first_page.$previous_page.implode($pages).$next_page.$last_page.'</ul></div>';
 	}
 	
-	function sortable($title){
-		$order      = $this->order;
+	function sortable($title,$order = null){
 		$direction  = $this->direction;
 		// if the direction is not set, give it a default of ascending
 		$direction	= ($direction == null) ? 'asc' : $this->direction;
-		$images		= array( 'sort_asc.png', 'sort_desc.png' );
+		// if the order is not set, set it equal to the title
+		$order 		= ($order == null) ? str_replace(" ","_",strtolower($title)) : $order;
+		$images		= array( 'arrow-up.png', 'arrow-down.png' );
 		$index		= intval( $direction == 'desc' );
 		
 		// If the current title is what's being ordered
-		if(str_replace(" ","_",strtolower($title)) == $order) {
+		if($this->order == $order ) {
 			// then set the direction for its click event to the opposite of what it currently is
 			$direction	= ($direction == 'desc') ? 'asc' : 'desc';
 		}
 
-		$html  = '<a href="#" data-order="'.strtolower($title).'" data-direction="'.$direction.'">';
+		$html  = '<a href="#" data-order="'.$order.'" data-direction="'.$direction.'">';
 		$html .= $title; 
-//		if ($title == $order ) {
-//			$html .= JHTML::_('image.administrator',  $images[$index], '/images/', NULL, NULL);
-//		}
+		if ($this->order == $order) {
+			$html .= '<img src="components/com_guilds/media/img/'.$images[$index].'"/>';
+		}
 		$html .= '</a>';
 		
 		return $html;

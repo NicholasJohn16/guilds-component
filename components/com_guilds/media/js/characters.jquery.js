@@ -29,8 +29,8 @@ $(document).ready(function() {
 	
 	$('button[type="reset"]').click(function(event) {
 		$('input[name="search"]').val("");
-		console.log($('select[name^="filter_type"]').children(":selected"));
 		$('select[name^="filter_type"]').val('');
+		$('#form').submit();
 	});
 	
 	$('.com-cm-header a').click(function(event){
@@ -54,7 +54,14 @@ $(document).ready(function() {
 	
 	$('#checkAll').click(function(event){
 		var checkboxes = $('input[name="id[]"]');
-		console.log(checkboxes);
+		if($(this).attr('checked') == 'checked'){
+			   var bool = true;
+	   	   } else {
+			   var bool = false;
+		   }
+		   for(var i = 0;i<checkboxes.length;i++){
+			   checkboxes[i].checked = bool;
+		   };
 	});
 	
  });
