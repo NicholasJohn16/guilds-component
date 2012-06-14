@@ -34,7 +34,7 @@
 				<div class="controls">
 					<div class="input-append">
 						
-						<input type="text" name="checked" value="<?php echo $this->character->rosterchecked; ?>"/>
+						<input type="text" name="checked" value="<?php echo $this->character->checked; ?>"/>
 						<button class="btn" type="button" style="height:28px;margin-left:-4px;"><i class="icon-calendar"></i></button>
 					</div>
 				</div>

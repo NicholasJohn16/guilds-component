@@ -61,40 +61,40 @@
 			$this->setState('direction',$direction);
 			$this->setState('search',$search);
 			$this->setState('filter_type',$filter_type);
+			$this->setState('users',null);
 	    }
     
 	    protected function buildQuery() {
 	    	$select = $this->buildSelect();
 	    	$where = $this->buildWhere();
 	    	$orderBy = $this->buildOrderBy();
-			$query = $select.$where.' GROUP BY id '.$orderBy;
+			$query = $select.$where.$orderBy;
 			dump($query);
 	    	return $query;
 	    }
     
-	    function buildSelect($users = null) {
+	    function buildSelect() {
+	    	$users = $this->getState('users');
 	    	
 	    	if($users == null) {
-	    		$select = ' id ';
-	    	} else {
-	       		$select = ' SELECT a.id,a.username,f.appdate,FROM_UNIXTIME(e.time) AS time,g.status,f.tbd,d.rank_id,d.rank_title '
+	    		$select = ' SELECT a.id '
 		        	.' FROM #__users AS a '
-					.' LEFT JOIN #__kunena_users AS c ON c.userid = a.id '
-					.' LEFT JOIN #__kunena_ranks AS d ON d.rank_id = c.rank '
-					.' LEFT JOIN #__kunena_messages AS e ON e.userid = a.id '
-					.' LEFT JOIN adv_user_manager AS f ON f.user_id = a.id '
-					.' LEFT JOIN adv_status_values AS g on g.id = f.status ';
+					.' LEFT JOIN #__guilds_members AS f ON f.user_id = a.id '
+					.' LEFT JOIN #__guilds_ranks AS g on g.id = f.status ';
+	    	} else {
+	       		$select = ' SELECT * '
+		        	.' FROM #__users AS a '
+					.' LEFT JOIN #__guilds_members AS f ON f.user_id = a.id '
+					.' LEFT JOIN #__guilds_ranks AS g on g.id = f.status ';
 	    	}
 	    	return $select;	
 	    }
 	    
 	    function buildWhere() {
 	    	$search = $this->getState("search");
-	    	$where = ' WHERE '
-					.' e.parent = 0 AND '
-					.' e.catid = 6 ';
-					//  b.field_id = 29 AND	
+	    	$where = '';
 	    	$conditions = array();
+	    	$users = $this->getState('users');
 	    	
 	    	if($search != "" || !empty($search)) {
 				// Split the search string into an array
@@ -112,6 +112,10 @@
 				}
 			}
 	    	
+			if($users != null) {
+	    		$conditions[] = array("AND","a.id","IN",'('.implode(',',$users).')');
+	    	}
+			
 	    	if(count($conditions) == 1 ) {
 	    		$where .= " ".$conditions[0][0]." ".$conditions[0][1]." ".$conditions[0][2]." ".$conditions[0][3]." ";
 	    	} elseif(count($conditions) > 1) {
@@ -130,9 +134,9 @@
 	    	$direction = $this->getState('direction');
 	    	
 	    	if($order != null || $direction != null ) {
-	    		$orderBy = ' ORDER BY '.$order.' '.$direction;	
+	    		$orderBy = ' ORDER BY a.'.$order.' '.$direction;	
 	    	} else {
-	    		$orderBy = ' ORDER BY e.time ';
+	    		$orderBy = '';
 	    	}
 	    	
 	    	return $orderBy;
@@ -146,15 +150,22 @@
 		    // Load the data
 		    if (empty( $this->members )) {
 		        $query = $this->buildQuery();
-		        $this->_db->setQuery( $query );
+		        $this->_db->setQuery($query);
+		        $this->member_ids = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+		        
+		        foreach($this->member_ids as $member) { $members[] = $member->id; }
+		        $this->setState('users',$members);
+		        
+		        $query = $this->buildQuery();
+		        $this->_db->setQuery($query);
 		        $this->members = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+		        
+		        $ranks = $this->getRanks();
+		        $handles = $this->getHandles();
+		        
 		    }
-	//	    if (!$this->_data) {
-	//	        $this->_data = new stdClass();
-	//	        $this->_data->id = 0;
-	//	        $this->_data->greeting = null;
-	//	    }
-						
+
+		    dump($this->members);
 		    return $this->members;
 		}
 	
@@ -186,6 +197,22 @@
 	  		$result = $db->loadObjectList();
 	  		
 	  		return $result;
+	  	}
+	  	
+	  	function getHandles() {
+	  		$users = $this->getState('users');	
+	  		
+	  		if(empty($this->handles)) {
+	  			$db = JFactory::getDBO();
+	  			$query = " SELECT value "
+	  					." FROM #__community_fields_values "
+	  					." WHERE `field_id` =  29 "
+	  					." AND `user_id` IN (".implode(",",$users).");";
+	  			$db->setQuery($query);
+	  			$handles = $this->loadObjectList();
+	  		}
+	  		
+	  		return $this->handles;
 	  	}
   	
 	  	function updateHandle($new_handle,$user_id){
