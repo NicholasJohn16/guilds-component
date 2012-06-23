@@ -1,5 +1,4 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
-<div style="clear:both"></div>
 <form id="members-form">
 <div class="navbar">
 	<div class="navbar-inner">
@@ -46,7 +45,7 @@
 	<div style="clear:both"></div>
 	<div class="accordion-group" id="<?php echo $member->id; ?>">
 		<div class="accordion-heading">
-			<div style="width:3%;text-align:right;"><?php echo $i+1+$this->pagination->limitstart; ?></div>
+			<div style="width:3%;text-align:right;"><?php echo $member->id; //$i+1+$this->pagination->limitstart; ?></div>
 				<div style="width:20%;">
 					<a href="index.php?option=com_guilds&view=members&task=edit&user_id=<?php echo $member->id; ?>">
 						<?php echo $member->username; ?>
@@ -72,7 +71,7 @@
 		</div>
 		<div style="clear:both;"></div>
 		<div class="accordion-body collapse" id="accordion-body-<?php echo $member->id;?>">
-			<div id="characters-<?php echo $member->id;?>" class="accordion-inner com-mm-ajax"></div>
+			<div id="characters-<?php echo $member->id;?>" class="accordion-inner guild-ajax" style="float:left;"></div>
 			<div style="clear:both"></div>
 			<div class="accordion-footing">
 				<div class="accordion-inner">
@@ -92,7 +91,7 @@
 		$i++;
 		endforeach;
 	?>
-		<div class="com-mm-footer">
+		<div class="guild-footer">
 			
 		</div>
 		<input type="hidden" name="option" value="com_guilds"/>
@@ -108,12 +107,12 @@
 </form>
 
 <div class="modal hide fade in" id="character-form">
-	<div class="modal-header" style="background-color:#F5F5F5;border-bottom:1px solid #DDDDDD;box-shadow: 0 -1px 0 #FFFFFF inset;">
-		<button class="close" data-dismiss="modal">&times;</button>
-		<h3>Add Character</h3>
-	</div>
-	<div class="modal-body">
-		<form class="form-horizontal">
+	<form class="form-horizontal">
+		<div class="modal-header" style="background-color:#F5F5F5;border-bottom:1px solid #DDDDDD;box-shadow: 0 -1px 0 #FFFFFF inset;">
+			<button class="close" data-dismiss="modal">&times;</button>
+			<h3>Add Character</h3>
+		</div>
+		<div class="modal-body">
 			<fieldset style="float:left;border:0 none;padding:0;margin:0;">
 			<legend><?php echo JText::_('Character Info'); ?></legend>
 			<div class="control-group">
@@ -168,7 +167,7 @@
 				<div class="control-group">
 					<label class="control-label" for="<?php echo $type->name;?>"><?php echo ucfirst($type->name);?></label>
 					<div class="controls">
-						<select>
+						<select name="category[<?php echo $type->name; ?>]">
 							<option value=""><?php echo 'Select '.ucfirst($type->name);?></option>
 							<?php foreach($this->categories as $category):?>
 								<?php if($category->type == $type->name): ?>
@@ -190,10 +189,10 @@
 		<input type="hidden" name="id" value="" />
 		<input type="hidden" name="layout" value="roster"/>
 		<input type="hidden" name="task" value="" />
-		</form>
-	</div>
-	<div class="modal-footer" style="text-align:right;">
-		<button id="close" class="btn">Cancel</button>
-		<button class="btn btn-primary">Save</button>
-	</div>
+		</div>
+		<div class="modal-footer" style="text-align:right;">
+			<button id="close" class="btn">Cancel</button>
+			<button id="save" class="btn btn-primary">Save</button>
+		</div>
+	</form>
 </div>

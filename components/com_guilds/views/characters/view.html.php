@@ -49,7 +49,7 @@ class GuildsViewCharacters extends JView {
     
     function displayCharacters() {
     	JHTML::stylesheet('bootstrap.css','components/com_guilds/media/css/');
-    	JHTML::stylesheet('characters.css','components/com_guilds/media/css/');
+    	JHTML::stylesheet('guilds.css','components/com_guilds/media/css/');
 		
 		$characters =& $this->get('Characters');
 		$types =& $this->get('Types');
@@ -62,7 +62,7 @@ class GuildsViewCharacters extends JView {
     
     function displayRoster() {
     	// Add scripts and stylesheets to the head
-		JHTML::stylesheet('characters.css','components/com_guilds/media/css/');
+		JHTML::stylesheet('guilds.css','components/com_guilds/media/css/');
 		JHTML::stylesheet('bootstrap.css','components/com_guilds/media/css/');
 		JHTML::script('jquery.js','https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/');
 		JHTML::script('bootstrap.js','components/com_guilds/media/js/',false);
@@ -96,7 +96,7 @@ class GuildsViewCharacters extends JView {
     }
     
     function displayForm() {
-    	JHTML::stylesheet('members.css','components/com_guilds/media/css/');
+    	JHTML::stylesheet('guilds.css','components/com_guilds/media/css/');
 		JHTML::stylesheet('bootstrap.css','components/com_guilds/media/css/');
 		JHTML::script('jquery.js','https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/');
 		JHTML::script('bootstrap.js','components/com_guilds/media/js/',false);
@@ -140,7 +140,7 @@ class GuildsViewCharacters extends JView {
 			$pages[] = '<li '.($x == $cur_page ? 'class="active"':null).'><a href="'.$link.($x-1)*$limit.'">'.$x.'</a></li>';
 		}
 		
-		return '<div class="com-cm-pagination"><ul>'.$first_page.$previous_page.implode($pages).$next_page.$last_page.'</ul></div>';
+		return '<div class="guild-pagination"><ul>'.$first_page.$previous_page.implode($pages).$next_page.$last_page.'</ul></div>';
 	}
 	
 	function sortable($title,$order = null){

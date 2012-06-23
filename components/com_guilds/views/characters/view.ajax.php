@@ -23,10 +23,6 @@ class GuildsViewCharacters extends JView {
 		$types = $this->get('Types');
 		$categories = $this->get('Categories');
 		
-		if(empty($characters)){
-			$this->setLayout('error');
-		}
-		
 		$this->assignRef('characters',$characters);
 		$this->assignRef('types',$types);
 		$this->assignRef('categories',$categories);
@@ -51,6 +47,10 @@ class GuildsViewCharacters extends JView {
 		// Previous and next page
 		$previous_page = $cur_page > 1 ? '<button class="btn"><a title="Previous" href="'.$link.($limitstart-$limit).'"><i class="icon-chevron-left"></i></a></button>' : null;
 		$next_page = $cur_page < $total ? '<button class="btn"><a title="Next" href="'.$link.($limitstart+$limit).'"><i class="icon-chevron-right"></i></a></button>' : null;
+		
+		if($total == 0) {
+			$pages = array();
+		}
 		
 		// Display pages that are in range
 		for ($x=$current_range[0];$x <= $current_range[1]; ++$x) {

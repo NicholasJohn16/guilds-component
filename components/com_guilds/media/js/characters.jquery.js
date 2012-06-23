@@ -33,7 +33,7 @@ $(document).ready(function() {
 		$('#form').submit();
 	});
 	
-	$('.com-cm-header a').click(function(event){
+	$('.guilds-header a').click(function(event){
 		event.preventDefault();
 		var order = $(this).attr('data-order').replace(" ","_");
 		var direction = $(this).attr('data-direction');

@@ -45,8 +45,8 @@
 		$limitstart = $mainframe->getUserStateFromRequest($option.$layout.'limitstart','limitstart',0);
 		
 		// Get filter values for Roster view
-		$order		= $mainframe->getUserStateFromRequest($option.$layout."filter_order",'filter_order','a.name','cmd' );
-		$direction	= $mainframe->getUserStateFromRequest($option.$layout."filter_order_dir",'filter_order_dir','asc','word');
+		$order		= $mainframe->getUserStateFromRequest($option.$layout."filter_order",'filter_order',null,'cmd' );
+		$direction	= $mainframe->getUserStateFromRequest($option.$layout."filter_order_dir",'filter_order_dir',null,'word');
 		$search		= $mainframe->getUserStateFromRequest($option.$layout."search",'search','','string' );
 		$filter_type= $mainframe->getUserStateFromRequest($option.$layout.'filter_type','filter_type',array(),'array');
 

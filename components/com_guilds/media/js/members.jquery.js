@@ -74,7 +74,7 @@ $(document).ready(function() {
 	   $(this).click(function(event){
 		   var user_id = $(this).attr('id').split('-')[1];
 		   
-		   $('#characters-'+user_id).addClass('com-mm-ajax');
+		   $('#characters-'+user_id).addClass('guilds-ajax');
 		   $('#characters-'+user_id).html("");
 		   getCharactersByUserId(user_id);
 	   });
@@ -94,11 +94,11 @@ $(document).ready(function() {
 	   },
 	   function(data){
 		   var html = $(data);
-		   var list = $(data).filter('.com-mm-container');
+		   //var list = $(data).filter('.guilds-container');
 		   //var pagination = $(data).filter('#pagination');
 		   
-		   $('#characters-'+id).removeClass('com-mm-ajax');
-		   $('#characters-'+id).append(list);
+		   $('#characters-'+id).removeClass('guild-ajax');
+		   $('#characters-'+id).append(html);
 		   $(document).trigger('ready');
 		   //$('#toolbar-'+id).append(pagination);
 	   });
@@ -110,6 +110,19 @@ $(document).ready(function() {
    
    $('#close').click(function(event){
 	   $('#character-form').modal('hide');
+   });
+   
+   $('#save').click(function(event){
+	   event.preventDefault();
+	   
+	   var form = $(this).parents('form');
+	   console.log(form);
+	   var user = form.find('input[name="user"]').val();
+	   console.log(user,"User");
+	   var categories = form.find('select[name^="category"]');
+	   console.log(categories,"Categories");
+	   
+
    });
    
    $('a[title="Add Character"]').click(function() {
@@ -132,7 +145,7 @@ $(document).ready(function() {
 //	});
 //	
 //	function selectParents(parent_id) {
-//		var options = $(this).parent('.com-mm-row').children('option').each(function(index,element){
+//		var options = $(this).parent('.guilds-row').children('option').each(function(index,element){
 //			if($(element).val() == parent_id){
 //				$(element).parent('select').val(parent_id);
 //				var new_parent = $(element).attr('data-parent');

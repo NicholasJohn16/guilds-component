@@ -67,8 +67,9 @@
 	    protected function buildQuery() {
 	    	$select = $this->buildSelect();
 	    	$where = $this->buildWhere();
+	    	$groupBy = ' GROUP BY id ';
 	    	$orderBy = $this->buildOrderBy();
-			$query = $select.$where.$orderBy;
+			$query = $select.$where.$groupBy.$orderBy;
 			dump($query);
 	    	return $query;
 	    }
@@ -79,11 +80,21 @@
 	    	if($users == null) {
 	    		$select = ' SELECT a.id '
 		        	.' FROM #__users AS a '
+		        	.' LEFT JOIN #__community_fields_values AS b ON b.user_id = a.id '
+		        	.' LEFT JOIN #__community_fields_values as h on h.user_id = a.id '
+					.' LEFT JOIN #__kunena_users AS c ON c.userid = a.id '
+					.' LEFT JOIN #__kunena_ranks AS d ON d.rank_id = c.rank '
+					.' LEFT JOIN #__kunena_messages AS e ON e.userid = a.id '
 					.' LEFT JOIN #__guilds_members AS f ON f.user_id = a.id '
 					.' LEFT JOIN #__guilds_ranks AS g on g.id = f.status ';
 	    	} else {
-	       		$select = ' SELECT * '
+	       		$select = ' SELECT a.id,a.username,b.value AS handle,f.appdate,FROM_UNIXTIME(e.time) AS time,g.status,f.tbd,d.rank_id,d.rank_title,h.value AS guilds '
 		        	.' FROM #__users AS a '
+		        	.' LEFT JOIN #__community_fields_values AS b ON b.user_id = a.id '
+		        	.' LEFT JOIN #__community_fields_values as h on h.user_id = a.id '
+					.' LEFT JOIN #__kunena_users AS c ON c.userid = a.id '
+					.' LEFT JOIN #__kunena_ranks AS d ON d.rank_id = c.rank '
+					.' LEFT JOIN #__kunena_messages AS e ON e.userid = a.id '
 					.' LEFT JOIN #__guilds_members AS f ON f.user_id = a.id '
 					.' LEFT JOIN #__guilds_ranks AS g on g.id = f.status ';
 	    	}
@@ -92,7 +103,9 @@
 	    
 	    function buildWhere() {
 	    	$search = $this->getState("search");
-	    	$where = '';
+	    	$where = 'WHERE (b.field_id = 29) AND '
+	    			.' (h.field_id = 18) AND '
+	    			.' (e.parent = 0 AND e.catid = 6) ';
 	    	$conditions = array();
 	    	$users = $this->getState('users');
 	    	
@@ -156,12 +169,12 @@
 		        foreach($this->member_ids as $member) { $members[] = $member->id; }
 		        $this->setState('users',$members);
 		        
+		        // Update the status values for the members in the current view
+		        $this->updateStatus();
+		        
 		        $query = $this->buildQuery();
 		        $this->_db->setQuery($query);
 		        $this->members = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-		        
-		        $ranks = $this->getRanks();
-		        $handles = $this->getHandles();
 		        
 		    }
 
@@ -199,6 +212,11 @@
 	  		return $result;
 	  	}
 	  	
+	  	function updateStatus() {
+	  		$users = $this->getState('users');
+	  		
+	  	}
+	  	
 	  	function getHandles() {
 	  		$users = $this->getState('users');	
 	  		
@@ -209,10 +227,27 @@
 	  					." WHERE `field_id` =  29 "
 	  					." AND `user_id` IN (".implode(",",$users).");";
 	  			$db->setQuery($query);
-	  			$handles = $this->loadObjectList();
+	  			$this->handles = $this->loadObjectList();
 	  		}
 	  		
 	  		return $this->handles;
+	  	}
+	  	
+	  	function getForumsRanks() {
+	  		$users = $this->getState($users);
+
+	  		if(empty($this->forumRanks)) {
+	  			$db = JFactory::getDBO();
+	  			$query = " SELECT `userid`, `rank`, `rank_title` "
+	  					." FROM `jos_kunena_users` AS a "
+	  					." LEFT JOIN `jos_kunena_ranks` AS b ON a.rank = b.rank_id"
+	  					." AND `user_id` IN (".implode(",",$users).");";
+	  			$db->setQuery($query);
+	  			$this->forumRanks = $this->loadObjectList();
+	  		}
+	  		
+	  		return $this->handles;
+	  	
 	  	}
   	
 	  	function updateHandle($new_handle,$user_id){
