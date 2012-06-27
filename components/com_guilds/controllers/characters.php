@@ -25,8 +25,26 @@ function __construct(){
 		
 		
 		function add() {
+			$user = JRequest::getVar('user',null,'','int');
+			$character_name = JRequest::getVar('character_name',null,'','string');
+			$categories = JRequest::getVar('category',array(),'','array');
+			$checked = JRequest::getVar('checked',null,'','string');
 			
+			dump($checked,"Checked in controller");
 			
+			if($character_name == "") {
+				JError::raiseError(500,'Character name not given');
+			}
+			if($user == "") {
+				JError::raiserError(500,'User is not specified');
+			}
+			
+			$model = $this->getModel('characters');
+			$model->setState('user',$user);
+			$model->setState('character_name',$character_name);
+			$model->setState('categories',$categories);
+			$model->setState('checked',$checked);
+			$model->add();
 		}
 		
 		function ajax() {
@@ -59,8 +77,10 @@ function __construct(){
 		}
 		
 		function delete() {
-			
-			
+			$characters = JRequest::getVar('characters',null,'','string');
+			$model = $this->getModel('characters');
+			$model->setState('characters',$characters);
+			$model->delete();
 		}
 		
 		function display() {

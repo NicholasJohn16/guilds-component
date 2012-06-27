@@ -1,15 +1,13 @@
 	/* Category Classes */
-	/*
-.guild-game {width: 13%;}
-.guild-class {width: 8%;}
-.guild-allegiance {width: 14%;}
-.guild-guild {width: 17%;}
-	*/
+.com-guilds-game {width:11%;}
+.com-guilds-class {width:6%;}
+.com-guilds-allegiance {width:12%;}
+.com-guilds-guild {width:15%;}
 
-.guild-game {width:11%;}
-.guild-class {width:6%;}
-.guild-allegiance {width:12%;}
-.guild-guild {width:15%;}
+select.com-guilds-game {width: 13%;}
+select.com-guilds-class {width: 8%;}
+select.com-guilds-allegiance {width: 14%;}
+select.com-guilds-guild {width: 17%;}
 
 
 	/* Navbar & Subnav */
@@ -77,16 +75,13 @@
 }
 
 	/* Accordion */ 
-.accordion:nth-child(4n+2) {
-	background-color:blue;
-	}
 .accordion-group:hover .accordion-heading, .accordion-group:hover .accordion-footing{
 	background-color:#E8E8E8 !important;
 	}
 .accordion-heading, .accordion-footing {
 	background-color:#F8F8F8 ;
 	}
-.accordion .accordion-group:nth-child(4n+4) .accordion-heading, .accordion .accordion-group:nth-child(4n+4) .accordion-footing {
+.accordion .accordion-group:nth-child(2n+2) .accordion-heading, .accordion .accordion-group:nth-child(2n+2) .accordion-footing {
 	background-color:#F0F0F0;
 	}
 .accordion-heading {
@@ -111,26 +106,23 @@
 .accordion-footing {
 	border-radius:0 0 4px 4px;
 	}
-.accordion-body select {
-	width:100%;
-	}
 
 	/* Table Styling */ 
-.guild-container {
+.com-guilds-container {
 	float:left;
 	width:100%;
 	}
-.guild-header {
+.com-guilds-header {
 	border-top:1px solid #DDDDDD;
 	}
-.guild-header,.guild-row {
+.com-guilds-header,.com-guilds-row {
 	border-left:1px solid #DDDDDD;
 	border-right:1px solid #DDDDDD;
 	}
-.guild-header input,.guild-row input {
+.com-guilds-header input,.com-guilds-row input {
 	margin:5px 3px !important;
 	}
-.guild-header{
+.com-guilds-header{
     background-color: #EEEEEE;
     background-image: -moz-linear-gradient(center top , #F5F5F5 0%, #EEEEEE 100%);
     background-repeat: repeat-x;
@@ -140,16 +132,16 @@
 	width:100%;
 text-align:center;
 	}
-.guild-header div {
+.com-guilds-header div {
 	text-align:center !important;
 	}
-.guild-row{
+.com-guilds-row{
 	float:left;
 	border-top:1px solid #DDDDDD;
 	width:100%;
 	height:30px;
 	}
-.guild-row div, .guild-header div{
+.com-guilds-row div, .com-guilds-header div{
 	float:left;
 	padding: 4px 5px;
 	display:table-cell;
@@ -160,25 +152,37 @@ text-align:center;
 	overflow:hidden;
 	text-overflow:ellipsis;
 	}
-.guild-row a {float:left;}
-.guild-row img {float:right;line-height:18px;verticle-align:middle;height:16px;width:16px;}
-.guild-container div.guild-row:nth-child(2n+1) {background-color:#F9F9F9;}
-.guild-container div.guild-row:hover { background-color:#F5F5F5; }
-.guild-container div.guild-row div:first-child,.guild-container div.guild-header div:first-child { border-left:none; }
-.guild-container div.guild-header div:first-child { border-radius: 4px 0 0 0; }
-.guild-container div.guild-header div:last-child { border-radius: 0 4px 0 0; }
-.guild-container div.guild-row:last-child {border-radius: 0 0 4px 4px;border-bottom:1px solid #DDDDDD;}
-.guild-container div.guild-row:last-child div:first-child {border-radius: 0 0 0 4px;}
-.guild-container div.guild-row:last-child div:last-child {border-radius: 0 0 4px 0;}
-
+.com-guilds-row select {
+	float:left;
+	margin-bottom:0px;
+	border-left:1px solid #DDDDDD;
+	height:30px;
+	border-radius:0px;
+	padding:5px;
+	}
+.com-guilds-row select:hover {
+	border-top:1px solid #FFFFFF;
+	border-right:1px solid #FFFFFF;
+	border-bottom:1px solid #FFFFFF;
+	}
+.com-guilds-row a {float:left;}
+.com-guilds-row img {float:right;line-height:18px;verticle-align:middle;height:16px;width:16px;}
+.com-guilds-container div.com-guilds-row:nth-child(2n+1) {background-color:#F9F9F9;}
+.com-guilds-container div.com-guilds-row:hover { background-color:#F5F5F5; }
+.com-guilds-container div.com-guilds-row div:first-child,.com-guilds-container div.com-guilds-header div:first-child { border-left:none; }
+.com-guilds-container div.com-guilds-header div:first-child { border-radius: 4px 0 0 0; }
+.com-guilds-container div.com-guilds-header div:last-child { border-radius: 0 4px 0 0; }
+.com-guilds-container div.com-guilds-row:last-child {border-radius: 0 0 4px 4px;border-bottom:1px solid #DDDDDD;}
+.com-guilds-container div.com-guilds-row:last-child div:first-child {border-radius: 0 0 0 4px;}
+.com-guilds-container div.com-guilds-row:last-child div:last-child {border-radius: 0 0 4px 0;}
 
 	/*  Pagination */
-.guild-pagination {
+.com-guilds-pagination {
 	text-align:center !important;
 	height: 36px;
 	margin: 18px 0;
 	}
-.guild-pagination ul {
+.com-guilds-pagination ul {
 	border-radius: 3px 3px 3px 3px;
 	box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 	display:inline-block;
@@ -187,11 +191,11 @@ text-align:center;
 	list-style:disc outside none;
 	padding: 0;
 	}
-.guild-pagination li {
+.com-guilds-pagination li {
 	display:inline;
 	line-height:18px;
 	}
-.guild-pagination a {
+.com-guilds-pagination a {
 	-moz-border-bottom-colors: none;
 	-moz-border-image: none;
 	-moz-border-left-colors: none;
@@ -205,36 +209,37 @@ text-align:center;
 	padding: 0 14px !important;
 	text-decoration: none;
 	}
-.guild-pagination a:hover, .guild-pagination .active a {
+.com-guilds-pagination a:hover, .com-guilds-pagination .active a {
     background-color: #F5F5F5;
     text-decoration: none;
 	}
-.guild-pagination .active a {
+.com-guilds-pagination .active a {
     color: #999999;
     cursor: default;
 	}
-.guild-pagination .disabled a, .pagination .disabled a:hover {
+.com-guilds-pagination .disabled a, .pagination .disabled a:hover {
     background-color: transparent;
     color: #999999;
     cursor: default;
 	}
-.guild-pagination li:first-child a {
+.com-guilds-pagination li:first-child a {
     border-left-width: 1px;
     border-radius: 3px 0 0 3px;
 	}
-.guild-pagination li:last-child a {
+.com-guilds-pagination li:last-child a {
     border-radius: 0 3px 3px 0;
 	}
-.guild-pagination-centered {
+.com-guilds-pagination-centered {
     text-align: center;
 	}
-.guild-pagination-right {
+.com-guilds-pagination-right {
     text-align: right;
 	}
 
-.guild-ajax {
+.com-guilds-ajax {
 	height:50px;
 	background-image:url("../img/ajax-small.gif");
 	background-position:center center;
 	background-repeat:no-repeat;
+	width:100%;
 	}

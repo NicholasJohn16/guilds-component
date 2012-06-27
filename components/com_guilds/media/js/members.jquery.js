@@ -1,20 +1,27 @@
 $(document).ready(function() {
+	
+	// Prevent clicking buttons from submitting the form
    $('.action').click(function(event) {
 	   event.preventDefault();
    });
    
-//   $('.editable').each(function(index){ 
-//	   editable($(this));
-//   });
-   
+   // Add in editable behavoir
+   // It is added 'on' the form and watches for propigation
+   // this way, when new editable fields are added via the ajax
+   // they are editable as well
    $('form').on('dblclick','.editable',function(event){
-	  insertInput($(this)); 
+	   insertInput($(this));
    });
    
    function insertInput(element) {
 	   var value = element.html();
 	   var width = element.width();
 	   var input = $('<input style="width:'+width+'px;margin:-3px;" type="text" value="'+value+'"/>');
+	   var field = $(element).attr('data-field');
+	   
+	   // To prvent another form being added
+	   // stop the double click event from being propigated
+	   input.dblclick(function(event){event.stopPropagation();});
 	   
 	   //Add popover instructions
 	   input.popover({
@@ -35,7 +42,9 @@ $(document).ready(function() {
 			   } else if(event.keyCode == 13) {
 				   var new_value = $(this).val();
 				   
-				   if(postData(new_value)){
+				   var result = postData(field,new_value);
+				   
+				   if(result){
 					   //If the updated is successful, update the value
 					   $(this).parent('.editable').append(new_value);   
 				   } else {
@@ -54,29 +63,43 @@ $(document).ready(function() {
 		   };
 	   });
 		  
-	  element.unbind('dblclick');
 	  element.contents().remove();
 	  element.append(input);	  
 	  element.children('input').focus();
    }
    
-   $('.accordion-body').each(function(){
-	   $(this).on('shown',function(){
-		   var user_id = $(this).parent('.accordion-group').attr('id');
-		   
-		   if($('#characters-'+user_id).html() == "") {
-			   getCharactersByUserId(user_id);
-		   }
+   function postData(field,new_value) {
+	   var result;
+	   $.ajax({
+		   type:"POST",
+		   url:"index.php?option=com_guilds&view=characters&task=update&tmpl=component",
+		   data:'&field='+field+'&value='+new_value,
+		   success:function() {
+		   		console.log("Yes!  It was successful!!");
+		   		result = true;
+	   	   }
 	   });
-   });
+	   return result;
+   }
+   
+   $('.accordion-body').on('shown',function(){
+		   var user = $(this).parent('.accordion-group').attr('id');
+		   
+		   if($('#characters-'+user).html() == "") {
+			   getCharactersByUserId(user);
+		   }
+	});
+   
+   function refreshCharacters(user) {
+	   $('#characters-'+user).addClass('com-guilds-ajax');
+	   $('#characters-'+user).html("");
+	   getCharactersByUserId(user);
+   }
    
    $('button[id^=refresh]').each(function(){
 	   $(this).click(function(event){
-		   var user_id = $(this).attr('id').split('-')[1];
-		   
-		   $('#characters-'+user_id).addClass('guilds-ajax');
-		   $('#characters-'+user_id).html("");
-		   getCharactersByUserId(user_id);
+		   var user = $(this).attr('id').split('-')[1];
+		   refreshCharacters(user);
 	   });
    });
    
@@ -94,48 +117,110 @@ $(document).ready(function() {
 	   },
 	   function(data){
 		   var html = $(data);
-		   //var list = $(data).filter('.guilds-container');
-		   //var pagination = $(data).filter('#pagination');
 		   
-		   $('#characters-'+id).removeClass('guild-ajax');
+		   $('#characters-'+id).removeClass('com-guilds-ajax');
 		   $('#characters-'+id).append(html);
-		   $(document).trigger('ready');
-		   //$('#toolbar-'+id).append(pagination);
 	   });
    };
    
-   function postData(new_value) {
-	   return false;  
-   }
-   
    $('#close').click(function(event){
+	   event.preventDefault();
 	   $('#character-form').modal('hide');
    });
    
-   $('#save').click(function(event){
-	   event.preventDefault();
-	   
-	   var form = $(this).parents('form');
-	   console.log(form);
-	   var user = form.find('input[name="user"]').val();
-	   console.log(user,"User");
-	   var categories = form.find('select[name^="category"]');
-	   console.log(categories,"Categories");
-	   
-
-   });
-   
+   // When the Add Character button is clicked
    $('a[title="Add Character"]').click(function() {
+	   // get the user id and user name store in data attributes
 	   var user = $(this).attr('data-user');
 	   var username = $(this).attr('data-username');
+	   var user_field = $('#character-form input[name="user"]');
+	   // set them on the character form
+	   user_field.val(username);
+	   user_field.attr('data-user',user);
+	   if(username != undefined) {
+		   user_field.attr('disabled','disabled');
+	   }
+   });
+   
+   // Submits new characters from the Character form
+   $('#character-form input[type="submit"]').click(function(event){
+	   event.preventDefault();
+	   var sData = "";
+	   var form = $(this).parents('form');
+	   var user = form.find('input[name="user"]').attr('data-user');
+	   var character_name = form.find('input[name="character_name"]').val(); 
+	   var checked = form.find('input[name="checked"]').val();
 	   
-	   $('#user').val(user);
-	   $('#username').val(username);
+	   var eCategories = form.find('select[name^="category"]');
 	   
+	   // This shouldn't happen, but just in case
+	   // If a user isn't set, return an error
+	   if(user == "") {
+		   alert("User is not selected!");
+		   return false;
+	   }
+	   // If the Character name isn't set
+	   if(character_name == "") {
+		   // Show an error for this field
+		  form.find('input[name="character_name"]').parents(".control-group").addClass("error");
+		  // And force its focuse
+		  form.find('input[name="character_name"]').focus();
+		  // Stops the function from going any farther
+		  return false;
+	   }
+	   // Build the data string to be sent in the request
+	   var sData = "user="+user+"&character_name="+character_name+"&checked="+checked;
+	   eCategories.each(function(index,value) {
+		  sData = sData + "&" + $(value).attr('name')+"="+$(value).val();  
+	   });
+	   console.log(sData);
+	   
+	   $.ajax({
+		   type:"POST",
+		   url:"index.php",
+		   data:'option=com_guilds&view=characters&task=add&tmpl=component&'+sData,
+		   success:function() {
+		   		// onSuccess, hide the form and update the character list
+		   		form.modal('hide');
+		   		refreshCharacters(user);
+	   	   }
+	   });
+   });
+   
+   $('button[title="Delete Character(s)"]').click(function() {
+	   var user = $(this).attr('id').split('-')[1];
+	   var checkboxes = $('#characters-'+user+' .com-guilds-row input[type="checkbox"]:checked');
+	   var characters = new Array();
+	   
+	   checkboxes.each(function(index,element) {
+		   characters.push($(element).val());
+	   });
+	   characters = characters.join(',');
+	   
+	   $.ajax({
+		   type:"POST",
+		   url:"index.php",
+		   data:'option=com_guilds&view=characters&task=delete&tmpl=component&characters='+characters,
+		   success:function() {
+		   		refreshCharacters(user);
+	   	   }
+	   });
 	   
    });
    
-//   $('option').click(function() {
+   // When the Character form is hidden
+   $('#character-form').on('hidden',function() {
+	   // Reset the form back
+	  var form = $('#character-form');
+	  form.find('input[name="user"]').removeAttr('data-user');
+	  form.find('input[name="user"]').val("");
+	  form.find('input[name="user"]').removeAttr('disabled');
+	  form.find('input[name="character_name"]').val(""); 
+	  form.find('input[name="checked"]').val(""); 
+	  form.find('select[name^="category"]').val("");
+   });
+   
+//   $('#character-form option').click(function() {
 //		var parent = $(this).attr('data-parent');
 //		//var children = $(this).attr('data-children');
 //		console.log(parent);
@@ -170,18 +255,8 @@ $(document).ready(function() {
 	   };
    });
    
-   //Change select list style when clicked
-//   $('.navbar select').bind({
-//	   click:function() {
-//	   	$(this).css('background-color','#FFFFFF');
-//	   	$(this).css('color','#000000');
-//   	},
-//   	   mouseleave:function() {
-//   		$(this).css('background-color','#626262');
-//	   	$(this).css('color','#CCCCCC');
-//   	}	   
-//   });
    
+   // Simple ordering function
    $('.subnav a').click(function(event){
 		event.preventDefault();
 		var order = $(this).attr('data-order').replace(" ","_");
@@ -194,6 +269,8 @@ $(document).ready(function() {
 		$("#members-form").submit();
 	});
    
+   
+   // Resets the form controls when the Reset button is clicked.
    $('button[type="reset"]').click(function(event) {
 		$('input[name="search"]').val("");
 		$('select[name^="filter_type"]').val('');

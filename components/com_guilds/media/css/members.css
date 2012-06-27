@@ -121,7 +121,7 @@
 	font-weight:bold;
 	}
 	/* Table Styling */
-.guild-container {
+.com-guilds-container {
 	-moz-border-bottom-colors: none;
 	-moz-border-image: none;
 	-moz-border-left-colors: none;
@@ -132,13 +132,13 @@
 	border-style: solid solid solid none;
 	border-width: 1px 1px 1px 0;
 	}
-.guild-header,.guild-row {
+.com-guilds-header,.com-guilds-row {
 	border-left:1px solid #DDDDDD;
 	}
-.guild-header input,.guild-row input {
+.com-guilds-header input,.com-guilds-row input {
 	margin:5px 3px !important;
 	}
-.guild-header{
+.com-guilds-header{
 	background-color: #EEEEEE;
     background-image: -moz-linear-gradient(center top , #F5F5F5 0%, #EEEEEE 100%);
     background-repeat: repeat-x;
@@ -148,16 +148,16 @@
 	width:99.9%;
 	text-align:center;
 	}
-.guild-header div {
+.com-guilds-header div {
 	text-align:center !important;
 	}
-.guild-row{
+.com-guilds-row{
 	float:left;
 	border-top:1px solid #DDDDDD;
 	width:99.9%;
 	height:30px;
 	}
-.guild-row div, .guild-header div{
+.com-guilds-row div, .com-guilds-header div{
 	float:left;
 	padding: 4px 5px;
 	display:table-cell;
@@ -169,23 +169,23 @@
 	text-overflow:ellipsis;
 	
 	}
-.guild-row a {float:left;}
-.guild-row img {float:right;line-height:18px;verticle-align:middle;height:16px;width:16px;}
-.guild-container div.guild-row:nth-child(2n+1) {background-color:#F9F9F9;}
-.guild-container div.guild-row:hover{background-color:#F5F5F5;}
-.guild-container div.guild-row div:first-child,.guild-container div.guild-header div:first-child{border-left:none;}
-.guild-container div.guild-header div:first-child {border-radius: 4px 0 0 0;}
-.guild-container div.guild-header div:last-child {border-radius: 0 4px 0 0;}
-.guild-container .guild-row:nth-last-child(6) {border-radius: 0 0 4px 4px;border-bottom:none;}
-.guild-container div.guild-row:last-child div:first-child {border-radius: 0 0 0 4px;}
-.guild-container div.guild-row:last-child div:last-child {border-radius: 0 0 4px 0;}
+.com-guilds-row a {float:left;}
+.com-guilds-row img {float:right;line-height:18px;verticle-align:middle;height:16px;width:16px;}
+.com-guilds-container div.com-guilds-row:nth-child(2n+1) {background-color:#F9F9F9;}
+.com-guilds-container div.com-guilds-row:hover{background-color:#F5F5F5;}
+.com-guilds-container div.com-guilds-row div:first-child,.com-guilds-container div.com-guilds-header div:first-child{border-left:none;}
+.com-guilds-container div.com-guilds-header div:first-child {border-radius: 4px 0 0 0;}
+.com-guilds-container div.com-guilds-header div:last-child {border-radius: 0 4px 0 0;}
+.com-guilds-container .com-guilds-row:nth-last-child(6) {border-radius: 0 0 4px 4px;border-bottom:none;}
+.com-guilds-container div.com-guilds-row:last-child div:first-child {border-radius: 0 0 0 4px;}
+.com-guilds-container div.com-guilds-row:last-child div:last-child {border-radius: 0 0 4px 0;}
 
-.guild-row select {width:100%;padding:0px;height:22px;}
+.com-guilds-row select {width:100%;padding:0px;height:22px;}
 
-.guild-game {width: 13%;}
-.guild-class {width: 8%;}
-.guild-allegiance {width: 14%;}
-.guild-guild {width: 17%;}
+.com-guilds-game {width: 13%;}
+.com-guilds-class {width: 8%;}
+.com-guilds-allegiance {width: 14%;}
+.com-guilds-guild {width: 17%;}
 
 /*  Pagination */
 .com-cm-pagination {
@@ -267,22 +267,22 @@
 	border-bottom-left-radius:10px;
 	border-bottom-right-radius:10px;
 	}
-.guild-ajax {
+.com-guilds-ajax {
 	height:50px;
 	
 	background-image:url("../img/ajax-small.gif");
 	background-position:center center;
 	background-repeat:no-repeat;
 	}
-.guild-ajax-small {
+.com-guilds-ajax-small {
 	background-image:url("../img/ajax-small.gif");
 	background-position:center center;
 	background-repeat:no-repeat;
 	}
-.guild-icon {
+.com-guilds-icon {
 	cursor:pointer;
 	}
-.guild-user {
+.com-guilds-user {
 	background: #4c4c4c; /* Old browsers */
 	background: -moz-linear-gradient(top, #4c4c4c 0%, #595959 12%, #666666 25%, #474747 39%, #2c2c2c 50%, #000000 51%, #111111 60%, #2b2b2b 76%, #1c1c1c 91%, #131313 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4c4c4c), color-stop(12%,#595959), color-stop(25%,#666666), color-stop(39%,#474747), color-stop(50%,#2c2c2c), color-stop(51%,#000000), color-stop(60%,#111111), color-stop(76%,#2b2b2b), color-stop(91%,#1c1c1c), color-stop(100%,#131313)); /* Chrome,Safari4+ */

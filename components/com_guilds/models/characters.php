@@ -218,14 +218,46 @@
 		/* Task functions */
 		
 		function add(){
+			// Get the database object and all necessary states
+	  		$db = $this->getDBO();
+	  		$user = $this->getState('user');
+	  		$character_name = $this->getState('character_name');
+	  		$categories = $this->getState('categories');
+	  		$checked = ($this->getState('checked') == "" ? 'NULL' : $this->getState('checked'));
 	  		
-	  	}
+	  		// Create category arries and loop over the category input
+	  		// to create the necessary fields and values
+	  		$category_names = array();
+	  		$category_values = array();
+	  		foreach($categories as $category_name => $category_value) {
+				$category_names[] = $category_name;
+				$category_value = ($category_value == "" ? "NULL" : $category_value);
+				$category_values[] = $category_value;
+	  		}
+	  		// Create the query
+	  		// implode the arrays created earlier so their values are included
+	  		$query = 'INSERT INTO #__char_characters '
+	  			. '(`user_id`, `name`, `checked`,`published`,'.implode(',',$category_names).')'
+	  			. ' VALUES ('.$user.',"'.$character_name.'",'.$checked.',1,'.implode(',',$category_values).')';
+	  			
+	  		dump($query);
+	  		$db->setQuery($query);
+	  		if(!$db->query()) {
+	  			JError::raiserError(500,'Character add failed!');
+	  			return false;
+		  	} else {
+		  		return true;
+		  	}
+		}
 	  	
 	  	function delete(){
 	  		$db = $this->getDBO();
-	  		$id = JRequest::getVar('id',0,'','int');
-	  		$query = " DELETE * FROM `#__char_characters` WHERE id = ".$id;
-	  		if($db->setQuery($query)){
+	  		$characters = $this->getState('characters');
+	  		dump($characters,"Characters in model");
+	  		$query = " DELETE FROM `#__char_characters` WHERE id IN (".$characters.")";
+	  		dump($query,"Query");
+	  		$db->setQuery($query);
+	  		if($db->query()){
 	  			return true;
 	  		} else {
 	  			return false;

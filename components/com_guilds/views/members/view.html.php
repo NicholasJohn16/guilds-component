@@ -95,7 +95,7 @@ class GuildsViewMembers extends JView {
 		for ($x=$current_range[0];$x <= $current_range[1]; ++$x) {
 			$pages[] = '<li '.($x == $cur_page ? 'class="active"':null).'><a href="'.$link.($x-1)*$limit.'">'.$x.'</a></li>';
 		}
-		return '<div class="guild-pagination"><ul>'.$first_page.$previous_page.implode($pages).$next_page.$last_page.'</ul></div>';
+		return '<div class="com-guilds-pagination"><ul>'.$first_page.$previous_page.implode($pages).$next_page.$last_page.'</ul></div>';
 	}
 	
 	function sortable($title,$order = null){

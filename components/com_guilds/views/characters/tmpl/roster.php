@@ -42,8 +42,8 @@
 		</select>
 	<?php endforeach; ?>
 	</div>
-	<div class="guild-container">
-		<div class="guild-header">
+	<div class="com-guilds-container">
+		<div class="com-guilds-header">
 			<div style="width:4%"><?php echo $this->sortable("ID");?></div>
 			<div style="width:2%"><input type="checkbox" name="toggle" value="" id="checkAll" /></div>
 			<div style="width:4%"><?php echo $this->sortable("User ID");?></div>
@@ -51,14 +51,14 @@
 			<div style="width:12%"><?php echo $this->sortable("Username");?></div>
 			<?php foreach($this->types as $type):?>
 				<?php $type_name = $type->name.'_name'; ?>
-				<div class="guild-<?php echo $type->name;?>"><?php echo $this->sortable(ucfirst($type->name)); ?></a></div>
+				<div class="com-guilds-<?php echo $type->name;?>"><?php echo $this->sortable(ucfirst($type->name)); ?></a></div>
 			<?php endforeach; ?>
 			<div style="width:8%"><?php echo $this->sortable("Checked");?></div>
 			<div style="width:2%"><?php echo $this->sortable("Published");?></div>
 		</div>
 		<?php $i=0; ?>
 		<?php foreach($this->characters as $character):?>
-			<div class="guild-row">
+			<div class="com-guilds-row">
 				<div style="width:4%"><?php echo $character->id; //$i+1+$this->pagination->limitstart;?></div>
 				<div style="width:2%"><input id="cb<?php echo $i ?>" type="checkbox" value="<?php echo $character->id; ?>" name="id[]"/></div>
 				<div style="width:4%"><?php echo $character->user_id; //$character->id; ?></div>
@@ -70,7 +70,7 @@
 				<div style="width:12%" title="<?php echo $character->username;?>"><?php echo $character->username;?></div>
 				<?php foreach($this->types as $type):?>
 					<?php $type_name = $type->name.'_name'; ?>
-					<div class="guild-<?php echo $type->name;?>" title="<?php echo $character->$type_name;?>">
+					<div class="com-guilds-<?php echo $type->name;?>" title="<?php echo $character->$type_name;?>">
 						<?php
 							echo $character->$type_name;
 						?>
@@ -80,9 +80,9 @@
 				<div style="width:2%">
 					<?php
 						if($character->published == 1) {
-							echo '<img class="guild-icon" src="components/com_guilds/media/img/accept.png" alt="Published" title="Published">';
+							echo '<img class="com-guilds-icon" src="components/com_guilds/media/img/accept.png" alt="Published" title="Published">';
 						} else {
-							echo '<img class="guild-icon" src="components/com_guilds/media/img/cancel.png" alt="Unpublished" title="Unpublished">';
+							echo '<img class="com-guilds-icon" src="components/com_guilds/media/img/cancel.png" alt="Unpublished" title="Unpublished">';
 						}
 					?>
 				</div>
