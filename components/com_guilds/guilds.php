@@ -5,6 +5,15 @@
 	// Require the base controller
 	require_once JPATH_COMPONENT.DS.'controller.php';
 	
+	$session =& JFactory::getSession();
+	$registry = $session->get('registry');
+	dump($registry,'Registry');
+	
+	include_once JPATH_COMPONENT.DS.'helpers'.DS.'alertsHelper.php';
+	$alertsHelper = new alertsHelper();
+	$alerts = $alertsHelper->displayAlerts();
+	dump($alerts,'alerts');
+	
 	// Require specific controll if requested
 	if($controller = JRequest::getWord('view')) {
 		$path = JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php';
