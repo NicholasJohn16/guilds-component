@@ -58,7 +58,9 @@
 		var $buttons = array();
 		
 		function __construct($params) {
-			$this->buttons = new Buttons($params['buttons']);
+			$this->class = $params['class'] == "" ? $this->class : $params['class'];
+			
+			$this->buttons = new Button($params['buttons']);
 		}
 	}
 	 
