@@ -21,8 +21,8 @@ class GuildsViewCharacters extends JView {
 		// Get the layout so it can be used to make request variable layout specific
 		$layout	= $this->getLayout();
 		 
-		$this->order		= $mainframe->getUserStateFromRequest($option.$layout."filter_order",'filter_order',null,'cmd' );
-		$this->direction	= $mainframe->getUserStateFromRequest($option.$layout."filter_order_dir",'filter_order_dir',null,'word');
+		$this->order		= $mainframe->getUserStateFromRequest($option.$layout."order",'order',null,'cmd' );
+		$this->direction	= $mainframe->getUserStateFromRequest($option.$layout."direction",'direction',null,'word');
 		$this->search		= $mainframe->getUserStateFromRequest($option.$layout."search",'search','','string' );
 		$this->filter_type	= $mainframe->getUserStateFromRequest($option.$layout.'filter_type','filter_type',array(),'array');
 		
@@ -75,8 +75,6 @@ class GuildsViewCharacters extends JView {
 		$pagination =& $this->get('Pagination');
 		$types		=& $this->get('Types');	
 		$categories =& $this->get('Categories');
-		
-		dump($characters,"Characters");
 		
 		// Assign them references so they can be accessed in the tmpl
 		$this->assignRef('search',$this->search);

@@ -45,8 +45,8 @@
 		$limitstart = $mainframe->getUserStateFromRequest($option.$layout.'limitstart','limitstart',0);
 		
 		// Get filter values for Roster view
-		$order		= $mainframe->getUserStateFromRequest($option.$layout."filter_order",'filter_order',null,'cmd' );
-		$direction	= $mainframe->getUserStateFromRequest($option.$layout."filter_order_dir",'filter_order_dir',null,'word');
+		$order		= $mainframe->getUserStateFromRequest($option.$layout."order",'order',null,'cmd' );
+		$direction	= $mainframe->getUserStateFromRequest($option.$layout."direction",'direction',null,'word');
 		$search		= $mainframe->getUserStateFromRequest($option.$layout."search",'search','','string' );
 		$filter_type= $mainframe->getUserStateFromRequest($option.$layout.'filter_type','filter_type',array(),'array');
 
@@ -90,10 +90,8 @@
 			$select = $this->buildSelect();
 			$where = $this->buildWhere();
 			$order = $this->buildOrderBy();
-			
-			dump($select.$where.$order,"Query");
+						
 			return $select.$where.$order;
-			
 		}
 		
 		function buildSelect(){
@@ -180,8 +178,6 @@
 				$orderBy = "";	
 			
 			}
-			dump($order,"Order");
-			dump($direction,"Direction");
 			
 			return $orderBy;
 		}
@@ -253,9 +249,7 @@
 	  	function delete(){
 	  		$db = $this->getDBO();
 	  		$characters = $this->getState('characters');
-	  		dump($characters,"Characters in model");
 	  		$query = " DELETE FROM `#__char_characters` WHERE id IN (".$characters.")";
-	  		dump($query,"Query");
 	  		$db->setQuery($query);
 	  		if($db->query()){
 	  			return true;

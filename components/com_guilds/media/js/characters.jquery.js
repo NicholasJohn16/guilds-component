@@ -24,36 +24,40 @@ $(document).ready(function() {
 	});
 	
 	$('select').change(function(event){
-		$('#form').submit();
+		$('#roster-form').submit();
 	});
 	
 	$('button[type="reset"]').click(function(event) {
 		$('input[name="search"]').val("");
 		$('select[name^="filter_type"]').val('');
-		$('#form').submit();
+		$('#roster-form').submit();
 	});
 	
-	$('.guilds-header a').click(function(event){
+	$('.com-guilds-header a').click(function(event){
 		event.preventDefault();
 		var order = $(this).attr('data-order').replace(" ","_");
 		var direction = $(this).attr('data-direction');
 				
-		$('input[name="filter_order"]').val(order);
-		$('input[name="filter_order_dir"]').val(direction);
+		$('input[name="order"]').val(order);
+		$('input[name="direction"]').val(direction);
 		
 		
-		$("#form").submit();
+		$("#roster-form").submit();
 	});
 	
+	$('a[data-task="delete"]').click(function(event){
+		$('#roster-form input[name="task"]').val('delete');
+		$('#roster-form').submit();
+	});
 	
 	// Whenever the form is submitted, reset the limit to 0
 	// So the user is return to the first page
-	$('#form').submit(function(event){
-		$('#form').children('input[name="limitstart"]').val(0);
+	$('#roster-form').submit(function(event){
+		$('#roster-form').children('input[name="limitstart"]').val(0);
 	});
 	
 	$('#checkAll').click(function(event){
-		var checkboxes = $('input[name="id[]"]');
+		var checkboxes = $('input[name="characters[]"]');
 		if($(this).attr('checked') == 'checked'){
 			   var bool = true;
 	   	   } else {

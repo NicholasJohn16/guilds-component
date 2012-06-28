@@ -30,8 +30,6 @@ function __construct(){
 			$categories = JRequest::getVar('category',array(),'','array');
 			$checked = JRequest::getVar('checked',null,'','string');
 			
-			dump($checked,"Checked in controller");
-			
 			if($character_name == "") {
 				JError::raiseError(500,'Character name not given');
 			}
@@ -77,10 +75,21 @@ function __construct(){
 		}
 		
 		function delete() {
-			$characters = JRequest::getVar('characters',null,'','string');
+			$layout = JRequest::getVar('layout','default','','string');
+			$characters = JRequest::getVar('characters',null,'','array');
+			$ids = implode(',',$characters);
 			$model = $this->getModel('characters');
-			$model->setState('characters',$characters);
+			$model->setState('characters',$ids);
 			$model->delete();
+			
+			if($layout != 'ajax') {
+				$this->setRedirect('index.php?option=com_guilds&view=characters&layout='.$layout);
+			}
+			
+			$alertsHelper = new alertsHelper();
+			$alert = $alertsHelper->newAlert();
+			$alert->title = "Character(s) deleted.";
+			$alert->msg = "The character(s) were deleted successfully.";
 		}
 		
 		function display() {
@@ -90,9 +99,6 @@ function __construct(){
 			$model = $this->getModel('characters');
 			$view->setModel($model,true);
 			$view->setLayout($layout);
-			
-			$post = JRequest::get('post');
-			dump($post,"Post");
 			
 			// Depending on the model, we need to set the user to different values
 			switch($layout) {

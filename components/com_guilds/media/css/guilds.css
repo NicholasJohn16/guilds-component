@@ -1,14 +1,18 @@
 	/* Category Classes */
-.com-guilds-game {width:11%;}
-.com-guilds-class {width:6%;}
-.com-guilds-allegiance {width:12%;}
-.com-guilds-guild {width:15%;}
+/* Note: DIV width are measured inside the border and padding
+   SELECTs are measured outside the border and padding
+   Therefore, SELECT widths must include the padding and border width
+   to match a DIVs width */
+	
+.com-guilds-game {width:110px;}
+.com-guilds-class {width:80px;}
+.com-guilds-allegiance {width:115px;}
+.com-guilds-guild {width:140px;}
 
-select.com-guilds-game {width: 13%;}
-select.com-guilds-class {width: 8%;}
-select.com-guilds-allegiance {width: 14%;}
-select.com-guilds-guild {width: 17%;}
-
+select.com-guilds-game {width:121px;}
+select.com-guilds-class {width:91px;}
+select.com-guilds-allegiance {width:126px;}
+select.com-guilds-guild {width:151px;}
 
 	/* Navbar & Subnav */
 .navbar select {
@@ -18,10 +22,6 @@ select.com-guilds-guild {width: 17%;}
 	margin: 6px 2px 2px;
 	width:115px;
 	color:#CCCCCC;
-	}
-.navbar select:hover {
-	background-color:#FFFFFF;
-	color:#000000;
 	}
 .subnav {
     background-color: #EEEEEE;
@@ -38,7 +38,7 @@ select.com-guilds-guild {width: 17%;}
 }
 .subnav li {
 	line-height:30px;
-	padding: 4px 10px;
+	padding: 4px 5px;
 	font-weight:bold;
 	}
 .subnav .nav > li > a {
@@ -85,7 +85,7 @@ select.com-guilds-guild {width: 17%;}
 	background-color:#F0F0F0;
 	}
 .accordion-heading {
-	height:38px;
+	height:32px;
 	border-radius:4px 4px 0 0;
 	}
 .accordion-heading div {
@@ -93,13 +93,13 @@ select.com-guilds-guild {width: 17%;}
 	font-size: 13px;
     line-height: 22px;
     height:22px;
-    padding: 8px 10px;
+    padding: 4px 5px;
 	}
 .accordion-group select {
 	border:1px solid transparent;
 	background: inherit;
 	}
-.accordion-group select:hover {
+.accordion-heading select:hover {
 	border:1px solid #CCCCCC;
 	background-color:#FFFFFF;
 	}
@@ -159,11 +159,13 @@ text-align:center;
 	height:30px;
 	border-radius:0px;
 	padding:5px;
+	border-top:0 none;
+	border-right: 0 none;
+	border-bottom: 0 none;
+	background-color:transparent;
 	}
-.com-guilds-row select:hover {
-	border-top:1px solid #FFFFFF;
-	border-right:1px solid #FFFFFF;
-	border-bottom:1px solid #FFFFFF;
+.com-guilds-row select:hover option {
+	background-color:#FFFFFF;
 	}
 .com-guilds-row a {float:left;}
 .com-guilds-row img {float:right;line-height:18px;verticle-align:middle;height:16px;width:16px;}
@@ -176,6 +178,12 @@ text-align:center;
 .com-guilds-container div.com-guilds-row:last-child div:first-child {border-radius: 0 0 0 4px;}
 .com-guilds-container div.com-guilds-row:last-child div:last-child {border-radius: 0 0 4px 0;}
 
+.accordion-heading input {
+	margin-top:2px;
+	}
+.com-guilds-row {
+	
+	}
 	/*  Pagination */
 .com-guilds-pagination {
 	text-align:center !important;

@@ -9,14 +9,26 @@ $(document).ready(function() {
    // It is added 'on' the form and watches for propigation
    // this way, when new editable fields are added via the ajax
    // they are editable as well
-   $('form').on('dblclick','.editable',function(event){
+   $('#members-form').on('dblclick','div.editable',function(event){
 	   insertInput($(this));
+   });
+   
+   $('#members-form').on('change','select.editable',function(event){
+	  var update = $(this).attr('data-update');
+	  var id = $(this).parents('.com-guilds-row').attr('data-character');
+	  var value = $(this).val();
+	  console.log(update);
+	  console.log(id);
+	  console.log(value);
+	  $(this).addClass('com-guilds-ajax');
+	  postData(update,id,value);
+	  $(this).removeClass('com-guilds-ajax');
    });
    
    function insertInput(element) {
 	   var value = element.html();
 	   var width = element.width();
-	   var input = $('<input style="width:'+width+'px;margin:-3px;" type="text" value="'+value+'"/>');
+	   var input = $('<input style="width:'+width+'px;" type="text" value="'+value+'"/>');
 	   var field = $(element).attr('data-field');
 	   
 	   // To prvent another form being added
@@ -41,7 +53,6 @@ $(document).ready(function() {
 			   //If Enter is pressed, update the value
 			   } else if(event.keyCode == 13) {
 				   var new_value = $(this).val();
-				   
 				   var result = postData(field,new_value);
 				   
 				   if(result){
@@ -52,7 +63,6 @@ $(document).ready(function() {
 					   $(this).parent('.editable').append(value);
 					   alert("Uh oh! Looks like there was an error submitting that update!");
 				   }
-				   
 			   }
 			   //Make sure the popover is hidden
 			   $(this).popover('hide');
@@ -60,20 +70,23 @@ $(document).ready(function() {
 			  // editable($(this).parent('.editable'));
 			   //remove the input tag
 			   $(this).remove();
+			   element.css('padding','');
 		   };
 	   });
 		  
 	  element.contents().remove();
+	  element.css('padding','0px');
+	  element.css('width',width);
 	  element.append(input);	  
 	  element.children('input').focus();
    }
    
-   function postData(field,new_value) {
+   function postData(field,id,value) {
 	   var result;
 	   $.ajax({
 		   type:"POST",
 		   url:"index.php?option=com_guilds&view=characters&task=update&tmpl=component",
-		   data:'&field='+field+'&value='+new_value,
+		   data:'&field='+field+'&value='+value,
 		   success:function() {
 		   		console.log("Yes!  It was successful!!");
 		   		result = true;
@@ -188,19 +201,35 @@ $(document).ready(function() {
    });
    
    $('button[title="Delete Character(s)"]').click(function() {
+	    
 	   var user = $(this).attr('id').split('-')[1];
 	   var checkboxes = $('#characters-'+user+' .com-guilds-row input[type="checkbox"]:checked');
+	   
+	   // Make sure there are some characters selected
+	   if(checkboxes.length == 0 ) {
+		   alert("Oops, you don't have any characters selected.");
+		   return false;
+	   } else {
+		   // Make sure they acutally want to delete the characters
+		      
+		   var response = confirm("Are you sure?");
+		   // if Cancelled, stop the function from proceeding
+		   if(response == false) {
+			   return false;
+		   }
+	   }
+	   
 	   var characters = new Array();
 	   
 	   checkboxes.each(function(index,element) {
 		   characters.push($(element).val());
 	   });
-	   characters = characters.join(',');
+	   characters = characters.join('characters[],');
 	   
 	   $.ajax({
 		   type:"POST",
 		   url:"index.php",
-		   data:'option=com_guilds&view=characters&task=delete&tmpl=component&characters='+characters,
+		   data:'option=com_guilds&view=characters&task=delete&tmpl=component&layout=ajax&characters='+characters,
 		   success:function() {
 		   		refreshCharacters(user);
 	   	   }

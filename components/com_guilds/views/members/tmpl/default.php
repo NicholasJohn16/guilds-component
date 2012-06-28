@@ -49,7 +49,7 @@
 			<div style="width:70px;" class="editable date" id="appdate-<?php echo $member->id;?>"><?php echo ($member->appdate == NULL ? date('Y-m-d',strtotime($member->time)) : $member->appdate);?></div>
 			<div style="width:10%;" ><?php echo $member->status; ?></div>
 			<div style="width:106px;" class="editable" id="tbd-<?php echo $member->id;?>"><?php echo $member->tbd; ?></div>
-			<div style="width:20%;padding:5px 10px;">
+			<div style="width:20%;padding:2px 5px;">
 				<select id="rank-<?php echo $member->id; ?>" data-update="rank" style="width:200px;">
 					<?php foreach($this->ranks as $rank):?>
 						<option value="<?php echo $rank->id;?>" <?php if($member->rank_id == $rank->id){echo 'selected="selected"';}?>><?php echo $rank->title?></option>
@@ -147,6 +147,6 @@
 	<div style="clear:both"></div>
 	<div class="modal-footer" style="text-align:right;">
 		<button id="close" class="btn">Cancel</button>
-		<input type="submit" class="btn btn-primary" value="Save" />
+		<input type="submit" class="btn btn-primary" value="Add" />
 	</div>
 </form>
