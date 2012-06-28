@@ -12,22 +12,23 @@
 			dump($this->alerts,'alertsHelper was constructed.');
 		}
 		
-		function newAlert() {
-			$this->alert = new Alert();
+        // Example
+        // $buttons = array()
+        // $buttons[1]['text'] = 'Yay!';
+        // $buttons[1]['el'] = 'a';
+        // alertsHelper::alert(array('title'=>'Character(s) added.','msg'=>'The character(s) where successfully added.','class'=>'success'
+        // ,'buttons'=>array('text'=>'Yay!')));
+
+		static function alert($params) {
+			$this->alert = new Alert($params);
 			$this->alerts[] = $this->alert; 
 			$session =& JFactory::getSession();
 			$session->set('com_guilds_alerts',$alerts);
 			dump($this->alert,'a new alert was created.');
 			return $this->alert;
 		}
-		
-		function addButton() {
-			$button = new Button();
-			$this->alert->buttons[] = $button;
-			return $button;
-		}
-		
-	 	function displayAlerts() {
+				
+	 	static function display() {
 	 		foreach($this->alerts as $alert) {
 				$html  = '<div class="alert alert-block alert-'.$class.'">';
 				$html .= '<a class="close" data-dismis="alert" href="#">&times;</a>';
@@ -46,16 +47,20 @@
 	 		
 	 		$this->session->clear('com_guilds_alerts');
 	 		return $this->alerts;
-	 	}
-	 }
+		}
+	}
 	 
-	 class Alert extends JObject {
-	 	var $class = "info";
-	 	var $id = "";
-	 	var $title = "";
-	 	var $msg = "";
-	 	var $buttons = array();
-	 }
+	class Alert extends JObject {
+		var $class = "info";
+		var $id = "";
+		var $title = "";
+		var $msg = "";
+		var $buttons = array();
+		
+		function __construct($params) {
+			$this->buttons = new Buttons($params['buttons']);
+		}
+	}
 	 
 	 class Button extends JObject {
 	 	var $class = "primary";
@@ -63,4 +68,8 @@
 	 	var $el = "button";
 	 	var $link = "#";
 	 	var $text = "";
+        
+	    function __construct($params) {
+	    	$this->text = $params['text'];
+	    }
 	 }
