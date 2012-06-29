@@ -1,9 +1,6 @@
 <?php if(count($this->characters) == 0): ?>
-	<div class="alert alert-block com-guilds-container" style="margin-bottom:0;float:none;">
-		<a class="close" data-dismiss="alert" href="#">&times;</a>
-		<strong>Uh oh!</strong>  This user doesn't have any characters yet.  Click the <strong>Add Character</strong> button below to add one!
-	</div>
-<?php else:; ?>
+	<?php alertsHelper::display(); ?>
+<?php else: ?>
 <div class="com-guilds-container">
 	<div class="com-guilds-header">
 		<div style="width:4%;">ID</div>
@@ -36,6 +33,7 @@
 		<div style="width:2%"><?php echo $character->published; ?></div>
 	</div>
 	<?php endforeach; ?>
-	<?php dump($this->characters,"Characters");?>
 </div>
+<!-- Must be here to make sure that character list has proper bottom padding -->
+<div style="clear:both"></div>
 <?php endif; ?>
