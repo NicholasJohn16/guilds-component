@@ -22,8 +22,6 @@ function __construct(){
 		
 		/* Task Functions */
 		
-		
-		
 		function add() {
 			$user = JRequest::getVar('user',null,'','int');
 			$character_name = JRequest::getVar('character_name',null,'','string');
@@ -56,7 +54,6 @@ function __construct(){
 			$view->setModel($model,true);
 			$view->setLayout('ajax');
 			$view->display(); 
-			
 		}
 		
 		function edit() {
@@ -86,10 +83,8 @@ function __construct(){
 				$this->setRedirect('index.php?option=com_guilds&view=characters&layout='.$layout);
 			}
 			
-			$alertsHelper = new alertsHelper();
-			$alert = $alertsHelper->newAlert();
-			$alert->title = "Character(s) deleted.";
-			$alert->msg = "The character(s) were deleted successfully.";
+			$params = array('title'=>'Character(s) deleted.','msg'=>'The character(s) were deleted successfully','class'=>'success');
+			alertsHelper::alert($params);
 		}
 		
 		function display() {
