@@ -59,7 +59,7 @@
 		</div>
 		<div style="clear:both;"></div>
 		<div class="accordion-body collapse" id="accordion-body-<?php echo $member->id;?>">
-			<div id="characters-<?php echo $member->id;?>" class="character-list accordion-inner com-guilds-ajax" style="float:left;"></div>
+			<div id="characters-<?php echo $member->id;?>" class="com-guilds-characters accordion-inner com-guilds-ajax"></div>
 			<div style="clear:both"></div>
 			<div class="accordion-footing">
 				<div class="accordion-inner">
