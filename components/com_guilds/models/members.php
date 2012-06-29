@@ -70,7 +70,6 @@
 	    	$groupBy = ' GROUP BY id ';
 	    	$orderBy = $this->buildOrderBy();
 			$query = $select.$where.$groupBy.$orderBy;
-			dump($query);
 	    	return $query;
 	    }
     
@@ -156,7 +155,6 @@
 	    }
 	    function getMember() {
 	    	$id = $this->getState('id');
-	    	dump($id);
 	    }
     
 		function getMembers() {
@@ -177,8 +175,6 @@
 		        $this->members = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		        
 		    }
-
-		    dump($this->members);
 		    return $this->members;
 		}
 	

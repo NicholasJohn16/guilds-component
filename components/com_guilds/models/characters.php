@@ -235,8 +235,6 @@
 	  		$query = 'INSERT INTO #__char_characters '
 	  			. '(`user_id`, `name`, `checked`,`published`,'.implode(',',$category_names).')'
 	  			. ' VALUES ('.$user.',"'.$character_name.'",'.$checked.',1,'.implode(',',$category_values).')';
-	  			
-	  		dump($query);
 	  		$db->setQuery($query);
 	  		if(!$db->query()) {
 	  			JError::raiserError(500,'Character add failed!');
