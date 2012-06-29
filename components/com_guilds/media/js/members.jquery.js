@@ -117,7 +117,6 @@ $(document).ready(function() {
    });
    
    function getCharactersByUserId(id){
-	   
 	   $.get('index.php',{
 		   option:'com_guilds',
 		   view:'characters',
@@ -126,7 +125,6 @@ $(document).ready(function() {
 		   layout:'ajax',
 		   tmpl:'component',
 		   user:id
-		   
 	   },
 	   function(data){
 		   var html = $(data);

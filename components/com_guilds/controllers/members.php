@@ -43,12 +43,6 @@ class GuildsControllerMembers extends JController {
 		$model->getRanks();
 	}
 	
-	function test(){
-		JLoader::import('characters',JPATH_BASE.DS.'components'.DS.'com_guilds'.DS.'models');
-		$model = JModel::getInstance('characters','GuildsModel');
-		dump($model);
-	}
-	
 	function edit() {
 		$id = JRequest::getVar('user_id',null,'','int');
 		
