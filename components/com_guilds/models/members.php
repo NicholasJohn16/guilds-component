@@ -177,6 +177,18 @@
 		    }
 		    return $this->members;
 		}
+		
+		function getTypeahead() {
+			$query = 'SELECT id,username,"User"
+						FROM jos_users
+						WHERE lower(username) LIKE \'%john%\'
+						UNION
+						SELECT user_id,value,"Handle"
+						FROM jos_community_fields_values
+						WHERE field_id = 29 AND
+						lower(value) LIKE \'%john%\'';
+			
+		}
 	
 		function getTotal() {
 		 	// Load the content if it doesn't already exist

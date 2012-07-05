@@ -1,90 +1,89 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <form id="members-form">
-<div class="navbar">
-	<div class="navbar-inner">
-		<div class="container" style="width:100%">
-			<a class="brand" href="#">Members</a>
-			<div class="navbar-search pull-left">
-    			<input type="text" name="search" class="search-query" placeholder="Search" value="<?php echo $this->search; ?>">
-    		</div>
-    		<button class="btn btn-inverse btn-small" type="submit">Submit</button>
-    		<button class="btn btn-inverse btn-small" type="reset">Reset</button>
-    		<ul class="nav pull-right">
-    			<li><a data-target="#character-form" data-toggle="modal" title="Add Character" href="#">Add Character</a></li>
-    		</ul>
-		</div>
-	</div>
-</div>
-<div class="subnav" style="margin-bottom:5px;">
-	<ul class="nav nav-pills">
-		<li style="width:3%;"><?php echo $this->sortable("#","id");?></li>
-		<li style="width:20%;"><?php echo $this->sortable("Username");?></li>
-		<li style="width:135px;"><?php echo $this->sortable("@Handle","value");?></li>
-		<li style="width:70px;"><?php echo $this->sortable("Intro Date","appdate");?></li>
-		<li style="width:10%;"><?php echo $this->sortable("Status");?></li>
-		<li style="width:106px;"><?php echo $this->sortable("TBD");?></li>
-		<li style="width:20%;"><?php echo $this->sortable("Forum Rank","rank_title");?></li>
-	</ul>
-</div>
-<div class="accordion">
-	<?php
-		$i = 0; 
-		foreach($this->members AS &$member):
-	?>
-	<div class="accordion-group" id="<?php echo $member->id; ?>">
-		<div class="accordion-heading">
-			<div style="width:3%;text-align:right;"><?php echo $member->id; //$i+1+$this->pagination->limitstart; ?></div>
-				<div style="width:20%;">
-					<a href="index.php?option=com_guilds&view=members&task=edit&user_id=<?php echo $member->id; ?>">
-						<?php echo $member->username; ?>
-					</a>
-					<button id="characterstoggle-<?php echo $member->id?>" class="btn btn-mini action" data-toggle="collapse" data-target="#accordion-body-<?php echo $member->id;?>" style="float:right;margin-left:2px;" title="Character(s)">
-						<img style="height:16px;width:16px;" src="components/com_guilds/media/img/contacts.png"/>	
-					</button>
-					<a class="btn btn-mini" style="float:right;height:16px;width:16px;" target="_blank" title="Profile" href="index.php?option=com_community&view=profile&userid=<?php echo $member->id; ?>">
-						<img src="components/com_guilds/media/img/contact.png"/>
-					</a>
-				</div>
-			<div style="width:135px;" class="editable" id="handle-<?php echo $member->id;?>"><?php echo $member->id; ?></div>
-			<div style="width:70px;" class="editable date" id="appdate-<?php echo $member->id;?>"><?php echo ($member->appdate == NULL ? date('Y-m-d',strtotime($member->time)) : $member->appdate);?></div>
-			<div style="width:10%;" ><?php echo $member->status; ?></div>
-			<div style="width:106px;" class="editable" id="tbd-<?php echo $member->id;?>"><?php echo $member->tbd; ?></div>
-			<div style="width:20%;padding:2px 5px;">
-				<select id="rank-<?php echo $member->id; ?>" data-update="rank" style="width:200px;">
-					<?php foreach($this->ranks as $rank):?>
-						<option value="<?php echo $rank->id;?>" <?php if($member->rank_id == $rank->id){echo 'selected="selected"';}?>><?php echo $rank->title?></option>
-					<?php endforeach; ?>
-				</select>
+	<div class="navbar">
+		<div class="navbar-inner">
+			<div class="container" style="width:100%">
+				<a class="brand" href="#">Members</a>
+				<div class="navbar-search pull-left">
+	    			<input type="text" name="search" class="search-query" placeholder="Search" value="<?php echo $this->search; ?>">
+	    		</div>
+	    		<button class="btn btn-inverse btn-small" type="submit">Submit</button>
+	    		<button class="btn btn-inverse btn-small" type="reset">Reset</button>
+	    		<ul class="nav pull-right">
+	    			<li><a data-target="#character-form" data-toggle="modal" title="Add Character" href="#">Add Character</a></li>
+	    		</ul>
 			</div>
 		</div>
-		<div style="clear:both;"></div>
-		<div class="accordion-body collapse" id="accordion-body-<?php echo $member->id;?>">
-			<div id="characters-<?php echo $member->id;?>" class="com-guilds-characters accordion-inner com-guilds-ajax"></div>
-			<div style="clear:both"></div>
-			<div class="accordion-footing">
-				<div class="accordion-inner">
-					<div class="btn-group">
-						<a class="btn" title="Add Character" href="index.php?option=com_guilds&view=character&task=add&id=<?php echo $member->id;?>" data-toggle="modal" data-target="#character-form" data-user="<?php echo $member->id; ?>" data-username="<?php echo $member->username; ?>">
-							<i class="icon-plus"></i>
+	</div>
+	<div class="subnav" style="margin-bottom:5px;">
+		<ul class="nav nav-pills">
+			<li style="width:3%;"><?php echo $this->sortable("#","id");?></li>
+			<li style="width:20%;"><?php echo $this->sortable("Username");?></li>
+			<li style="width:135px;"><?php echo $this->sortable("@Handle","value");?></li>
+			<li style="width:70px;"><?php echo $this->sortable("Intro Date","appdate");?></li>
+			<li style="width:10%;"><?php echo $this->sortable("Status");?></li>
+			<li style="width:106px;"><?php echo $this->sortable("TBD");?></li>
+			<li style="width:20%;"><?php echo $this->sortable("Forum Rank","rank_title");?></li>
+		</ul>
+	</div>
+	<div class="accordion">
+		<?php
+			$i = 0; 
+			foreach($this->members AS &$member):
+		?>
+		<div class="accordion-group" id="<?php echo $member->id; ?>">
+			<div class="accordion-heading">
+				<div style="width:3%;text-align:right;"><?php echo $member->id; //$i+1+$this->pagination->limitstart; ?></div>
+					<div style="width:20%;">
+						<a href="index.php?option=com_guilds&view=members&task=edit&user_id=<?php echo $member->id; ?>">
+							<?php echo $member->username; ?>
 						</a>
-						<button class="btn action" title="Delete Character(s)" id="delete-<?php echo $member->id;?>"><i class="icon-remove"></i></button>
-						<button class="btn action" title="Refresh Characters" id="refresh-<?php echo $member->id;?>"><i class="icon-refresh"></i></button>
-					</div>	
+						<button id="characterstoggle-<?php echo $member->id?>" class="btn btn-mini action" data-toggle="collapse" data-target="#accordion-body-<?php echo $member->id;?>" style="float:right;margin-left:2px;" title="Character(s)">
+							<img style="height:16px;width:16px;" src="components/com_guilds/media/img/contacts.png"/>	
+						</button>
+						<a class="btn btn-mini" style="float:right;height:16px;width:16px;" target="_blank" title="Profile" href="index.php?option=com_community&view=profile&userid=<?php echo $member->id; ?>">
+							<img src="components/com_guilds/media/img/contact.png"/>
+						</a>
+					</div>
+				<div style="width:135px;" class="editable" id="handle-<?php echo $member->id;?>"><?php echo $member->id; ?></div>
+				<div style="width:70px;" class="editable date" id="appdate-<?php echo $member->id;?>"><?php echo ($member->appdate == NULL ? date('Y-m-d',strtotime($member->time)) : $member->appdate);?></div>
+				<div style="width:10%;" ><?php echo $member->status; ?></div>
+				<div style="width:106px;" class="editable" id="tbd-<?php echo $member->id;?>"><?php echo $member->tbd; ?></div>
+				<div style="width:20%;padding:2px 5px;">
+					<select id="rank-<?php echo $member->id; ?>" data-update="rank" style="width:200px;">
+						<?php foreach($this->ranks as $rank):?>
+							<option value="<?php echo $rank->id;?>" <?php if($member->rank_id == $rank->id){echo 'selected="selected"';}?>><?php echo $rank->title?></option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+			</div>
+			<div style="clear:both;"></div>
+			<div class="accordion-body collapse" id="accordion-body-<?php echo $member->id;?>">
+				<div id="characters-<?php echo $member->id;?>" class="com-guilds-characters accordion-inner com-guilds-ajax"></div>
+				<div style="clear:both"></div>
+				<div class="accordion-footing">
+					<div class="accordion-inner">
+						<div class="btn-group">
+							<a class="btn" title="Add Character" href="index.php?option=com_guilds&view=character&task=add&id=<?php echo $member->id;?>" data-toggle="modal" data-target="#character-form" data-user="<?php echo $member->id; ?>" data-username="<?php echo $member->username; ?>">
+								<i class="icon-plus"></i>
+							</a>
+							<button class="btn action" title="Delete Character(s)" id="delete-<?php echo $member->id;?>"><i class="icon-remove"></i></button>
+							<button class="btn action" title="Refresh Characters" id="refresh-<?php echo $member->id;?>"><i class="icon-refresh"></i></button>
+						</div>	
+					</div>
 				</div>
 			</div>
 		</div>
-		
+		<?php
+			$i++;
+			endforeach;
+		?>
+		<input type="hidden" name="option" value="com_guilds"/>
+		<input type="hidden" name="view" value="members"/>
+		<input type="hidden" name="limitstart" value="<?php echo $this->pagination->limitstart;?>"/>
+		<input type="hidden" name="order" value="<?php echo $this->order; ?>" />
+		<input type="hidden" name="direction" value="<?php echo $this->direction; ?>" />
 	</div>
-	<?php
-		$i++;
-		endforeach;
-	?>
-	<input type="hidden" name="option" value="com_guilds"/>
-	<input type="hidden" name="view" value="members"/>
-	<input type="hidden" name="limitstart" value="<?php echo $this->pagination->limitstart;?>"/>
-	<input type="hidden" name="order" value="<?php echo $this->order; ?>" />
-	<input type="hidden" name="direction" value="<?php echo $this->direction; ?>" />
-</div>
 	<!--<span style="float:left"><?php echo $this->pagination->getPagesCounter();?></span> -->
 	<div style="clear:both"></div>
 	<?php echo $this->pagination();?>

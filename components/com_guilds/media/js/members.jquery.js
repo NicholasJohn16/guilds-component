@@ -28,7 +28,7 @@ $(document).ready(function() {
    function insertInput(element) {
 	   var value = element.html();
 	   var width = element.width();
-	   var input = $('<input style="width:'+width+'px;" type="text" value="'+value+'"/>');
+	   var input = $('<input style="width:90%; type="text" value="'+value+'"/>');
 	   var field = $(element).attr('data-field');
 	   
 	   // To prvent another form being added
@@ -70,13 +70,13 @@ $(document).ready(function() {
 			  // editable($(this).parent('.editable'));
 			   //remove the input tag
 			   $(this).remove();
-			   element.css('padding','');
+			   //element.css('padding','');
 		   };
 	   });
 		  
 	  element.contents().remove();
-	  element.css('padding','0px');
-	  element.css('width',width);
+	  //element.css('padding','0px 5px');
+	  //element.css('width','90%');
 	  element.append(input);	  
 	  element.children('input').focus();
    }

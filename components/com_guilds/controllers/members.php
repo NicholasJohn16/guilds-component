@@ -20,6 +20,11 @@ jimport('joomla.application.component.controller');
 class GuildsControllerMembers extends JController {
 	
 	function __construct() {
+		
+		global $mainframe;
+		$user =& JFactory::getUser();
+		if($user->guest){$mainframe->redirect('index.php?option=com_user&view=login');}
+		
 		parent::__construct();
 	
 	} 

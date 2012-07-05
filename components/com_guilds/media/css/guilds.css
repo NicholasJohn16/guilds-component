@@ -119,9 +119,6 @@ select.com-guilds-guild {width:151px;}
 	border-left:1px solid #DDDDDD;
 	border-right:1px solid #DDDDDD;
 	}
-.com-guilds-header input,.com-guilds-row input {
-	margin:5px 3px !important;
-	}
 .com-guilds-header{
     background-color: #EEEEEE;
     background-image: -moz-linear-gradient(center top , #F5F5F5 0%, #EEEEEE 100%);
@@ -164,7 +161,7 @@ text-align:center;
 	border-bottom: 0 none;
 	background-color:transparent;
 	}
-.com-guilds-row select:hover option {
+.com-guilds-row select:hover {
 	background-color:#FFFFFF;
 	}
 .com-guilds-row a {float:left;}
@@ -179,10 +176,10 @@ text-align:center;
 .com-guilds-container div.com-guilds-row:last-child div:last-child {border-radius: 0 0 4px 0;}
 
 .accordion-heading input {
-	margin-top:2px;
+	margin-top:-2px;
 	}
-.com-guilds-row {
-	
+.com-guilds-row input {
+	height:14px;
 	}
 	/*  Pagination */
 .com-guilds-pagination {
@@ -251,3 +248,7 @@ text-align:center;
 	background-repeat:no-repeat;
 	width:100%;
 	}
+	
+[class*="span"] {
+    float: left !important;
+}
