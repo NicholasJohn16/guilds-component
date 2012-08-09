@@ -32,10 +32,9 @@
 			<div class="control-group">
 				<label class="control-label" for="checked">Last Checked</label>
 				<div class="controls">
-					<div class="input-append">
-						
+					<div class="input-append date" data-date="<?php echo $this->character->checked;?>" id="datepicker">
 						<input type="text" name="checked" value="<?php echo $this->character->checked; ?>"/>
-						<button class="btn" type="button" style="height:28px;margin-left:-4px;"><i class="icon-calendar"></i></button>
+						<span class="btn add-on" style="margin-left:-4px;"><i class="icon-calendar"></i></span>
 					</div>
 				</div>
 			</div>
