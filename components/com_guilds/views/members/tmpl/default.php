@@ -31,26 +31,26 @@
 			$i = 0; 
 			foreach($this->members AS &$member):
 		?>
-		<div class="accordion-group" id="<?php echo $member->id; ?>">
+		<div class="accordion-group" data-user="<?php echo $member->id; ?>">
 			<div class="accordion-heading">
 				<div style="width:3%;text-align:right;"><?php echo $member->id; //$i+1+$this->pagination->limitstart; ?></div>
 					<div style="width:20%;">
 						<a href="index.php?option=com_guilds&view=members&task=edit&user_id=<?php echo $member->id; ?>">
 							<?php echo $member->username; ?>
 						</a>
-						<button id="characterstoggle-<?php echo $member->id?>" class="btn btn-mini action" data-toggle="collapse" data-target="#accordion-body-<?php echo $member->id;?>" style="float:right;margin-left:2px;" title="Character(s)">
+						<button class="btn btn-mini action" data-toggle="collapse" data-target="#accordion-body-<?php echo $member->id;?>" style="float:right;margin-left:2px;" title="Character(s)">
 							<img style="height:16px;width:16px;" src="components/com_guilds/media/img/contacts.png"/>	
 						</button>
 						<a class="btn btn-mini" style="float:right;height:16px;width:16px;" target="_blank" title="Profile" href="index.php?option=com_community&view=profile&userid=<?php echo $member->id; ?>">
 							<img src="components/com_guilds/media/img/contact.png"/>
 						</a>
 					</div>
-				<div style="width:135px;" class="editable" id="handle-<?php echo $member->id;?>"><?php echo $member->id; ?></div>
-				<div style="width:70px;" class="editable date" id="appdate-<?php echo $member->id;?>"><?php echo ($member->appdate == NULL ? date('Y-m-d',strtotime($member->time)) : $member->appdate);?></div>
-				<div style="width:10%;" ><?php echo $member->status; ?></div>
-				<div style="width:106px;" class="editable" id="tbd-<?php echo $member->id;?>"><?php echo $member->tbd; ?></div>
+				<div style="width:135px;" class="editable" data-update="handle"><?php echo $member->handle?></div>
+				<div style="width:70px;" class="editable date" data-update="checked"><?php echo ($member->appdate == NULL ? date('Y-m-d',strtotime($member->time)) : $member->appdate);?></div>
+				<div style="width:10%;"><?php echo $member->status; ?></div>
+				<div style="width:106px;" class="editable" data-update="tbd"><?php echo $member->tbd; ?></div>
 				<div style="width:20%;padding:2px 5px;">
-					<select id="rank-<?php echo $member->id; ?>" data-update="rank" style="width:200px;">
+					<select data-update="rank" class="editable" style="width:200px;">
 						<?php foreach($this->ranks as $rank):?>
 							<option value="<?php echo $rank->id;?>" <?php if($member->rank_id == $rank->id){echo 'selected="selected"';}?>><?php echo $rank->title?></option>
 						<?php endforeach; ?>
@@ -67,8 +67,8 @@
 							<a class="btn" title="Add Character" href="index.php?option=com_guilds&view=character&task=add&id=<?php echo $member->id;?>" data-toggle="modal" data-target="#character-form" data-user="<?php echo $member->id; ?>" data-username="<?php echo $member->username; ?>">
 								<i class="icon-plus"></i>
 							</a>
-							<button class="btn action" title="Delete Character(s)" id="delete-<?php echo $member->id;?>"><i class="icon-remove"></i></button>
-							<button class="btn action" title="Refresh Characters" id="refresh-<?php echo $member->id;?>"><i class="icon-refresh"></i></button>
+							<button class="btn action" title="Delete Character(s)"><i class="icon-remove"></i></button>
+							<button class="btn action" title="Refresh Characters"><i class="icon-refresh"></i></button>
 						</div>	
 					</div>
 				</div>

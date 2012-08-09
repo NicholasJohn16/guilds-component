@@ -5,6 +5,11 @@ $(document).ready(function() {
 	   event.preventDefault();
    });
    
+   $('body').on('click','select',function(event){
+	  $.data($(this),'original',$(this).val()); 
+	  console.log("I was clicked!");
+   });
+   
    // Add in editable behavoir
    // It is added 'on' the form and watches for propigation
    // this way, when new editable fields are added via the ajax
@@ -15,14 +20,26 @@ $(document).ready(function() {
    
    $('#members-form').on('change','select.editable',function(event){
 	  var update = $(this).attr('data-update');
-	  var id = $(this).parents('.com-guilds-row').attr('data-character');
+	  var user = $(this).parents('.accordion-group').attr('data-user');
+	  var character = $(this).parents('.com-guilds-row').attr('data-character');
 	  var value = $(this).val();
-	  console.log(update);
-	  console.log(id);
-	  console.log(value);
-	  $(this).addClass('com-guilds-ajax');
-	  postData(update,id,value);
-	  $(this).removeClass('com-guilds-ajax');
+	  // if the character is undefined, we know we're working with the user
+	  // otherwise were working with the user and set the id appropriately
+	  var id = (character == undefined) ? user : character;
+	  var view = (character == undefined) ? "members" : "characters";
+	  var original = $.data($(this),'original');
+	  console.log(original,"Original value");
+	  $.ajax({
+		  type:"POST",
+		  url:"index.php?option=com_guilds&view="+view+"&task=update&tmpl=component",
+	  	  data:"&id="+id+"&value="+value,
+	  	  success:function(){
+		  	$(this).val(value);
+	  	  },
+	  	  error:function(){
+	  		  
+	  	  }
+	  });
    });
    
    function insertInput(element) {
@@ -66,37 +83,31 @@ $(document).ready(function() {
 			   }
 			   //Make sure the popover is hidden
 			   $(this).popover('hide');
-			   //Make the editable div editable again
-			  // editable($(this).parent('.editable'));
 			   //remove the input tag
 			   $(this).remove();
-			   //element.css('padding','');
 		   };
 	   });
 		  
 	  element.contents().remove();
-	  //element.css('padding','0px 5px');
-	  //element.css('width','90%');
 	  element.append(input);	  
 	  element.children('input').focus();
    }
    
    function postData(field,id,value) {
-	   var result;
 	   $.ajax({
 		   type:"POST",
 		   url:"index.php?option=com_guilds&view=characters&task=update&tmpl=component",
 		   data:'&field='+field+'&value='+value,
 		   success:function() {
 		   		console.log("Yes!  It was successful!!");
-		   		result = true;
+		   		var result = true;
 	   	   }
 	   });
 	   return result;
    }
    
    $('.accordion-body').on('shown',function(){
-		   var user = $(this).parent('.accordion-group').attr('id');
+		   var user = $(this).parent('.accordion-group').attr('data-user');
 		   
 		   if($('#characters-'+user).html() == "") {
 			   getCharactersByUserId(user);
@@ -109,9 +120,10 @@ $(document).ready(function() {
 	   getCharactersByUserId(user);
    }
    
-   $('button[id^=refresh]').each(function(){
+   $('button[title="Refresh Characters"]').each(function(){
 	   $(this).click(function(event){
-		   var user = $(this).attr('id').split('-')[1];
+		   var user = $(this).parents('.accordion-group').attr('data-user');
+		   console.log(user);
 		   refreshCharacters(user);
 	   });
    });
@@ -200,7 +212,7 @@ $(document).ready(function() {
    
    $('button[title="Delete Character(s)"]').click(function() {
 	    
-	   var user = $(this).attr('id').split('-')[1];
+	   var user = $(this).parents('.accordion-group').attr('data-user');
 	   var checkboxes = $('#characters-'+user+' .com-guilds-row input[type="checkbox"]:checked');
 	   
 	   // Make sure there are some characters selected
