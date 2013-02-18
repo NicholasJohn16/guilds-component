@@ -76,7 +76,7 @@
 		
 		function getCategories(){
 			if(empty($this->categories)){
-				$db =& JFactory::getDBO();
+				$db = JFactory::getDBO();
 				//$query = " SELECT * FROM #__char_categories WHERE published = 1 ORDER BY ordering ";
 				$query = " SELECT * FROM jos_char_categories LEFT JOIN (SELECT parent as id2, group_concat(id) as children FROM jos_char_categories GROUP BY parent) A ON (jos_char_categories.id = A.id2) WHERE published = 1 ORDER BY ordering ";
 				$db->setQuery($query);
@@ -85,6 +85,16 @@
 			
 			return $this->categories;
 		}
+                
+                function getCategoriesByType($type) {
+                    if(empty($this->categoriesByType)) {
+                        $db = JFactory::getDBO();
+                        $query = " SELECT * FROM jos_char_categories LEFT JOIN (SELECT parent as id2, group_concat(id) as children FROM jos_char_categories GROUP BY parent) A ON (jos_char_categories.id = A.id2) WHERE published = 1 AND type LIKE ".$db->quote($type)." ORDER BY ordering ";
+                        $db->setQuery($query);
+                        $this->categoriesByType = $db->loadObjectList();
+                    }
+                    return $this->categoriesByType;
+                }
 		
 		function buildQuery() {
 			$select = $this->buildSelect();

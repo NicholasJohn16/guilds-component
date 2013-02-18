@@ -4,15 +4,10 @@
    Therefore, SELECT widths must include the padding and border width
    to match a DIVs width */
 	
-.com-guilds-game {width:110px;}
+/*.com-guilds-game {width:110px;}
 .com-guilds-class {width:80px;}
 .com-guilds-allegiance {width:115px;}
-.com-guilds-guild {width:140px;}
-
-select.com-guilds-game {width:121px;}
-select.com-guilds-class {width:91px;}
-select.com-guilds-allegiance {width:126px;}
-select.com-guilds-guild {width:151px;}
+.com-guilds-guild {width:140px;}*/
 
 	/* Navbar & Subnav */
 .navbar select {
@@ -91,9 +86,9 @@ select.com-guilds-guild {width:151px;}
 .accordion-heading div {
 	float:left;
 	font-size: 13px;
-    line-height: 22px;
-    height:22px;
-    padding: 4px 5px;
+        line-height: 22px;
+        height:22px;
+        padding: 4px 5px;
 	}
 .accordion-group select {
 	border:1px solid transparent;
@@ -107,7 +102,66 @@ select.com-guilds-guild {width:151px;}
 	border-radius:0 0 4px 4px;
 	}
 
-  /* Table Styling */ 
+  /* Table Styling */
+    .com-guilds.container-fluid {
+        padding:0px;
+        border-radius: 4px;
+        -moz-border-bottom-colors: none;
+        -moz-border-left-colors: none;
+        -moz-border-right-colors: none;
+        -moz-border-top-colors: none;
+        border-collapse: separate;
+        border-color: #DDDDDD #DDDDDD #DDDDDD -moz-use-text-color;
+        border-image: none;
+        border-radius: 4px 4px 4px 4px;
+        border-style: solid solid solid none;
+        border-width: 1px 1px 1px 0;
+    }
+  .com-guilds div.header {
+      background-color: #EEEEEE;
+      background-image: -moz-linear-gradient(center top , #F5F5F5 0%, #EEEEEE 100%);
+      background-repeat: repeat-x;
+      font-weight: bold;
+      text-align:center;
+      border-top:none;
+  }
+  .com-guilds .row-fluid {
+      border-top:1px solid #DDDDDD;
+  }
+  .com-guilds .row-fluid [class*="span"] {
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space: nowrap;
+      border-left:1px solid #DDDDDD;
+      padding:8px;
+      margin-left:0px;
+      height:36px;
+  }
+  .com-guilds .row-fluid:nth-child(2n+1) {
+      background-color:#F9F9F9;
+  }
+  .com-guilds div.com-guilds-class,.com-guilds div.com-guilds-allegiance {
+      width:6.38298%;  
+  }
+  .com-guilds .header:hover {
+      background-color:none;
+  }
+  .com-guilds .row-fluid {
+      overflow:hidden;
+      text-overflow:ellipsis;
+      line-height: 18px;
+  }
+  .com-guilds .row-fluid:hover {
+      background-color:#F5F5F5;
+  }
+  .com-guilds .row-fluid:first-child {
+      border-radius: 4px 4px 0 0;
+  }
+  .com-guilds .row-fluid:last-child {
+      border-radius: 0 0 4px 4px;
+  }
+  
+  
 .com-guilds-container {
 	float:left;
 	width:100%;
@@ -251,4 +305,7 @@ text-align:center;
 	
 [class*="span"] {
     float: left !important;
+}
+.badge {
+    line-height: inherit !important;
 }

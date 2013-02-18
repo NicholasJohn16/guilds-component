@@ -1,5 +1,5 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
-<form id="members-form">
+<form id="members-form" class="fluid-container">
 	<div class="navbar">
 		<div class="navbar-inner">
 			<div class="container" style="width:100%">
@@ -17,13 +17,12 @@
 	</div>
 	<div class="subnav" style="margin-bottom:5px;">
 		<ul class="nav nav-pills">
-			<li style="width:3%;"><?php echo $this->sortable("#","id");?></li>
-			<li style="width:20%;"><?php echo $this->sortable("Username");?></li>
-			<li style="width:135px;"><?php echo $this->sortable("@Handle","value");?></li>
-			<li style="width:70px;"><?php echo $this->sortable("Intro Date","appdate");?></li>
-			<li style="width:10%;"><?php echo $this->sortable("Status");?></li>
-			<li style="width:106px;"><?php echo $this->sortable("TBD");?></li>
-			<li style="width:20%;"><?php echo $this->sortable("Forum Rank","rank_title");?></li>
+			<li class="span1"><?php echo $this->sortable("#","id");?></li>
+			<li class="span3"><?php echo $this->sortable("Username");?></li>
+			<li class="span2"><?php echo $this->sortable("@Handle","value");?></li>
+			<li class="span2"><?php echo $this->sortable("Introduction","appdate");?></li>
+			<li class="span2"><?php echo $this->sortable("Status");?></li>
+			<li class="span3"><?php echo $this->sortable("Forum Rank","rank_title");?></li>
 		</ul>
 	</div>
 	<div class="accordion">
@@ -31,11 +30,11 @@
 			$i = 0; 
 			foreach($this->members AS &$member):
 		?>
-		<div class="accordion-group" data-user="<?php echo $member->id; ?>">
+		<div class="accordion-group fluid-row" style="margin-left:0px;" data-user="<?php echo $member->id; ?>">
 			<div class="accordion-heading">
-				<div style="width:3%;text-align:right;"><?php echo $member->id; //$i+1+$this->pagination->limitstart; ?></div>
-					<div style="width:20%;">
-						<a href="index.php?option=com_guilds&view=members&task=edit&user_id=<?php echo $member->id; ?>">
+				<div class="span1"><span class="badge badge-inverse"><?php echo $member->id;?></span></div>
+					<div class="span3">
+						<a href="index.php?option=com_guilds&view=members&user_id=<?php echo $member->id; ?>&task=edit">
 							<?php echo $member->username; ?>
 						</a>
 						<button class="btn btn-mini action" data-toggle="collapse" data-target="#accordion-body-<?php echo $member->id;?>" style="float:right;margin-left:2px;" title="Character(s)">
@@ -45,17 +44,10 @@
 							<img src="components/com_guilds/media/img/contact.png"/>
 						</a>
 					</div>
-				<div style="width:135px;" class="editable" data-update="handle"><?php echo $member->handle?></div>
-				<div style="width:70px;" class="editable date" data-update="checked"><?php echo ($member->appdate == NULL ? date('Y-m-d',strtotime($member->time)) : $member->appdate);?></div>
-				<div style="width:10%;"><?php echo $member->status; ?></div>
-				<div style="width:106px;" class="editable" data-update="tbd"><?php echo $member->tbd; ?></div>
-				<div style="width:20%;padding:2px 5px;">
-					<select data-update="rank" class="editable" style="width:200px;">
-						<?php foreach($this->ranks as $rank):?>
-							<option value="<?php echo $rank->id;?>" <?php if($member->rank_id == $rank->id){echo 'selected="selected"';}?>><?php echo $rank->title?></option>
-						<?php endforeach; ?>
-					</select>
-				</div>
+				<div class="editable handle span2" data-pk="<?php echo $member->id; ?>"><?php echo $member->handle?></div>
+				<div class="editable intro span2" data-pk="<?php echo $member->id; ?>"><?php echo ($member->appdate == NULL ? date('Y-m-d',strtotime($member->time)) : $member->appdate);?></div>
+				<div class="span2"><?php echo $member->status; ?></div>
+				<div class="editable rank span3" data-pk="<?php echo $member->id;?>" data-value="<?php echo $member->rank_id;?>"><?php echo $member->rank_title;?></div>
 			</div>
 			<div style="clear:both;"></div>
 			<div class="accordion-body collapse" id="accordion-body-<?php echo $member->id;?>">
@@ -100,7 +92,8 @@
 		<div class="control-group">
 			<label class="control-label" for="username">User</label>
 			<div class="controls">
-				<input type="text" name="user" value=""/>
+				<input type="text" name="username" id="username" value=""/>
+                                <input type="hidden" name="user" id="user"/>
 			</div>
 		</div>
 		<div class="control-group">
@@ -110,14 +103,11 @@
 			</div>	
 		</div>
 		<div class="control-group">
-			<label class="control-label" for="checked">Checked</label>
-			<div class="controls">
-				<div class="input-append">
-					<input type="text" name="checked" id="checked" value=""/>
-					<button class="btn" type="button" style="height:28px;margin-left:-4px;"><i class="icon-calendar"></i></button>
-				</div>
-			</div>
-		</div>
+                    <label class="control-label" for="checked">Checked</label>
+                    <div class="controls">
+                        <input size="16" type="text" value="" id="date">
+                    </div>
+                </div>
 	</fieldset>
 	<fieldset style="float:left;border:0 none;padding:0;margin:0;">
 		<legend>Categories</legend>
@@ -149,3 +139,4 @@
 		<input type="submit" class="btn btn-primary" value="Add" />
 	</div>
 </form>
+<div class="notifications bottom-right">&nbsp;</div>

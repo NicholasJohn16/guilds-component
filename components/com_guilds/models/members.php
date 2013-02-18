@@ -241,7 +241,7 @@
 	  		return $this->handles;
 	  	}
 	  	
-	  	function getForumsRanks() {
+	  	function getForumRanks() {
 	  		$users = $this->getState($users);
 
 	  		if(empty($this->forumRanks)) {
@@ -258,20 +258,42 @@
 	  	
 	  	}
   	
-	  	function updateHandle($new_handle,$user_id){
-	  		$db =& JFactory::getDBO();
-	  		$query = " UPDATE ". $db->nameQuote('#__community_fields_values')
-	  				." SET value = ". $db->quote($new_handle)
-	  				." WHERE ".$db->nameQuote('field_id')." = ". $db->quote('29')
-	  				." AND ".$db->nameQuote('user_id')." = " . $db->quote($user_id);
-	  		$db->setQuery($query);
-	  		$db->query();
-	  	}
+    function update($field,$id,$value){
+        $db =& JFactory::getDBO();
+
+        switch($field) {
+            case "forum_rank":
+                $query = " UPDATE " . $db->nameQuote('#__kunena_users')
+                        . " SET rank = " . $db->quote($value) 
+                        . " WHERE userid  = " . $db->quote($id);
+                break;
+            case "appdate":
+                $query = " UPDATE " . $db->nameQuote('#__guilds_members');
+                if($value) {
+                    $query .= " SET appdate = " . $db->quote($value);
+                } else {
+                    $query .= " SET appdate = NULL ";
+                }
+                $query .= " WHERE " . $db->nameQuote('user_id') . " = " . $db->quote($id);
+                break;
+            case "handle";
+                $query = " UPDATE ". $db->nameQuote('#__community_fields_values')
+                    ." SET value = ". $db->quote($value)
+                    ." WHERE ".$db->nameQuote('field_id')." = ". $db->quote('29')
+                    ." AND ".$db->nameQuote('user_id')." = " . $db->quote($id);
+                break;
+            default:
+                JError::raiseError('500','Invalid request',"Name option is incorrect");
+        }
+            dump($query,'Query');
+            $db->setQuery($query);
+            $db->query();
+        }
   	
 	  	function getRanks() {
 	  		if(empty($this->ranks)) {
 		  		$db =& JFactory::getDBO();
-		  		$query  = " SELECT ".$db->nameQuote('rank_id')." AS id, ".$db->nameQuote('rank_title'). " AS title";
+		  		$query  = " SELECT ".$db->nameQuote('rank_id')." AS value, ".$db->nameQuote('rank_title'). " AS text";
 		  		$query .= " FROM ".$db->nameQuote('#__kunena_ranks');
 		  		$db->setQuery($query);
 		  		$this->ranks = $db->loadObjectList();

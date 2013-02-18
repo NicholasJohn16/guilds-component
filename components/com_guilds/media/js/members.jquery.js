@@ -5,42 +5,80 @@ $(document).ready(function() {
 	   event.preventDefault();
    });
    
-   $('body').on('click','select',function(event){
-	  $.data($(this),'original',$(this).val()); 
-	  console.log("I was clicked!");
+   // Change some of the editable plugin defaults.
+   //$.fn.editable.defaults.mode = 'inline';
+   $.fn.editable.defaults.emptytext = '';
+   $.fn.editable.defaults.emptyclass = '';
+   
+   $('.editable.rank').editable({
+       source:'index.php?option=com_guilds&view=members&task=getRanks&format=ajax',
+       name:'forum_rank',
+       type:'select',
+       title:'Select Rank',
+       showbuttons:false,
+       url:'index.php?option=com_guilds&view=members&task=update&format=ajax'
    });
+   
+   $('.editable.handle').editable({
+      title:'Enter @Handle',
+      name:'handle',
+      url:'index.php?option=com_guilds&view=members&task=update&format=ajax'
+   });
+   
+   $('.editable.intro').editable({
+       title:'Enter Date of Introduction',
+       type:'date',
+       name:'appdate',
+       placement:'right',
+       //showbuttons:false,
+       datepicker: {
+           todayBtn:'linked',
+           todayHighlight:true
+       },
+       url:'index.php?option=com_guilds&view=members&task=update&format=ajax',
+       send:'always'
+   });
+   
+   $('#date').datepicker({
+       autoclose:true
+   });
+       
+//   $('body').on('click','select',function(event){
+//	  $.data($(this),'original',$(this).val()); 
+//	  console.log("I was clicked!");
+//   });
    
    // Add in editable behavoir
    // It is added 'on' the form and watches for propigation
    // this way, when new editable fields are added via the ajax
    // they are editable as well
-   $('#members-form').on('dblclick','div.editable',function(event){
-	   insertInput($(this));
-   });
+   //$('#members-form').on('dblclick','div.editable',function(event){
+//	   insertInput($(this));
+   //});
    
-   $('#members-form').on('change','select.editable',function(event){
-	  var update = $(this).attr('data-update');
-	  var user = $(this).parents('.accordion-group').attr('data-user');
-	  var character = $(this).parents('.com-guilds-row').attr('data-character');
-	  var value = $(this).val();
-	  // if the character is undefined, we know we're working with the user
-	  // otherwise were working with the user and set the id appropriately
-	  var id = (character == undefined) ? user : character;
-	  var view = (character == undefined) ? "members" : "characters";
-	  var original = $.data($(this),'original');
-	  console.log(original,"Original value");
-	  $.ajax({
-		  type:"POST",
-		  url:"index.php?option=com_guilds&view="+view+"&task=update&tmpl=component",
-	  	  data:"&id="+id+"&value="+value,
-	  	  success:function(){
-		  	$(this).val(value);
-	  	  },
-	  	  error:function(){
-	  		  
-	  	  }
-	  });
-   });
+//   $('#members-form').on('change','select.editable',function(event){
+//	  var update = $(this).attr('data-update');
+//	  var user = $(this).parents('.accordion-group').attr('data-user');
+//	  var character = $(this).parents('.com-guilds-row').attr('data-character');
+//	  var value = $(this).val();
+//	  // if the character is undefined, we know we're working with the user
+//	  // otherwise were working with the user and set the id appropriately
+//	  var id = (character == undefined) ? user : character;
+//	  var view = (character == undefined) ? "members" : "characters";
+//	  var original = $.data($(this),'original');
+//	  console.log(original,"Original value");
+//	  $.ajax({
+//		  type:"POST",
+//		  url:"index.php?option=com_guilds&view="+view+"&task=update&tmpl=component",
+//	  	  data:"&id="+id+"&value="+value,
+//	  	  success:function(){
+//		  	$(this).val(value);
+//	  	  },
+//	  	  error:function(){
+//	  		  
+//	  	  }
+//	  });
+//   });
    
    function insertInput(element) {
 	   var value = element.html();
@@ -154,14 +192,16 @@ $(document).ready(function() {
    // When the Add Character button is clicked
    $('a[title="Add Character"]').click(function() {
 	   // get the user id and user name store in data attributes
+           console.log('Weeeeeee!');
 	   var user = $(this).attr('data-user');
 	   var username = $(this).attr('data-username');
-	   var user_field = $('#character-form input[name="user"]');
+	   
 	   // set them on the character form
-	   user_field.val(username);
-	   user_field.attr('data-user',user);
+	   $('#username').val(username);
+           $('#user').val(user);
+           
 	   if(username != undefined) {
-		   user_field.attr('disabled','disabled');
+		   $('#username').attr('disabled','disabled');
 	   }
    });
    
@@ -170,7 +210,7 @@ $(document).ready(function() {
 	   event.preventDefault();
 	   var sData = "";
 	   var form = $(this).parents('form');
-	   var user = form.find('input[name="user"]').attr('data-user');
+	   var user = form.find('#user').val();
 	   var character_name = form.find('input[name="character_name"]').val(); 
 	   var checked = form.find('input[name="checked"]').val();
 	   

@@ -86,6 +86,11 @@
 				$html .= '</p>';
 			}
 			$html .= '</div>';
+			
+			//$script = "$('.bottom-right').notify({message:".$this->msg.",type:".$this->class."}).show();";
+			//$document =& JFactory::getDocument();
+			//$document->addScriptDeclaration($script);
+			
 			return $html;		
 		}
 	}

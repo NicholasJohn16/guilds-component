@@ -26,29 +26,13 @@ class GuildsControllerMembers extends JController {
 		if($user->guest){$mainframe->redirect('index.php?option=com_user&view=login');}
 		
 		parent::__construct();
-	
 	} 
 	
 	function display(){
 		parent::display();
 	}
 	
-	function updateHandle() {
-		$new_handle = JRequest::getVar('value','','','string');
-		$user_id = JRequest::getVar('userid','','','int');
-		
-		$model = $this->getModel();
-		$model->updateHandle($new_handle,$user_id);
-		
-		$this->display();
-	}
-	
-	function getRanks() {
-		$model = $this->getModel();
-		$model->getRanks();
-	}
-	
-	function edit() {
+        function edit() {
 		$id = JRequest::getVar('user_id',null,'','int');
 		
 		if($id === null){
@@ -62,6 +46,28 @@ class GuildsControllerMembers extends JController {
 		$view->setLayout('form');
 		
 		$view->display();
+	}
+        
+	function update() {
+            $field = JRequest::getVar('name',NULL,'','string');
+            $id = JRequest::getVar('pk',NULL,'','int');
+            $value = JRequest::getVar('value',NULL,'','string');
+            $value = ($value == '') ? NULL : $value;
+            $model = $this->getModel('members');
+            dump($value,'Value');
+            if($field == NULL || $id == NULL ) {
+                dump('Error was in controller');
+                JError::raiseError('500','Invalid Request');
+            }
+            
+            $model->update($field,$id,$value);
+            
+        }
+	
+	function getRanks() {
+		$model = $this->getModel('members');
+		$ranks = $model->getRanks();
+                echo json_encode($ranks);
 	}
 }
 ?>

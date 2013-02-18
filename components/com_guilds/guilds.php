@@ -13,6 +13,11 @@
 	include_once JPATH_COMPONENT.DS.'helpers'.DS.'alertsHelper.php';
 	// Display stored alerts
 	alertsHelper::display();
+	
+	//$script = "$('.bottom-right').notify({message:'This is the msg.'}).show();";
+	//$document =& JFactory::getDocument();
+	//$document->addScriptDeclaration($script);
+	
 	// Require specific controll if requested
 	if($controller = JRequest::getWord('view')) {
 		$path = JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php';
