@@ -29,6 +29,7 @@ class GuildsControllerMembers extends JController {
 	} 
 	
 	function display(){
+                $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models');
 		parent::display();
 	}
 	
