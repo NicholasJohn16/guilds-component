@@ -30,7 +30,7 @@ class GuildsControllerCharacters extends JController {
 			if($user == "") {
 				JError::raiserError(500,'User is not specified');
 			}
-			
+			$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models');
 			$model = $this->getModel('characters');
 			$model->setState('user',$user);
 			$model->setState('character_name',$character_name);
@@ -41,10 +41,10 @@ class GuildsControllerCharacters extends JController {
 		
 		function ajax() {
 			JRequest::setVar('tmpl','component');
-			
 			$user = JRequest::getVar('user_id',null,'','int');
 			
 			$view = $this->getView('characters','ajax');
+                        $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models');
 			$model = $this->getModel('characters');
 			$model->setState('user',$user);
 			$view->setModel($model,true);
@@ -60,6 +60,7 @@ class GuildsControllerCharacters extends JController {
 				JError::raiseError(500,'ID parameter missing from the request');
 			}
 			$view = $this->getView('characters','html');
+                        $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models');
 			$model = $this->getModel('characters');
 			$model->setState('character',$character);
 			$view->setModel($model,true);
@@ -71,6 +72,7 @@ class GuildsControllerCharacters extends JController {
 			$layout = JRequest::getVar('layout','default','','string');
 			$characters = JRequest::getVar('characters',null,'','array');
 			$ids = implode(',',$characters);
+                        $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models');
 			$model = $this->getModel('characters');
 			$model->setState('characters',$ids);
 			$model->delete();
@@ -87,8 +89,8 @@ class GuildsControllerCharacters extends JController {
 			$layout = JRequest::getVar('layout','default','','string');
 			$format = JRequest::getVar('format','html','','string');
 			$view = $this->getView('characters',$format);
-			$characters_model = $this->getModel('characters');
                         $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models');
+			$characters_model = $this->getModel('characters');
                         $categories_model = $this->getModel('categories');
 			$view->setModel($characters_model,true);
                         $view->setModel($categories_model);
@@ -119,6 +121,7 @@ class GuildsControllerCharacters extends JController {
 			$name = JRequest::getVar('name',NULL,'','string');
                         $id = JRequest::getVar('pk',NULL,'','int');
                         $value = JRequest::getVar('value',NULL,'','string');
+                        $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models');
                         $model = $this->getModel('characters');
                         
                         if($name == NULL || $id == NULL) {

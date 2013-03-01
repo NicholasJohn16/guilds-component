@@ -30,7 +30,14 @@ class GuildsControllerMembers extends JController {
 	
 	function display(){
                 $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models');
-		parent::display();
+                $view = $this->getView('members','html');
+                $mTypes = $this->getModel('types');
+                $mCategories = $this->getModel('categories');
+                $mMembers = $this->getModel('members');
+                $view->setModel($mMembers,true);
+                $view->setModel($mTypes);
+                $view->setModel($mCategories);
+		$view->display();
 	}
 	
         function edit() {

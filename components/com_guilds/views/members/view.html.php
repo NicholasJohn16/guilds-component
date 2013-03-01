@@ -39,12 +39,12 @@ class GuildsViewMembers extends JView {
         JHTML::script('bootstrap-editable.js','components/com_guilds/media/js/',false);
         JHTML::script('bootstrap-datepicker.js','components/com_guilds/media/js/',false);
         JHTML::script('members.jquery.js','components/com_guilds/media/js/',false);
-
+        
         $members = $this->get('Members');
         $pagination = $this->get('Pagination');
         $ranks = $this->get('Ranks');
-        $types = $this->get('Types');
-        $categories = $this->get('Categories');
+        $types = $this->get('Types','types');
+        $categories = $this->get('Categories','categories');
 
         global $mainframe, $option;
         // Get the layout so it can be used to make request variable layout specific
