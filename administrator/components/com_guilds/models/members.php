@@ -301,27 +301,6 @@
 	  		return $this->ranks;
 	  	 }
   	 
-		function getTypes(){
-			if(empty($this->types)){
-				$db =& JFactory::getDBO();
-				$query = " SELECT * FROM #__char_types WHERE published = 1 ORDER BY ordering ";
-				$db->setQuery($query);
-				$this->types = $db->loadObjectList();
-			}
-
-			return $this->types;
-		}
 		
-		function getCategories(){
-			if(empty($this->categories)){
-				$db =& JFactory::getDBO();
-				//$query = " SELECT * FROM #__char_categories WHERE published = 1 ORDER BY ordering ";
-				$query = " SELECT * FROM jos_char_categories LEFT JOIN (SELECT parent as id2, group_concat(id) as children FROM jos_char_categories GROUP BY parent) A ON (jos_char_categories.id = A.id2) WHERE published = 1 ORDER BY ordering ";
-				$db->setQuery($query);
-				$this->categories = $db->loadObjectList();	
-			}
-			
-			return $this->categories;
-		}
 	}
 ?>
