@@ -56,7 +56,6 @@ class GuildsControllerMembers extends JController {
             $model = $this->getModel('members');
             dump($value,'Value');
             if($field == NULL || $id == NULL ) {
-                dump('Error was in controller');
                 JError::raiseError('500','Invalid Request');
             }
             

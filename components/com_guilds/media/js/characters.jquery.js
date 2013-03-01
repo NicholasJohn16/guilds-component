@@ -1,13 +1,16 @@
 $(document).ready(function() {
 	
+        
+        // Form validation for Add Character field
 	$('option').click(function() {
 		var parent = $(this).attr('data-parent');
 		var children = $(this).attr('data-children');
 
 		selectParents(parent);
 	});
-	
+	// Recrusive function for form validation
 	function selectParents(parent_id) {
+                // get all options on the form and iteratte over them
 		var options = $('option').each(function(index,element){
 			if($(element).val() == parent_id){
 				$(element).parent('select').val(parent_id);
@@ -18,6 +21,11 @@ $(document).ready(function() {
 			}
 		});
 	}
+        
+        $('.editable').editable({
+           url:'index.php?option=com_guilds&view=characters&task=update&format=ajax'
+        });
+        
 	
 	$('div[data-toggle="buttons-radio"]').click(function(event){
 		event.preventDefault();
@@ -33,7 +41,7 @@ $(document).ready(function() {
 		$('#roster-form').submit();
 	});
 	
-	$('.com-guilds-header a').click(function(event){
+	$('.com-guilds.header a').click(function(event){
 		event.preventDefault();
 		var order = $(this).attr('data-order').replace(" ","_");
 		var direction = $(this).attr('data-direction');

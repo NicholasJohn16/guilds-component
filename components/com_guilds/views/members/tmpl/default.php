@@ -30,7 +30,7 @@
 			$i = 0; 
 			foreach($this->members AS &$member):
 		?>
-		<div class="accordion-group fluid-row" style="margin-left:0px;" data-user="<?php echo $member->id; ?>">
+		<div class="accordion-group fluid-row" data-user="<?php echo $member->id; ?>">
 			<div class="accordion-heading">
 				<div class="span1"><span class="badge badge-inverse"><?php echo $member->id;?></span></div>
 					<div class="span3">
@@ -92,31 +92,32 @@
 		<div class="control-group">
 			<label class="control-label" for="username">User</label>
 			<div class="controls">
-				<input type="text" name="username" id="username" value=""/>
+				<input type="text" name="username" tabindex="1" id="username" value=""/>
                                 <input type="hidden" name="user" id="user"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label" for="character_name">Character Name</label>
 			<div class="controls">
-				<input type="text" id="character_name" name="character_name" size="32" value=""/>
+				<input type="text" tabindex="2" id="character_name" name="character_name" size="32" value=""/>
 			</div>	
 		</div>
 		<div class="control-group">
                     <label class="control-label" for="checked">Checked</label>
                     <div class="controls">
-                        <input size="16" type="text" value="" id="date">
+                        <input size="16" type="text" tabindex="3" value="" id="date">
                     </div>
                 </div>
 	</fieldset>
 	<fieldset style="float:left;border:0 none;padding:0;margin:0;">
 		<legend>Categories</legend>
-		<?php foreach($this->types as $type):?>
-		<?php $type_id = $type->name.'_id';?>
+                <?php $tab = 4; ?>
+		<?php foreach($this->types as $type): ?>
+		<?php $type_id = $type->name.'_id'; ?>
 		<div class="control-group">
 			<label class="control-label" for="<?php echo $type->name;?>"><?php echo ucfirst($type->name);?></label>
 			<div class="controls">
-				<select name="category[<?php echo $type->name; ?>]">
+				<select tabindex="<?php echo $tab; ?>" name="category[<?php echo $type->name; ?>]">
 					<option value=""><?php echo 'Select '.ucfirst($type->name);?></option>
 					<?php foreach($this->categories as $category):?>
 						<?php if($category->type == $type->name): ?>
@@ -130,13 +131,14 @@
 				</select>
 			</div>
 		</div>
+                <?php $tab++; ?>
 		<?php endforeach;?>
 	</fieldset>
 	</div>
 	<div style="clear:both"></div>
 	<div class="modal-footer" style="text-align:right;">
 		<button id="close" class="btn">Cancel</button>
-		<input type="submit" class="btn btn-primary" value="Add" />
+		<input tabindex="<?php echo $tab; ?>" type="submit" class="btn btn-primary" value="Add" />
 	</div>
 </form>
 <div class="notifications bottom-right">&nbsp;</div>

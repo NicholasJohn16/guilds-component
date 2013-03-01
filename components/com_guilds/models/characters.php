@@ -74,33 +74,13 @@
 			return $this->types;
 		}
 		
-		function getCategories(){
-			if(empty($this->categories)){
-				$db = JFactory::getDBO();
-				//$query = " SELECT * FROM #__char_categories WHERE published = 1 ORDER BY ordering ";
-				$query = " SELECT * FROM jos_char_categories LEFT JOIN (SELECT parent as id2, group_concat(id) as children FROM jos_char_categories GROUP BY parent) A ON (jos_char_categories.id = A.id2) WHERE published = 1 ORDER BY ordering ";
-				$db->setQuery($query);
-				$this->categories = $db->loadObjectList();	
-			}
-			
-			return $this->categories;
-		}
-                
-                function getCategoriesByType($type) {
-                    if(empty($this->categoriesByType)) {
-                        $db = JFactory::getDBO();
-                        $query = " SELECT * FROM jos_char_categories LEFT JOIN (SELECT parent as id2, group_concat(id) as children FROM jos_char_categories GROUP BY parent) A ON (jos_char_categories.id = A.id2) WHERE published = 1 AND type LIKE ".$db->quote($type)." ORDER BY ordering ";
-                        $db->setQuery($query);
-                        $this->categoriesByType = $db->loadObjectList();
-                    }
-                    return $this->categoriesByType;
-                }
 		
+                
 		function buildQuery() {
 			$select = $this->buildSelect();
 			$where = $this->buildWhere();
 			$order = $this->buildOrderBy();
-						
+                        
 			return $select.$where.$order;
 		}
 		
@@ -108,19 +88,18 @@
 			$types = $this->getTypes();
 			$i = 99;
 			$n = 99;
-			$query  = " SELECT a.id,a.user_id,a.name,b.username,a.checked,a.published,a.unpublisheddate ";
+			$query  = " SELECT *,a.name as name,a.id as id  ";
 			foreach($types AS $type) {
 				$query .= ",a.".$type->name." AS ".$type->name."_id ";
 				$query .= ",".chr($i).".name AS ".$type->name."_name ";
 				$i++;
 			}
 			$query .= " FROM #__char_characters AS a ";
-			$query .= " LEFT JOIN #__users AS b ON b.id = a.user_id ";
 			foreach($types AS $type){
 				$query .= " LEFT JOIN #__char_categories AS ".chr($n)." ON ".chr($n).".id = a.".$type->name." ";
 				$n++;
 			}
-					
+			
 			return $query;
 		}
 
@@ -269,6 +248,21 @@
 	  	function edit(){
   		
   		}
+                
+                function update($name,$id,$value) {
+                    $db = $this->getDBO();
+                    $query  = " UPDATE #__char_characters ";
+                    // If we're trying to reset the Checked date set it to NULL
+                    if($name == 'checked' && $value == '') {
+                        $query .= " SET `checked` = NULL ";
+                    } else {
+                        $query .= " SET " . $db->nameQuote($name) . " = " . $db->quote($value);
+                    }
+                    $query .= " WHERE " . $db->nameQuote('id') .  " = " . $id;
+                    $db->setQuery($query);
+                    
+                    return $db->query();
+                }
   		
   		function publish(){
   			

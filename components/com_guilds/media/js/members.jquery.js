@@ -39,110 +39,43 @@ $(document).ready(function() {
        send:'always'
    });
    
-   $('#date').datepicker({
-       autoclose:true
+   $('.accordion').editable({
+       selector:'div.editable-click',
+       url:'index.php?option=com_guilds&view=characters&task=update&format=ajax',
+       clear:'<button class="btn">Clear</button>'
    });
-       
-//   $('body').on('click','select',function(event){
-//	  $.data($(this),'original',$(this).val()); 
-//	  console.log("I was clicked!");
+   
+//   $('.accordion').on('click','div.editable-click',function(){
+//       var name = $(this).attr('data-name');
+//       var sourceUrl = 'index.php?option=com_guilds&view=characters&format=json&layout=categories&name='+name;
+//       console.log(name,"Name");
+//       $(this).editable({
+//            selector:'div.editable-click',
+//            url:'index.php?option=com_guilds&view=characters&task=update&format=ajax',
+//            source:function(){
+//                $.ajax({
+//                    url:sourceUrl,
+//                    dataType:'json',
+//                    success:function(data){
+//                        console.log(data);
+//                    }
+//                });
+//            }
+//        }).editable('show');
 //   });
    
-   // Add in editable behavoir
-   // It is added 'on' the form and watches for propigation
-   // this way, when new editable fields are added via the ajax
-   // they are editable as well
-   //$('#members-form').on('dblclick','div.editable',function(event){
-//	   insertInput($(this));
-   //});
-   
-//   $('#members-form').on('change','select.editable',function(event){
-//	  var update = $(this).attr('data-update');
-//	  var user = $(this).parents('.accordion-group').attr('data-user');
-//	  var character = $(this).parents('.com-guilds-row').attr('data-character');
-//	  var value = $(this).val();
-//	  // if the character is undefined, we know we're working with the user
-//	  // otherwise were working with the user and set the id appropriately
-//	  var id = (character == undefined) ? user : character;
-//	  var view = (character == undefined) ? "members" : "characters";
-//	  var original = $.data($(this),'original');
-//	  console.log(original,"Original value");
-//	  $.ajax({
-//		  type:"POST",
-//		  url:"index.php?option=com_guilds&view="+view+"&task=update&tmpl=component",
-//	  	  data:"&id="+id+"&value="+value,
-//	  	  success:function(){
-//		  	$(this).val(value);
-//	  	  },
-//	  	  error:function(){
-//	  		  
-//	  	  }
-//	  });
+//   $('.accordion').editable({
+//       selector:'div.char_name',
+//       name:'character_name',
+//       title:'Edit Character Name'
 //   });
    
-   function insertInput(element) {
-	   var value = element.html();
-	   var width = element.width();
-	   var input = $('<input style="width:90%; type="text" value="'+value+'"/>');
-	   var field = $(element).attr('data-field');
-	   
-	   // To prvent another form being added
-	   // stop the double click event from being propigated
-	   input.dblclick(function(event){event.stopPropagation();});
-	   
-	   //Add popover instructions
-	   input.popover({
-			   placement:'bottom',
-			   title:'Instructions',
-			   content:'<p>Press <code>Enter</code> to submit the new data.</p><p>Press <code>Shift + Enter</code> or <code>Esc</code> to cancel.</p>'
-	   });
-	   
-	   input.keypress(function(event){
-		   //If the enter key is hit, prevent the form from being submitted
-		   if(event.keyCode == 13 || event.keyCode == 27) {
-			   event.preventDefault();  
-			   //If Shift+Enter or Escape is pressed, cancel the form
-			   //and return previous value
-			   if(event.keyCode == 13 && event.shiftKey || event.keyCode == 27) {
-				   $(this).parent('.editable').append(value);
-			   //If Enter is pressed, update the value
-			   } else if(event.keyCode == 13) {
-				   var new_value = $(this).val();
-				   var result = postData(field,new_value);
-				   
-				   if(result){
-					   //If the updated is successful, update the value
-					   $(this).parent('.editable').append(new_value);   
-				   } else {
-					   //if not, then return to the original value
-					   $(this).parent('.editable').append(value);
-					   alert("Uh oh! Looks like there was an error submitting that update!");
-				   }
-			   }
-			   //Make sure the popover is hidden
-			   $(this).popover('hide');
-			   //remove the input tag
-			   $(this).remove();
-		   };
-	   });
-		  
-	  element.contents().remove();
-	  element.append(input);	  
-	  element.children('input').focus();
-   }
-   
-   function postData(field,id,value) {
-	   $.ajax({
-		   type:"POST",
-		   url:"index.php?option=com_guilds&view=characters&task=update&tmpl=component",
-		   data:'&field='+field+'&value='+value,
-		   success:function() {
-		   		console.log("Yes!  It was successful!!");
-		   		var result = true;
-	   	   }
-	   });
-	   return result;
-   }
+//   $('.accordion').editable({
+//       selector:'div.category',
+//       type:'select',
+//       title:'Select Category',
+//       source:'index.php?option=com_guilds&view=characters&format=json&layout=categories&name='+$(this).attr('data-name')
+//   });
    
    $('.accordion-body').on('shown',function(){
 		   var user = $(this).parent('.accordion-group').attr('data-user');
@@ -184,6 +117,14 @@ $(document).ready(function() {
 	   });
    };
    
+   
+   // Activate date picker for date field in Character form
+   $('#date').datepicker({
+       autoclose:true,
+       todayBtn:'linked'
+   });
+       
+   // Hide the character form when close is clicked
    $('#close').click(function(event){
 	   event.preventDefault();
 	   $('#character-form').modal('hide');
@@ -191,18 +132,25 @@ $(document).ready(function() {
    
    // When the Add Character button is clicked
    $('a[title="Add Character"]').click(function() {
-	   // get the user id and user name store in data attributes
-           console.log('Weeeeeee!');
+	   // get the user id and user name store them in inputs
 	   var user = $(this).attr('data-user');
 	   var username = $(this).attr('data-username');
 	   
 	   // set them on the character form
-	   $('#username').val(username);
+	   $('#username').val(username).focus();
            $('#user').val(user);
            
 	   if(username != undefined) {
 		   $('#username').attr('disabled','disabled');
 	   }
+   });
+   
+   //When character modal is activated,
+   //Have username field grab focs
+   $('#character-form').on('shown', function(){
+       var username_field = $('#username');
+       console.log(username_field);
+       username_field.focus();
    });
    
    // Submits new characters from the Character form
@@ -212,7 +160,7 @@ $(document).ready(function() {
 	   var form = $(this).parents('form');
 	   var user = form.find('#user').val();
 	   var character_name = form.find('input[name="character_name"]').val(); 
-	   var checked = form.find('input[name="checked"]').val();
+	   var checked = form.find('#date').val();
 	   
 	   var eCategories = form.find('select[name^="category"]');
 	   
@@ -291,9 +239,9 @@ $(document).ready(function() {
    $('#character-form').on('hidden',function() {
 	   // Reset the form back
 	  var form = $('#character-form');
-	  form.find('input[name="user"]').removeAttr('data-user');
-	  form.find('input[name="user"]').val("");
-	  form.find('input[name="user"]').removeAttr('disabled');
+	  form.find('#username').val("");
+	  form.find('#username').removeAttr('disabled');
+          form.find('#user').val('');
 	  form.find('input[name="character_name"]').val(""); 
 	  form.find('input[name="checked"]').val(""); 
 	  form.find('select[name^="category"]').val("");
@@ -355,5 +303,5 @@ $(document).ready(function() {
 		$('select[name^="filter_type"]').val('');
 		$('#members-form').submit();
 	});
-   
+
  });

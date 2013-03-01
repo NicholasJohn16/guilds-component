@@ -15,10 +15,6 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.controller');
 
 class GuildsControllerCharacters extends JController {
-function __construct(){
-			//JRequest::setVar('tmpl','component');
-			parent::__construct();
-		}
 		
 		/* Task Functions */
 		
@@ -91,8 +87,11 @@ function __construct(){
 			$layout = JRequest::getVar('layout','default','','string');
 			$format = JRequest::getVar('format','html','','string');
 			$view = $this->getView('characters',$format);
-			$model = $this->getModel('characters');
-			$view->setModel($model,true);
+			$characters_model = $this->getModel('characters');
+                        $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models');
+                        $categories_model = $this->getModel('categories');
+			$view->setModel($characters_model,true);
+                        $view->setModel($categories_model);
 			$view->setLayout($layout);
 			
 			// Depending on the model, we need to set the user to different values
@@ -110,14 +109,25 @@ function __construct(){
 					$user = JFactory::getUser()->id;
 			}
 
-			$model->setState('user',$user);
-			$model->setState('layout',$layout);
+			$characters_model->setState('user',$user);
+			$characters_model->setState('layout',$layout);
 			$view->display();
 		}
 		
 		function update() {
-			
-			
+                        JRequest::setVar('template','component');
+			$name = JRequest::getVar('name',NULL,'','string');
+                        $id = JRequest::getVar('pk',NULL,'','int');
+                        $value = JRequest::getVar('value',NULL,'','string');
+                        $model = $this->getModel('characters');
+                        
+                        if($name == NULL || $id == NULL) {
+                            JError::raiseError('500','Invalid Request');
+                        }
+                        
+                        if(!$model->update($name,$id,$value)) {
+                            JError::raiseError('500','Update failed');
+                        }
 		}
 		
 		function publish() {

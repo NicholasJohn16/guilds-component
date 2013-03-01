@@ -51,21 +51,25 @@ class GuildsViewCharacters extends JView {
     	JHTML::stylesheet('bootstrap.css','components/com_guilds/media/css/');
     	JHTML::stylesheet('guilds.css','components/com_guilds/media/css/');
 		
-		$characters =& $this->get('Characters');
-		$types =& $this->get('Types');
-		$pagination =& $this->get('Pagination');
-		
-		$this->assignRef('characters',$characters);
-		$this->assignRef('types',$types);
-		$this->assignRef('pagination',$pagination);
+        $characters =& $this->get('Characters');
+        $types =& $this->get('Types');
+        $pagination =& $this->get('Pagination');
+
+        $this->assignRef('characters',$characters);
+        $this->assignRef('types',$types);
+        $this->assignRef('pagination',$pagination);
     }
     
     function displayRoster() {
     	// Add scripts and stylesheets to the head
 		JHTML::stylesheet('guilds.css','components/com_guilds/media/css/');
 		JHTML::stylesheet('bootstrap.css','components/com_guilds/media/css/');
+                JHTML::stylesheet('bootstrap-editable.css','components/com_guilds/media/css/');
+                JHTML::stylesheet('bootstrap-datepicker.css','components/com_guilds/media/css/');
 		JHTML::script('jquery.js','https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/');
 		JHTML::script('bootstrap.js','components/com_guilds/media/js/',false);
+                JHTML::script('bootstrap-editable.js','components/com_guilds/media/js/',false);
+                JHTML::script('bootstrap-datepicker.js','components/com_guilds/media/js/',false);
 		JHTML::script('characters.jquery.js','components/com_guilds/media/js/',false);
 		
 		global $mainframe, $option;
@@ -74,7 +78,7 @@ class GuildsViewCharacters extends JView {
 		$characters =& $this->get('Characters');
 		$pagination =& $this->get('Pagination');
 		$types		=& $this->get('Types');	
-		$categories =& $this->get('Categories');
+		$categories =& $this->get('Categories','categories');
 		
 		// Assign them references so they can be accessed in the tmpl
 		$this->assignRef('search',$this->search);
@@ -94,13 +98,16 @@ class GuildsViewCharacters extends JView {
     }
     
     function displayForm() {
-    	JHTML::stylesheet('guilds.css','components/com_guilds/media/css/');
-		JHTML::stylesheet('bootstrap.css','components/com_guilds/media/css/');
-		JHTML::stylesheet('datepicker.css','components/com_guilds/media/css/');
+                JHTML::stylesheet('bootstrap.css','components/com_guilds/media/css/');
+		JHTML::stylesheet('bootstrap-datepicker.css','components/com_guilds/media/css/');
+                
+                JHTML::stylesheet('guilds.css','components/com_guilds/media/css/');
 		JHTML::script('jquery.js','https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/');
 		JHTML::script('bootstrap.js','components/com_guilds/media/js/',false);
+                
+                JHTML::script('bootstrap-datepicker.js','components/com_guilds/media/js/',false);
 		JHTML::script('characters.jquery.js','components/com_guilds/media/js/',false);
-		JHTML::script('bootstrap-datepicker.js','components/com_guilds/media/js/',false);
+		
     	
 		$character =& $this->get('Character');
 		$types =& $this->get('Types');
