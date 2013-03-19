@@ -22,6 +22,11 @@ $(document).ready(function() {
 		});
 	}
         
+        // Change some of the editable plugin defaults.
+        //$.fn.editable.defaults.mode = 'inline';
+        $.fn.editable.defaults.emptytext = '';
+        $.fn.editable.defaults.emptyclass = '';
+        
         $('.editable').editable({
            url:'index.php?option=com_guilds&view=characters&task=update&format=ajax'
         });
