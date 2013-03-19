@@ -24,12 +24,12 @@ class GuildsControllerMembers extends JController {
 		global $mainframe;
 		$user =& JFactory::getUser();
 		if($user->guest){$mainframe->redirect('index.php?option=com_user&view=login');}
+                $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models');
 		
 		parent::__construct();
 	} 
 	
 	function display(){
-                $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models');
                 $view = $this->getView('members','html');
                 $mTypes = $this->getModel('types');
                 $mCategories = $this->getModel('categories');
@@ -48,6 +48,7 @@ class GuildsControllerMembers extends JController {
 			JError::raiseError(500,'ID parameter missing from the request');
 		}
 		$view = $this->getView("members","html");
+                
 		$model = $this->getModel("Members");
 		$model->setState('id',$id);
 		$view->setModel($model,true);
@@ -57,17 +58,18 @@ class GuildsControllerMembers extends JController {
 	}
         
 	function update() {
-            $field = JRequest::getVar('name',NULL,'','string');
+            $name = JRequest::getVar('name',NULL,'','string');
             $id = JRequest::getVar('pk',NULL,'','int');
             $value = JRequest::getVar('value',NULL,'','string');
             $value = ($value == '') ? NULL : $value;
             $model = $this->getModel('members');
             dump($value,'Value');
-            if($field == NULL || $id == NULL ) {
+            dump($name,'Name');
+            if($name == NULL || $id == NULL ) {
                 JError::raiseError('500','Invalid Request');
             }
             
-            $model->update($field,$id,$value);
+            $model->update($name,$id,$value);
             
         }
 	
