@@ -44,10 +44,10 @@
 							<img src="components/com_guilds/media/img/contact.png"/>
 						</a>
 					</div>
-				<div class="editable handle span2" data-pk="<?php echo $member->id; ?>"><?php echo $member->handle?></div>
-				<div class="editable intro span2" data-pk="<?php echo $member->id; ?>"><?php echo ($member->appdate == NULL ? date('Y-m-d',strtotime($member->time)) : $member->appdate);?></div>
+				<div class="editable handle span2" data-name="sto_handle" data-pk="<?php echo $member->id; ?>"><?php echo $member->sto_handle; ?></div>
+				<div class="editable intro span2" data-pk="<?php echo $member->id; ?>"><?php echo $member->appdate;?></div>
 				<div class="span2"><?php echo $member->status; ?></div>
-				<div class="editable rank span3" data-pk="<?php echo $member->id;?>" data-value="<?php echo $member->rank_id;?>"><?php echo $member->rank_title;?></div>
+				<div class="editable rank span3" data-pk="<?php echo $member->id;?>" data-value="<?php //echo $member->rank_id; ?>"><?php //echo $member->rank_title;?></div>
 			</div>
 			<div style="clear:both;"></div>
 			<div class="accordion-body collapse" id="accordion-body-<?php echo $member->id;?>">
