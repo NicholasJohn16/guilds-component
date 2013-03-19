@@ -73,11 +73,8 @@
 	    	$where = $this->buildWhere();
 	    	$groupBy = ' GROUP BY id ';
 	    	$orderBy = $this->buildOrderBy();
-                //$limit = " LIMIT ".$this->getState('limitstart').",".$this->getState('limit');
-                $limit = "";
-			$query = $select.$where.$groupBy.$orderBy.$limit;
+                $query = $select.$where.$groupBy.$orderBy;
                         
-                dump($query);
 	    	return $query;
 	    }
     
@@ -182,8 +179,6 @@
                 $query = $this->buildQuery();
                 $db->setQuery($query,$this->getState('limitstart'),$this->getState('limit'));
                 $member_ids = $db->loadResultArray();
-                dump($member_ids,'Member IDs');
-                //foreach($this->member_ids as $member) { $members[] = $member->id; }
                 $this->setState('member_ids',$member_ids);
 
                 // Update the status values for the members in the current view
@@ -207,7 +202,6 @@
                     . " LEFT JOIN jos_guilds_members AS b ON a.id = b.user_id "
                     . " LEFT JOIN jos_guilds_ranks AS c ON b.status = c.id ";
             $query .= " WHERE a.id IN (" . implode(',', $member_ids) . ")";
-            dump($query);
             $db->setQuery($query);
             $members = $db->loadObjectList();
             return $members;
