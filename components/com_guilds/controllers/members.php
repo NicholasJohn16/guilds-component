@@ -41,7 +41,7 @@ class GuildsControllerMembers extends JController {
 	}
 	
         function edit() {
-		$id = JRequest::getVar('user_id',null,'','int');
+		$id = JRequest::getVar('id',null,'','int');
 		
 		if($id === null){
 			// Report an error if there was no id
