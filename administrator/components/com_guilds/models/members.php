@@ -170,6 +170,22 @@
         }
         function getMember() {
             $id = $this->getState('id');
+            $db = JFactory::getDBO();
+            
+            if(empty($this->member)){
+                $sql = ' SELECT a.id, user_id, appdate, b.status as status, '
+                     . ' notes, edit_id, c.username as editor, edit_time, '
+                     . ' sto_handle, gw2_handle, tor_handle '
+                     . ' FROM `#__guilds_members` AS a '
+                     . ' LEFT JOIN  `#__guilds_ranks` as b on a.status = b.id '
+                     . ' LEFT JOIN `#__users` AS c ON a.edit_id = c.id '
+                     . ' WHERE user_id = '.$id;
+                
+                $db->setQuery($sql);
+                $this->member = $db->loadObject();
+            }
+            
+            return $this->member;
         }
     
         function getMembers() {
