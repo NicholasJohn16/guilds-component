@@ -34,7 +34,7 @@
 			<div class="accordion-heading">
 				<div class="span1"><span class="badge badge-inverse"><?php echo $member->id;?></span></div>
 					<div class="span3">
-						<a href="index.php?option=com_guilds&view=members&user_id=<?php echo $member->id; ?>&task=edit">
+						<a href="index.php?option=com_guilds&view=members&task=edit&id=<?php echo $member->id; ?>">
 							<?php echo $member->username; ?>
 						</a>
 						<button class="btn btn-mini action" data-toggle="collapse" data-target="#accordion-body-<?php echo $member->id;?>" style="float:right;margin-left:2px;" title="Character(s)">
