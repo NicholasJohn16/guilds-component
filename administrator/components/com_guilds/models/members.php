@@ -41,16 +41,20 @@
 
                     $option = JRequest::getCmd('option');
                     $mainframe = JFactory::getApplication();
+                    
+                     // Get the view and layout so we can make pagination values unique
+                    $view = JRequest::getVar('view');
+                    $layout = JRequest::getVar('layout');
 
                     // Get pagination request variables
                     $limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
                     $limitstart = $mainframe->getUserStateFromRequest($option.'limitstart','limitstart',0);
 
                     // Get filter values for Roster view
-                    $order = $mainframe->getUserStateFromRequest($option."order",'order',null,'cmd' );
-                    $direction = $mainframe->getUserStateFromRequest($option."direction",'direction',null,'word');
-                    $search = $mainframe->getUserStateFromRequest($option."search",'search','','string' );
-                    $filter_type = $mainframe->getUserStateFromRequest($option.'filter_type','filter_type',array(),'array');
+                    $order = $mainframe->getUserStateFromRequest($option.$view.$layout.'order','order',null,'cmd' );
+                    $direction = $mainframe->getUserStateFromRequest($option.$view.$layout.'direction','direction',null,'word');
+                    $search = $mainframe->getUserStateFromRequest($option.$view.$layout.'search','search','','string' );
+                    $filter_type = $mainframe->getUserStateFromRequest($option.$view.$layout.'filter_type','filter_type',array(),'array');
 
                     // In case limit has been changed, adjust it
                     //$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
@@ -69,42 +73,55 @@
 	    	$where = $this->buildWhere();
 	    	$groupBy = ' GROUP BY id ';
 	    	$orderBy = $this->buildOrderBy();
-			$query = $select.$where.$groupBy.$orderBy;
+                //$limit = " LIMIT ".$this->getState('limitstart').",".$this->getState('limit');
+                $limit = "";
+			$query = $select.$where.$groupBy.$orderBy.$limit;
+                        
+                dump($query);
 	    	return $query;
 	    }
     
 	    function buildSelect() {
-	    	$users = $this->getState('users');
-	    	
-	    	if($users == null) {
-	    		$select = ' SELECT a.id '
-		        	.' FROM #__users AS a '
-		        	.' LEFT JOIN #__community_fields_values AS b ON b.user_id = a.id '
-		        	.' LEFT JOIN #__community_fields_values as h on h.user_id = a.id '
-					.' LEFT JOIN #__kunena_users AS c ON c.userid = a.id '
-					.' LEFT JOIN #__kunena_ranks AS d ON d.rank_id = c.rank '
-					.' LEFT JOIN #__kunena_messages AS e ON e.userid = a.id '
-					.' LEFT JOIN #__guilds_members AS f ON f.user_id = a.id '
-					.' LEFT JOIN #__guilds_ranks AS g on g.id = f.status ';
-	    	} else {
-	       		$select = ' SELECT a.id,a.username,b.value AS handle,f.appdate,FROM_UNIXTIME(e.time) AS time,g.status,f.tbd,d.rank_id,d.rank_title,h.value AS guilds '
-		        	.' FROM #__users AS a '
-		        	.' LEFT JOIN #__community_fields_values AS b ON b.user_id = a.id '
-		        	.' LEFT JOIN #__community_fields_values as h on h.user_id = a.id '
-					.' LEFT JOIN #__kunena_users AS c ON c.userid = a.id '
-					.' LEFT JOIN #__kunena_ranks AS d ON d.rank_id = c.rank '
-					.' LEFT JOIN #__kunena_messages AS e ON e.userid = a.id '
-					.' LEFT JOIN #__guilds_members AS f ON f.user_id = a.id '
-					.' LEFT JOIN #__guilds_ranks AS g on g.id = f.status ';
-	    	}
+                
+                $select = " SELECT a.id as id "
+                     // . ", a.username, b.appdate, b.status, b.tbd, "
+                     // . " b.sto_handle, b.gw2_handle, b.tor_handle, c.status "
+                        . " FROM jos_users AS a "
+                        . " LEFT JOIN jos_guilds_members AS b ON a.id = b.user_id "
+                        . " LEFT JOIN jos_guilds_ranks AS c ON b.status = c.id ";
+                
+//	    	$users = $this->getState('users');
+//	    	
+//	    	if($users == null) {
+//	    		$select = ' SELECT a.id '
+//		        	.' FROM #__users AS a '
+//		        	.' LEFT JOIN #__community_fields_values AS b ON b.user_id = a.id '
+//		        	.' LEFT JOIN #__community_fields_values as h on h.user_id = a.id '
+//                                .' LEFT JOIN #__kunena_users AS c ON c.userid = a.id '
+//                                .' LEFT JOIN #__kunena_ranks AS d ON d.rank_id = c.rank '
+//                                .' LEFT JOIN #__kunena_messages AS e ON e.userid = a.id '
+//                                .' LEFT JOIN #__guilds_members AS f ON f.user_id = a.id '
+//                                .' LEFT JOIN #__guilds_ranks AS g on g.id = f.status ';
+//	    	} else {
+//	       		$select = ' SELECT a.id,a.username,b.value AS handle,f.appdate,FROM_UNIXTIME(e.time) AS time,g.status,f.tbd,d.rank_id,d.rank_title,h.value AS guilds '
+//		        	.' FROM #__users AS a '
+//		        	.' LEFT JOIN #__community_fields_values AS b ON b.user_id = a.id '
+//		        	.' LEFT JOIN #__community_fields_values as h on h.user_id = a.id '
+//                                .' LEFT JOIN #__kunena_users AS c ON c.userid = a.id '
+//                                .' LEFT JOIN #__kunena_ranks AS d ON d.rank_id = c.rank '
+//                                .' LEFT JOIN #__kunena_messages AS e ON e.userid = a.id '
+//                                .' LEFT JOIN #__guilds_members AS f ON f.user_id = a.id '
+//                                .' LEFT JOIN #__guilds_ranks AS g on g.id = f.status ';
+//	    	}
 	    	return $select;	
 	    }
 	    
 	    function buildWhere() {
 	    	$search = $this->getState("search");
-	    	$where = 'WHERE (b.field_id = 29) AND '
-	    			.' (h.field_id = 18) AND '
-	    			.' (e.parent = 0 AND e.catid = 6) ';
+                $where = " WHERE ";
+//	    	$where = 'WHERE (b.field_id = 29) AND '
+//	    			.' (h.field_id = 18) AND '
+//	    			.' (e.parent = 0 AND e.catid = 6) ';
 	    	$conditions = array();
 	    	$users = $this->getState('users');
 	    	
@@ -119,7 +136,6 @@
 						$conditions[] = array("OR","a.id","=",intval($term));	
 					} else {
 						$conditions[] = array("OR","LOWER(a.username)","LIKE",'"%'.$term.'%"');
-						
 					}
 				}
 			}
@@ -138,55 +154,63 @@
 				$where .= " ) ";
 	    	}
 	    	
-	    	return $where;
+                if($where != " WHERE ") {
+                    return $where;
+                }
 	    }
-	    
-	    function buildOrderBy() {
-	    	$order = $this->getState('order');
-	    	$direction = $this->getState('direction');
-	    	
-	    	if($order != null || $direction != null ) {
-	    		$orderBy = ' ORDER BY a.'.$order.' '.$direction;	
-	    	} else {
-	    		$orderBy = '';
-	    	}
-	    	
-	    	return $orderBy;
-	    }
-	    function getMember() {
-	    	$id = $this->getState('id');
-	    }
+
+        function buildOrderBy() {
+            $order = $this->getState('order');
+            $direction = $this->getState('direction');
+
+            if($order != null || $direction != null ) {
+                    $orderBy = ' ORDER BY a.'.$order.' '.$direction;	
+            } else {
+                    $orderBy = '';
+            }
+
+            return $orderBy;
+        }
+        function getMember() {
+            $id = $this->getState('id');
+        }
     
-		function getMembers() {
-		    // Load the data
-		    if (empty( $this->members )) {
-		        $query = $this->buildQuery();
-		        $this->_db->setQuery($query);
-		        $this->member_ids = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-		        
-		        foreach($this->member_ids as $member) { $members[] = $member->id; }
-		        $this->setState('users',$members);
-		        
-		        // Update the status values for the members in the current view
-		        $this->updateStatus();
-		        
-		        $query = $this->buildQuery();
-		        $this->_db->setQuery($query);
-		        $this->members = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-		        
-		    }
-		    return $this->members;
-		}
-		
-        function getTypeahead() {
-            $query = 'SELECT id,username,"User"
-                FROM jos_users
-                WHERE lower(username) LIKE \'%john%\'
-                UNION
-                SELECT user_id,value,"Handle"
-                FROM jos_community_fields_values
-                WHERE field_id = 29 AND
-                lower(value) LIKE \'%john%\'';
+        function getMembers() {
+            $db = JFactory::getDBO();
+            // Load the data
+            if (empty( $this->members )) {
+                $query = $this->buildQuery();
+                $db->setQuery($query,$this->getState('limitstart'),$this->getState('limit'));
+                $member_ids = $db->loadResultArray();
+                dump($member_ids,'Member IDs');
+                //foreach($this->member_ids as $member) { $members[] = $member->id; }
+                $this->setState('member_ids',$member_ids);
+
+                // Update the status values for the members in the current view
+                $this->updateStatus();
+
+                
+                $this->members = $this->getMembersByIds();
+
+            }
+            return $this->members;
+        }
+        
+        function getMembersByIds() {
+            $db = JFactory::getDBO();
+            $member_ids = $this->getState('member_ids');
+
+            $query =  " SELECT a.id as id, "
+                    . " a.username, b.appdate, b.status, b.tbd, "
+                    . " b.sto_handle, b.gw2_handle, b.tor_handle, c.status "
+                    . " FROM jos_users AS a "
+                    . " LEFT JOIN jos_guilds_members AS b ON a.id = b.user_id "
+                    . " LEFT JOIN jos_guilds_ranks AS c ON b.status = c.id ";
+            $query .= " WHERE a.id IN (" . implode(',', $member_ids) . ")";
+            dump($query);
+            $db->setQuery($query);
+            $members = $db->loadObjectList();
+            return $members;
         }
 	
         function getTotal() {
@@ -221,6 +245,8 @@
 	  	
         function updateStatus() {
                 $users = $this->getState('users');
+                
+                
 
         }
         
@@ -249,7 +275,9 @@
                         ." AND ".$db->nameQuote('user_id')." = " . $db->quote($id);
                     break;
                 default:
-                    JError::raiseError('500','Invalid request',"Name option is incorrect");
+                    $query = " UPDATE " . $db->nameQuote('#__guilds_members')
+                            . " SET " . $db->nameQuote($field) . " = " . $db->quote($value) 
+                            . " WHERE user_id  = " . $db->quote($id);
             }
                 $db->setQuery($query);
                 $db->query();

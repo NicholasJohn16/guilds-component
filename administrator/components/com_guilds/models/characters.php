@@ -37,18 +37,19 @@
             global $mainframe, $option;
             parent::__construct();
 
-            // Get the current layout so request variable can be specific to that layout
-            $layout = $this->getState('layout');
-
+            // Get the view and layout so we can make pagination values unique
+            $view = JRequest::getVar('view');
+            $layout = JRequest::getVar('layout');
+            
             // Get pagination request variables
             $limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
-            $limitstart = $mainframe->getUserStateFromRequest($option.$layout.'limitstart','limitstart',0);
+            $limitstart = $mainframe->getUserStateFromRequest($option.$view.$layout.'limitstart','limitstart',0);
 
             // Get filter values for Roster view
-            $order		= $mainframe->getUserStateFromRequest($option.$layout."order",'order',null,'cmd' );
-            $direction	= $mainframe->getUserStateFromRequest($option.$layout."direction",'direction',null,'word');
-            $search		= $mainframe->getUserStateFromRequest($option.$layout."search",'search','','string' );
-            $filter_type= $mainframe->getUserStateFromRequest($option.$layout.'filter_type','filter_type',array(),'array');
+            $order		= $mainframe->getUserStateFromRequest($option.$view.$layout."order",'order',null,'cmd' );
+            $direction	= $mainframe->getUserStateFromRequest($option.$view.$layout."direction",'direction',null,'word');
+            $search		= $mainframe->getUserStateFromRequest($option.$view.$layout."search",'search','','string' );
+            $filter_type= $mainframe->getUserStateFromRequest($option.$view.$layout.'filter_type','filter_type',array(),'array');
 
             // In case limit has been changed, adjust it
             //$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
