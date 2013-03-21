@@ -71,10 +71,10 @@
 	    protected function buildQuery() {
 	    	$select = $this->buildSelect();
 	    	$where = $this->buildWhere();
-	    	$groupBy = ' GROUP BY id ';
+	    	//$groupBy = ' GROUP BY id ';
 	    	$orderBy = $this->buildOrderBy();
-                $query = $select.$where.$groupBy.$orderBy;
-                        
+                $query = $select.$where.$orderBy;
+                dump($query,"Members query");
 	    	return $query;
 	    }
     
@@ -87,72 +87,53 @@
                         . " LEFT JOIN jos_guilds_members AS b ON a.id = b.user_id "
                         . " LEFT JOIN jos_guilds_ranks AS c ON b.status = c.id ";
                 
-//	    	$users = $this->getState('users');
-//	    	
-//	    	if($users == null) {
-//	    		$select = ' SELECT a.id '
-//		        	.' FROM #__users AS a '
-//		        	.' LEFT JOIN #__community_fields_values AS b ON b.user_id = a.id '
-//		        	.' LEFT JOIN #__community_fields_values as h on h.user_id = a.id '
-//                                .' LEFT JOIN #__kunena_users AS c ON c.userid = a.id '
-//                                .' LEFT JOIN #__kunena_ranks AS d ON d.rank_id = c.rank '
-//                                .' LEFT JOIN #__kunena_messages AS e ON e.userid = a.id '
-//                                .' LEFT JOIN #__guilds_members AS f ON f.user_id = a.id '
-//                                .' LEFT JOIN #__guilds_ranks AS g on g.id = f.status ';
-//	    	} else {
-//	       		$select = ' SELECT a.id,a.username,b.value AS handle,f.appdate,FROM_UNIXTIME(e.time) AS time,g.status,f.tbd,d.rank_id,d.rank_title,h.value AS guilds '
-//		        	.' FROM #__users AS a '
-//		        	.' LEFT JOIN #__community_fields_values AS b ON b.user_id = a.id '
-//		        	.' LEFT JOIN #__community_fields_values as h on h.user_id = a.id '
-//                                .' LEFT JOIN #__kunena_users AS c ON c.userid = a.id '
-//                                .' LEFT JOIN #__kunena_ranks AS d ON d.rank_id = c.rank '
-//                                .' LEFT JOIN #__kunena_messages AS e ON e.userid = a.id '
-//                                .' LEFT JOIN #__guilds_members AS f ON f.user_id = a.id '
-//                                .' LEFT JOIN #__guilds_ranks AS g on g.id = f.status ';
-//	    	}
 	    	return $select;	
 	    }
 	    
 	    function buildWhere() {
-	    	$search = $this->getState("search");
-                $where = " WHERE ";
-//	    	$where = 'WHERE (b.field_id = 29) AND '
-//	    			.' (h.field_id = 18) AND '
-//	    			.' (e.parent = 0 AND e.catid = 6) ';
-	    	$conditions = array();
-	    	$users = $this->getState('users');
+	    	$search = $this->getState('search');
+                $users = $this->getState('users');
+                $conditions = array();
 	    	
+                dump($search,"Search");
+                                
 	    	if($search != "" || !empty($search)) {
-				// Split the search string into an array
-				$terms = explode(",",$search);
-				// Trim each term, check if their ints and make strings lowercase
-				foreach($terms as $term) {
-					trim($term);
-					strtolower($term);
-					if(is_numeric($term)) {
-						$conditions[] = array("OR","a.id","=",intval($term));	
-					} else {
-						$conditions[] = array("OR","LOWER(a.username)","LIKE",'"%'.$term.'%"');
-					}
-				}
-			}
+                    // Split the search string into an array
+                    $terms = explode(",",$search);
+                    // Trim each term, check if their ints and make strings lowercase
+                    foreach($terms as $term) {
+                        strtolower(trim($term));
+                        if(is_numeric($term)) {
+                            $conditions[] = ' a.id = '.intval($term);	
+                        } else {
+                            $conditions[] = ' LOWER(a.username) LIKE "%'.$term.'%" ';
+                            $conditions[] = ' LOWER(b.sto_handle) LIKE "%'.$term.'%" ';
+                            $conditions[] = ' LOWER(b.tor_handle) LIKE "%'.$term.'%" ';
+                            $conditions[] = ' LOWER(b.gw2_handle) LIKE "%'.$term.'%" ';
+                            $conditions[] = ' LOWER(c.status) LIKE "%'.$term.'%" ';
+                        }
+                    }
+                }
 	    	
-			if($users != null) {
-	    		$conditions[] = array("AND","a.id","IN",'('.implode(',',$users).')');
-	    	}
-			
-	    	if(count($conditions) == 1 ) {
-	    		$where .= " ".$conditions[0][0]." ".$conditions[0][1]." ".$conditions[0][2]." ".$conditions[0][3]." ";
-	    	} elseif(count($conditions) > 1) {
-	    		$where .= " AND ( ";
-				foreach($conditions as $condition) {
-					$where .= " ".$condition[0]." ".$condition[1]." ".$condition[2]." ".$condition[3]." ";	
-				}
-				$where .= " ) ";
-	    	}
+                $where = implode(" OR ",$conditions);
+                
+//                if($users != null) {
+//                    dump("Users state is null")
+//                    $conditions[] = array("AND","a.id","IN",'('.implode(',',$users).')');
+//                }
+                	
+//	    	if(count($conditions) == 1 ) {
+//	    		$where .= " ".$conditions[0][0]." ".$conditions[0][1]." ".$conditions[0][2]." ".$conditions[0][3]." ";
+//	    	} elseif(count($conditions) > 1) {
+//	    		$where .= " AND ( ";
+//				foreach($conditions as $condition) {
+//					$where .= " ".$condition[0]." ".$condition[1]." ".$condition[2]." ".$condition[3]." ";	
+//				}
+//				$where .= " ) ";
+//	    	}
 	    	
-                if($where != " WHERE ") {
-                    return $where;
+                if($where != "") {
+                    return " WHERE ".$where;
                 }
 	    }
 
