@@ -179,10 +179,9 @@
                 $member_ids = $db->loadResultArray();
                 $this->setState('member_ids',$member_ids);
 
-                // Update the status values for the members in the current view
+                // Update the status values for the members within view
                 $this->updateStatus();
 
-                
                 $this->members = $this->getMembersByIds();
 
             }
@@ -258,7 +257,7 @@
         }
 
         function getHandles() {
-            $users = $this->getState('users');	
+            $users = $this->getState('member_ids');	
 
             if(empty($this->handles)) {
                 $db = JFactory::getDBO();
@@ -274,7 +273,7 @@
         }
 
         function getForumRanks() {
-            $users = $this->getState($users);
+            $users = $this->getState('member_ids');
 
             if(empty($this->forumRanks)) {
                 $db = JFactory::getDBO();
