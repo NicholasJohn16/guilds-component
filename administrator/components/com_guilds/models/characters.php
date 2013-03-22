@@ -65,19 +65,18 @@
                     $select = $this->buildSelect();
                     $where = $this->buildWhere();
                     $order = $this->buildOrderBy();
-
+                    dump($select.$where.$order,"Query");
                     return $select.$where.$order;
             }
 
             function buildSelect(){
                     $types_model = $this->getInstance('types','GuildsModel');
                     $types = $types_model->getTypes();
-                    dump($types_model);
                 
                     //$types = $this->getTypes();
-                    $i = 100;
-                    $n = 100;
-                    $query  = " SELECT *,a.name as name,a.id as id  ";
+                    $i = 99;
+                    $n = 99;
+                    $query  = " SELECT *,a.name as name,a.id as id, a.published as published ";
                     foreach($types AS $type) {
                             $query .= ",a.".$type->name." AS ".$type->name."_id ";
                             $query .= ",".chr($i).".name AS ".$type->name."_name ";
@@ -177,15 +176,30 @@
 
             //Gets a single character by character id
             function getCharacter() {
-                    if(empty($this->character)){
-                            $db =& JFactory::getDBO();
-                            $query = $this->buildSelect();
-                            $character = $this->getState('character');
-                            $query .= "WHERE a.id = ".$character;
-                            $db->setQuery($query);
-                            $this->character = $db->loadObject();
-                    }
-                    return $this->character;
+                if(empty($this->character)){
+                    $db =& JFactory::getDBO();
+                    $query = $this->buildSelect();
+                    $character = $this->getState('character');
+                    $query .= " WHERE a.id = ".$character;
+                    $db->setQuery($query);
+                    $this->character = $db->loadObject();
+                }
+                return $this->character;
+            }
+            
+            function getCharactersByUserID() {
+                $db = JFactory::getDBO();
+                $user_id = $this->getState('user');
+                
+                if(empty($this->charactersForUser)) {
+                    $query = $this->buildSelect();
+                    $query .= " WHERE user_id = ".$user_id . " AND a.published = 1 ";
+                    $db->setQuery($query);
+                    $this->charactersForUser = $db->loadObjectList();
+                }
+                
+                return $this->charactersForUser;
+            
             }
 
             /* Task functions */

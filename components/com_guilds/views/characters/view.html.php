@@ -29,66 +29,71 @@ class GuildsViewCharacters extends JView {
 		parent::__construct();
 	}
 	
-	function display($tmpl = null) {
-		switch($this->getLayout()) {
-			case 'roster':
-				$this->displayRoster();
-				break;
-			case 'character':
-				$this->displayCharacter();
-				break;
-			case 'form':
-				$this->displayForm();
-				break;
-			default:
-				$this->displayCharacters();
-		}
-		
-		parent::display($tmpl);
-    }
-    
-    function displayCharacters() {
-    	JHTML::stylesheet('bootstrap.css','components/com_guilds/media/css/');
-    	JHTML::stylesheet('guilds.css','components/com_guilds/media/css/');
-		
-        $characters =& $this->get('Characters');
-        $types =& $this->get('Types');
-        $pagination =& $this->get('Pagination');
+        function display($tmpl = null) {
+            switch($this->getLayout()) {
+                case 'roster':
+                    $this->displayRoster();
+                    break;
+                case 'character':
+                    $this->displayCharacter();
+                    break;
+                case 'form':
+                    $this->displayForm();
+                    break;
+                default:
+                    $this->displayCharacters();
+            }
 
-        $this->assignRef('characters',$characters);
-        $this->assignRef('types',$types);
-        $this->assignRef('pagination',$pagination);
-    }
+            parent::display($tmpl);
+        }
+    
+        function displayCharacters() {
+            JHTML::stylesheet('guilds.css','components/com_guilds/media/css/');
+            JHTML::stylesheet('bootstrap.css','components/com_guilds/media/css/');
+            JHTML::stylesheet('bootstrap-editable.css','components/com_guilds/media/css/');
+            JHTML::script('jquery.js','https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/');
+            JHTML::script('bootstrap.js','components/com_guilds/media/js/',false);
+            JHTML::script('bootstrap-editable.js','components/com_guilds/media/js/',false);
+            JHTML::script('characters.jquery.js','components/com_guilds/media/js/',false);
+
+            $characters =& $this->get('CharactersByUserId');
+            $types =& $this->get('Types','types');
+            $pagination =& $this->get('Pagination');
+
+            $this->assignRef('characters',$characters);
+            $this->assignRef('types',$types);
+            $this->assignRef('pagination',$pagination);
+        }
     
     function displayRoster() {
     	// Add scripts and stylesheets to the head
-		JHTML::stylesheet('guilds.css','components/com_guilds/media/css/');
-		JHTML::stylesheet('bootstrap.css','components/com_guilds/media/css/');
-                JHTML::stylesheet('bootstrap-editable.css','components/com_guilds/media/css/');
-                JHTML::stylesheet('bootstrap-datepicker.css','components/com_guilds/media/css/');
-		JHTML::script('jquery.js','https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/');
-		JHTML::script('bootstrap.js','components/com_guilds/media/js/',false);
-                JHTML::script('bootstrap-editable.js','components/com_guilds/media/js/',false);
-                JHTML::script('bootstrap-datepicker.js','components/com_guilds/media/js/',false);
-		JHTML::script('characters.jquery.js','components/com_guilds/media/js/',false);
-		
-		global $mainframe, $option;
-		
-		// Get data from the model
-		$characters =& $this->get('Characters');
-		$pagination =& $this->get('Pagination');
-		$types	=& $this->get('Types','types');	
-		$categories =& $this->get('Categories','categories');
-		
-		// Assign them references so they can be accessed in the tmpl
-		$this->assignRef('search',$this->search);
-		$this->assignRef('filter_type',$this->filter_type);
-		$this->assignRef('order',$this->order);
-		$this->assignRef('direction',$this->direction);
-		$this->assignRef('characters',$characters);
-		$this->assignRef('types', $types);
-		$this->assignRef('categories',$categories);
-		$this->assignRef('pagination',$pagination);
+        JHTML::stylesheet('guilds.css','components/com_guilds/media/css/');
+        JHTML::stylesheet('bootstrap.css','components/com_guilds/media/css/');
+        JHTML::stylesheet('bootstrap-editable.css','components/com_guilds/media/css/');
+        JHTML::stylesheet('bootstrap-datepicker.css','components/com_guilds/media/css/');
+        JHTML::script('jquery.js','https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/');
+        JHTML::script('bootstrap.js','components/com_guilds/media/js/',false);
+        JHTML::script('bootstrap-editable.js','components/com_guilds/media/js/',false);
+        JHTML::script('bootstrap-datepicker.js','components/com_guilds/media/js/',false);
+        JHTML::script('characters.jquery.js','components/com_guilds/media/js/',false);
+
+        global $mainframe, $option;
+
+        // Get data from the model
+        $characters =& $this->get('Characters');
+        $pagination =& $this->get('Pagination');
+        $types	=& $this->get('Types','types');	
+        $categories =& $this->get('Categories','categories');
+
+        // Assign them references so they can be accessed in the tmpl
+        $this->assignRef('search',$this->search);
+        $this->assignRef('filter_type',$this->filter_type);
+        $this->assignRef('order',$this->order);
+        $this->assignRef('direction',$this->direction);
+        $this->assignRef('characters',$characters);
+        $this->assignRef('types', $types);
+        $this->assignRef('categories',$categories);
+        $this->assignRef('pagination',$pagination);
 		
     }
     
