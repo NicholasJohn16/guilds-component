@@ -18,10 +18,9 @@ class GuildsControllerCharacters extends JController {
     
     function __construct($config = array()) {
         $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models');
-        
         parent::__construct($config);
     }
-		
+        		
         /* Task Functions */
 
         function add() {
@@ -93,8 +92,10 @@ class GuildsControllerCharacters extends JController {
                 $view = $this->getView('characters',$format);
                 $characters_model = $this->getModel('characters');
                 $categories_model = $this->getModel('categories');
+                $types_model = $this->getModel('types');
                 $view->setModel($characters_model,true);
                 $view->setModel($categories_model);
+                $view->setModel($types_model);
                 $view->setLayout($layout);
 
                 // Depending on the model, we need to set the user to different values

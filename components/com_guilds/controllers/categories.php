@@ -16,11 +16,14 @@
 
     class GuildsControllerCategories extends JController {
         
+        function __construct($config = array()) {
+            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models');
+            parent::__construct($config);
+        }
+        
         function display() {
             $format = JRequest::getVar('format','default','','string');
             $type = JRequest::getVar('type',NULL,'','string');
-            dump($type,"Contoller:Type");
-            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models');
             $model = $this->getModel('categories');
             $model->setState('type',$type);
             $view = $this->getView('categories',$format);

@@ -1,33 +1,32 @@
 <?php
-/**
- * Joomla! 1.5 Component Guilds Manager
- *
- * @version $Id: controller.php 2011-10-28 10:20:36 svn $
- * @author Nick Swinford
- * @package Joomla
- * @subpackage Guilds Manager
- * @license Copyright (c) 2011 - All Rights Reserved
- */
+    /**
+     * Joomla! 1.5 Component Guilds Manager
+     *
+     * @version $Id: controller.php 2011-10-28 10:20:36 svn $
+     * @author Nick Swinford
+     * @package Joomla
+     * @subpackage Guilds Manager
+     * @license Copyright (c) 2011 - All Rights Reserved
+     */
 
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+    // no direct access
+    defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
+    jimport('joomla.application.component.controller');
 
-/**
- * Guilds Manager Component Controller
- */
-class GuildsControllerMembers extends JController {
-	
-	function __construct() {
-		
-		global $mainframe;
-		$user =& JFactory::getUser();
-		if($user->guest){$mainframe->redirect('index.php?option=com_user&view=login');}
-                $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models');
-		
-		parent::__construct();
-	} 
+    /**
+     * Guilds Manager Component Controller
+     */
+    class GuildsControllerMembers extends JController {
+
+        function __construct() {
+            global $mainframe;
+            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models');
+            $user =& JFactory::getUser();
+            if($user->guest){$mainframe->redirect('index.php?option=com_user&view=login');}
+
+            parent::__construct();
+        } 
 	
 	function display(){
                 $view = $this->getView('members','html');

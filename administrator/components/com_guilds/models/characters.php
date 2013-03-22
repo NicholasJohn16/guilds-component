@@ -46,37 +46,21 @@
             $limitstart = $mainframe->getUserStateFromRequest($option.$view.$layout.'limitstart','limitstart',0);
 
             // Get filter values for Roster view
-            $order		= $mainframe->getUserStateFromRequest($option.$view.$layout."order",'order',null,'cmd' );
-            $direction	= $mainframe->getUserStateFromRequest($option.$view.$layout."direction",'direction',null,'word');
-            $search		= $mainframe->getUserStateFromRequest($option.$view.$layout."search",'search','','string' );
-            $filter_type= $mainframe->getUserStateFromRequest($option.$view.$layout.'filter_type','filter_type',array(),'array');
+            $order = $mainframe->getUserStateFromRequest($option.$view.$layout."order",'order',null,'cmd' );
+            $direction = $mainframe->getUserStateFromRequest($option.$view.$layout."direction",'direction',null,'word');
+            $search = $mainframe->getUserStateFromRequest($option.$view.$layout."search",'search','','string' );
+            $filter_type = $mainframe->getUserStateFromRequest($option.$view.$layout.'filter_type','filter_type',array(),'array');
 
             // In case limit has been changed, adjust it
             //$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 
-            $this->setState('limit', $limit);
-            $this->setState('limitstart', $limitstart);
+            $this->setState('limit',$limit);
+            $this->setState('limitstart',$limitstart);
             $this->setState('order',$order);
             $this->setState('direction',$direction);
             $this->setState('search',$search);
             $this->setState('filter_type',$filter_type);
 }
-
-    /* Query Functions */
-
-            function getTypes(){
-                    if(empty($this->types)){
-                            $db =& JFactory::getDBO();
-                            $query = " SELECT * FROM #__guilds_types WHERE published = 1 ORDER BY ordering ";
-                            $db->setQuery($query);
-                            $this->types = $db->loadObjectList();
-                    }
-
-                    return $this->types;
-            }
-
-
-
             function buildQuery() {
                     $select = $this->buildSelect();
                     $where = $this->buildWhere();
@@ -86,9 +70,13 @@
             }
 
             function buildSelect(){
-                    $types = $this->getTypes();
-                    $i = 99;
-                    $n = 99;
+                    $types_model = $this->getInstance('types','GuildsModel');
+                    $types = $types_model->getTypes();
+                    dump($types_model);
+                
+                    //$types = $this->getTypes();
+                    $i = 100;
+                    $n = 100;
                     $query  = " SELECT *,a.name as name,a.id as id  ";
                     foreach($types AS $type) {
                             $query .= ",a.".$type->name." AS ".$type->name."_id ";
@@ -96,6 +84,7 @@
                             $i++;
                     }
                     $query .= " FROM #__guilds_characters AS a ";
+                    $query .= " LEFT JOIN #__users AS b ON a.user_id = b.id ";
                     foreach($types AS $type){
                             $query .= " LEFT JOIN #__guilds_categories AS ".chr($n)." ON ".chr($n).".id = a.".$type->name." ";
                             $n++;
@@ -106,8 +95,6 @@
 
             function buildWhere(){
                     $user = $this->getState('user');
-                    $filter_order = $this->getState('filter_order');
-                    $filter_order_dir = $this->getState('filter_order_dir');
                     $search = $this->getState('search');
                     $filter_type = $this->getState('filter_type');
 

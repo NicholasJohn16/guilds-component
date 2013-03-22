@@ -18,7 +18,7 @@ class GuildsViewCharacters extends JView {
 	
 	function display(){
 		$characters = $this->get('Characters');
-		$types = $this->get('Types');
+		$types = $this->get('Types','types');
 		$categories = $this->get('Categories');
 		
 		$params = array('title'=>'No Characters Found','msg'=>'This member doesn\'t have any characters.  Click the <span style="font-weight:bold;">Add Character</span> button below to add one.','style'=>'margin-bottom:0px;');

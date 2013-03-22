@@ -77,7 +77,7 @@ class GuildsViewCharacters extends JView {
 		// Get data from the model
 		$characters =& $this->get('Characters');
 		$pagination =& $this->get('Pagination');
-		$types		=& $this->get('Types');	
+		$types	=& $this->get('Types','types');	
 		$categories =& $this->get('Categories','categories');
 		
 		// Assign them references so they can be accessed in the tmpl
