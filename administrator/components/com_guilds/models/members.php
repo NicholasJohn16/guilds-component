@@ -154,12 +154,13 @@
             $db = JFactory::getDBO();
             
             if(empty($this->member)){
-                $sql = ' SELECT a.id, user_id, appdate, b.status as status, '
+                $sql = ' SELECT a.id, user_id, d.username AS username, appdate, b.status AS status, '
                      . ' notes, edit_id, c.username as editor, edit_time, '
                      . ' sto_handle, gw2_handle, tor_handle '
                      . ' FROM `#__guilds_members` AS a '
                      . ' LEFT JOIN  `#__guilds_ranks` as b on a.status = b.id '
                      . ' LEFT JOIN `#__users` AS c ON a.edit_id = c.id '
+                     . ' LEFT JOIN `#__users` AS d ON a.user_id = d.id '
                      . ' WHERE user_id = '.$id;
                 
                 $db->setQuery($sql);
@@ -222,18 +223,6 @@
             return $this->pagination;
         }
   	
-        function getCharactersByUserId($user_id) {
-                $db =& JFactory::getDBO();
-
-                $query = " SELECT * " 
-                                . " FROM #__char_characters "
-                                . " WHERE user_id = " . $user_id;
-                $db->setQuery($query);
-                $result = $db->loadObjectList();
-
-                return $result;
-        }
-	  	
         function updateStatus() {
                 $users = $this->getState('users');
                 
@@ -258,12 +247,6 @@
                         $query .= " SET appdate = NULL ";
                     }
                     $query .= " WHERE " . $db->nameQuote('user_id') . " = " . $db->quote($id);
-                    break;
-                case "handle";
-                    $query = " UPDATE ". $db->nameQuote('#__community_fields_values')
-                        ." SET value = ". $db->quote($value)
-                        ." WHERE ".$db->nameQuote('field_id')." = ". $db->quote('29')
-                        ." AND ".$db->nameQuote('user_id')." = " . $db->quote($id);
                     break;
                 default:
                     $query = " UPDATE " . $db->nameQuote('#__guilds_members')
@@ -316,7 +299,28 @@
             }
             return $this->ranks;
          }
-  	 
-		
-	}
+         
+         function save() {
+             $id = $this->getState('id');
+             $sto_handle = $this->getState('sto_handle');
+             $tor_handle = $this->getState('tor_handle');
+             $gw2_handle = $this->getState('gw2_handle');
+             $appdate = $this->getState('appdate');
+             $notes = $this->getState('notes');
+             $db = JFactory::getDBO();
+             
+             $sql  = ' UPDATE #__guilds_members SET ';
+             $sql .= ' `sto_handle` =  "'.$sto_handle.'",';
+             $sql .= ' `tor_handle` =  "'.$tor_handle.'",';
+             $sql .= ' `gw2_handle` =  "'.$gw2_handle.'",';
+             $sql .= ' `appdate` =  "'.$appdate.'",';
+             $sql .= ' `notes` =  "'.$notes.'"';
+             $sql .= ' WHERE `id` = '.$id;
+             dump($sql);
+             $db->setQuery($sql);
+             $result = $db->query();
+             return $result;
+             
+        }	 
+    }
 ?>
