@@ -67,7 +67,7 @@
             function getTypes(){
                     if(empty($this->types)){
                             $db =& JFactory::getDBO();
-                            $query = " SELECT * FROM #__char_types WHERE published = 1 ORDER BY ordering ";
+                            $query = " SELECT * FROM #__guilds_types WHERE published = 1 ORDER BY ordering ";
                             $db->setQuery($query);
                             $this->types = $db->loadObjectList();
                     }
@@ -95,9 +95,9 @@
                             $query .= ",".chr($i).".name AS ".$type->name."_name ";
                             $i++;
                     }
-                    $query .= " FROM #__char_characters AS a ";
+                    $query .= " FROM #__guilds_characters AS a ";
                     foreach($types AS $type){
-                            $query .= " LEFT JOIN #__char_categories AS ".chr($n)." ON ".chr($n).".id = a.".$type->name." ";
+                            $query .= " LEFT JOIN #__guilds_categories AS ".chr($n)." ON ".chr($n).".id = a.".$type->name." ";
                             $n++;
                     }
 
@@ -222,7 +222,7 @@
                     }
                     // Create the query
                     // implode the arrays created earlier so their values are included
-                    $query = 'INSERT INTO #__char_characters '
+                    $query = 'INSERT INTO #__guilds_characters '
                             . '(`user_id`, `name`, `checked`,`published`,'.implode(',',$category_names).')'
                             . ' VALUES ('.$user.',"'.$character_name.'",'.$checked.',1,'.implode(',',$category_values).')';
                     $db->setQuery($query);
@@ -237,7 +237,7 @@
             function delete(){
                     $db = $this->getDBO();
                     $characters = $this->getState('characters');
-                    $query = " DELETE FROM `#__char_characters` WHERE id IN (".$characters.")";
+                    $query = " DELETE FROM `#__guilds_characters` WHERE id IN (".$characters.")";
                     $db->setQuery($query);
                     if($db->query()){
                             return true;
@@ -252,7 +252,7 @@
 
             function update($name,$id,$value) {
                 $db = $this->getDBO();
-                $query  = " UPDATE #__char_characters ";
+                $query  = " UPDATE #__guilds_characters ";
                 // If we're trying to reset the Checked date set it to NULL
                 if($name == 'checked' && $value == '') {
                     $query .= " SET `checked` = NULL ";
@@ -288,7 +288,7 @@
             //$orderby = $this->_buildContentOrderBy();
             $where = $this->buildWhere();
             $query  = " SELECT a.id";
-            $query .= " FROM #__char_characters AS a ";
+            $query .= " FROM #__guilds_characters AS a ";
             $query .= " LEFT JOIN #__users AS b ON a.user_id = b.id ";
             $query .= $where;
             //$query .= $orderby;

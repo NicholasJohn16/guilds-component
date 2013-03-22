@@ -27,7 +27,7 @@
 		function getTypes(){
 			if(empty($this->types)){
 				$db =& JFactory::getDBO();
-				$query = " SELECT * FROM #__char_types WHERE published = 1 ORDER BY ordering ";
+				$query = " SELECT * FROM #__guilds_types WHERE published = 1 ORDER BY ordering ";
 				$db->setQuery($query);
 				$this->types = $db->loadObjectList();
 			}
