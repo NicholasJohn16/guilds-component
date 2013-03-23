@@ -1,5 +1,5 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
-<form id="members-form" class="fluid-container">
+<form id="members-form" class="fluid-container" action="<?php echo JRoute::_('index.php?com_guilds&view=members'); ?>" method="post">
 	<div class="navbar">
 		<div class="navbar-inner">
 			<div class="container" style="width:100%">
@@ -70,8 +70,8 @@
 			$i++;
 			endforeach;
 		?>
-		<input type="hidden" name="option" value="com_guilds"/>
-		<input type="hidden" name="view" value="members"/>
+<!--		<input type="hidden" name="option" value="com_guilds"/>
+		<input type="hidden" name="view" value="members"/>-->
 		<input type="hidden" name="limitstart" value="<?php echo $this->pagination->limitstart;?>"/>
 		<input type="hidden" name="order" value="<?php echo $this->order; ?>" />
 		<input type="hidden" name="direction" value="<?php echo $this->direction; ?>" />

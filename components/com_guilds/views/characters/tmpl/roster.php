@@ -1,4 +1,4 @@
-<form action="index.php" method="post" id="roster-form">
+<form action="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&layout=roster'); ?>" method="post" id="roster-form">
 	<div class="navbar">
 		<div class="navbar-inner">
 			<div style="width:100%;" class="container">
@@ -66,11 +66,11 @@
 		<?php $i++; ?>
 		<?php endforeach; ?>
 	</div>
-	<input type="hidden" name="option" value="com_guilds"/>
+<!--	<input type="hidden" name="option" value="com_guilds"/>
 	<input type="hidden" name="view" value="characters"/>
-	<input type="hidden" name="layout" value="roster"/>
+	<input type="hidden" name="layout" value="roster"/>-->
 	<input type="hidden" name="task" value=""/>
-	<input type="hidden" name="Itemid" value="99999999"/>
+<!--	<input type="hidden" name="Itemid" value="99999999"/>-->
 	<input type="hidden" name="order" value="<?php echo $this->order; ?>"/>
 	<input type="hidden" name="direction" value="<?php echo $this->direction; ?>"/>
 	<input type="hidden" name="limitstart" value="<?php echo $this->pagination->limitstart;?>"/>
