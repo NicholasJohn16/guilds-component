@@ -31,7 +31,7 @@
         <div class="span2" data-type="date" data-name="checked" data-placement="right" data-title="Update Date" data-pk="<?php echo $character->id; ?>"><?php echo $character->checked; ?></div>
         <div class="span2">
             <a class="btn btn-mini <?php if($character->invite) {echo "disabled"; } ?>" title="<?php if(!$character->invite) {echo "Request an Invite"; } else { echo "Invite Pending"; } ?>" href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task=invite&id='.$character->id); ?>"><i class="icon-share"></i></a>
-            <a class="btn btn-mini" title="Delete Character"  href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task=delete&id='.$character->id); ?>"><i class="icon-remove"></i></a>
+            <a class="btn btn-mini btn-danger" title="Delete Character"  href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task=delete&id='.$character->id); ?>"><i class="icon-remove icon-white"></i></a>
         </div>
     </div>
     <?php
@@ -50,7 +50,7 @@
         <div class="span4">
             <h4>Editing a Character</h4>
             <p>Editing a character is as simple as clicking on the field above, 
-            making the correct changes in the popup and saving them!</p>
+            making your corrections in the popup and saving them!</p>
         </div>
         <div class="span4">
             <h4>What is Checked?</h4>
