@@ -199,7 +199,6 @@
                 }
                 
                 return $this->charactersForUser;
-            
             }
 
             /* Task functions */
@@ -236,15 +235,12 @@
             }
 
             function delete(){
-                    $db = $this->getDBO();
-                    $characters = $this->getState('characters');
-                    $query = " DELETE FROM `#__guilds_characters` WHERE id IN (".$characters.")";
-                    $db->setQuery($query);
-                    if($db->query()){
-                            return true;
-                    } else {
-                            return false;
-                    }
+                $db = $this->getDBO();
+                $characters = $this->getState('characters');
+                $query = " DELETE FROM `#__guilds_characters` WHERE id IN (".$characters.")";
+                $db->setQuery($query);
+                $result = $db->query();
+                return $result;
             }
 
             function edit(){
@@ -284,6 +280,24 @@
             }
             return $this->pagination;
         }
+        
+        function getPendingInvites() {
+            $db = JFactory::getDBO();
+
+            if(empty($this->pendingInvites)) {
+                $query = $this->buildSelect();
+                $query .= " WHERE invite = 1 ";
+                $db->setQuery($query);
+                $this->pendingInvites = $db->loadObjectList();
+            }
+
+            return $this->pendingInvites;
+        }
+        
+        function getPendingPromotions() {
+            
+            
+        }
 
         function buildQueryforTotal(){
             //$orderby = $this->_buildContentOrderBy();
@@ -315,6 +329,7 @@
         }
         
         function invited() {
+            dump("Character was invited!");
             $id = $this->getState('id');
             $db = JFactory::getDBO();
             $sql = " UPDATE `#__guilds_characters` SET `invite` = '0' WHERE `id` = ".$id;

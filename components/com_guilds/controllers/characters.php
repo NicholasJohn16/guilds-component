@@ -163,9 +163,12 @@ class GuildsControllerCharacters extends JController {
             $id = JRequest::getVar('id',NULL,'','int');
             $model = $this->getModel('characters');
             $model->setState('id',$id);
-            $model->invite();
-            
-            alertsHelper::alert($params);
-            $this->setRedirect(JRoute::_('index.php?option=com_guilds&view=characters'));
+            $result = $model->invited();
+            if($result) {
+                alertsHelper::alert(array('title'=>'Invite Sent!','msg'=>'Character invite was sent.','class'=>'success'));
+            } else {
+                alertsHelper::alert(array('title'=>'Invite Failed!','msg'=>'There was an error updating the invite request.','class'=>'error'));
+            }
+            $this->setRedirect(JRoute::_('index.php?option=com_guilds&view=characters&layout=pending'));
         }
 }

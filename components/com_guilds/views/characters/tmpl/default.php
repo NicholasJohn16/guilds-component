@@ -30,8 +30,8 @@
         <?php endforeach;?>
         <div class="span2" data-type="date" data-name="checked" data-placement="right" data-title="Update Date" data-pk="<?php echo $character->id; ?>"><?php echo $character->checked; ?></div>
         <div class="span2">
-            <a class="btn <?php if($character->invite) {echo "disabled"; } ?>" title="<?php if(!$character->invite) {echo "Request an Invite"; } else { echo "Invite Pending"; } ?>" href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task=invite&id='.$character->id); ?>"><i class="icon-share"></i></a>
-            <a class="btn" title="Delete Character"  href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task=delete&id='.$character->id); ?>"><i class="icon-remove"></i></a>
+            <a class="btn btn-mini <?php if($character->invite) {echo "disabled"; } ?>" title="<?php if(!$character->invite) {echo "Request an Invite"; } else { echo "Invite Pending"; } ?>" href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task=invite&id='.$character->id); ?>"><i class="icon-share"></i></a>
+            <a class="btn btn-mini" title="Delete Character"  href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task=delete&id='.$character->id); ?>"><i class="icon-remove"></i></a>
         </div>
     </div>
     <?php

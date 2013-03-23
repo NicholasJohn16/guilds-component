@@ -22,7 +22,8 @@
             <div class="span2 com-guilds-<?php echo $type->name;?> editable-click category" data-title="Select Category" data-type="select" data-pk="<?php echo $character->id; ?>" data-name="<?php echo $type->name; ?>" data-source="index.php?option=com_guilds&view=categories&format=json&type=<?php echo $type->name; ?>" data-value="<?php echo $character->$type_id; ?>"><?php echo $character->$type_name; ?></div>
         <?php endforeach;?>
         <div class="editable-click span2" data-type="date" data-name="checked" data-placement="right" data-title="Update Date" data-pk="<?php echo $character->id; ?>"><?php echo $character->checked; ?></div>
-        <div class="span1"><?php echo $character->published; ?></div>
+        <?php $icon = array('eye-close','eye-open'); ?>
+        <div class="span1"><a class="btn btn-mini"><i class="icon-<?php echo $icon[$character->published]; ?>"></i></a></div>
         <div class="span2"><?php echo $character->unpublisheddate; ?></div>
     </div>
     <?php endforeach; ?>
