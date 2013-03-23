@@ -3,10 +3,11 @@
 <?php else: ?>
 <?php dump($this->characters); ?>
 <div class="container-fluid">
-    <div class="btn-toolbar">
-        <div class="btn-group">
-            <a class="btn" href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&layout=form'); ?>"><i class="icon-plus"></i> Add Character</a>
-            <button class="btn" id="delete"><i class="icon-minus"></i> Delete Character(s)</button>
+    <div class="row">
+        <div class="btn-toolbar">
+            <div class="btn-group">
+                <a class="btn" href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&layout=form'); ?>"><i class="icon-plus"></i> Add Character</a>
+            </div>
         </div>
     </div>
 </div>
@@ -17,6 +18,7 @@
             <div class="span2 com-guilds-<?php echo $type->name; ?>"><?php echo ucwords($type->name); ?></div>
         <?php endforeach;?>
         <div class="span2">Checked</div>
+        <div class="span2">Actions</div>
     </div>
     <?php foreach($this->characters as $character):?>
     <div class="row-fluid" data-character="<?php echo $character->id; ?>">
@@ -29,7 +31,7 @@
         <div class="span2" data-type="date" data-name="checked" data-placement="right" data-title="Update Date" data-pk="<?php echo $character->id; ?>"><?php echo $character->checked; ?></div>
         <div class="span2">
             <a class="btn" title="Request an Invite" href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task=invite&id='.$character->id); ?>"><i class="icon-share"></i></a>
-            <a class="btn" title="Delete Character" href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task=delete&id='.$character->id); ?>"><i class="icon-minus"></i></a>
+            <a class="btn" title="Delete Character" href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task=delete&id='.$character->id); ?>"><i class="icon-remove"></i></a>
         </div>
     </div>
     <?php endforeach; ?>
