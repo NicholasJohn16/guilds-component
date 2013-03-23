@@ -2,7 +2,7 @@
 <?php if(count($this->invites) == 0): ?>
     <div class="alert alert-block alert-info">
         <h4 class="alert-heading">No Pending Invites!</h4>
-        <p>Yeah! Go relax and play the game!</p>
+        <p>Yay! Go relax and play the game!</p>
     </div>
 <?php else: ?>
 <div class="com-guilds container-fluid">
@@ -34,7 +34,7 @@
 <?php if(count($this->promotions) == 0): ?>
     <div class="alert alert-block alert-info">
         <h4 class="alert-heading">No Pending Promotions!</h4>
-        <p>Yeah! Nothing to take care of here! Go watch some tv, maybe?</p>
+        <p>Hurrah! Nothing to take care of here! Go watch some tv, maybe?</p>
     </div>
 <?php else: ?>
 <div class="com-guilds container-fluid">
