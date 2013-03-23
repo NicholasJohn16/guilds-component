@@ -304,5 +304,23 @@
             }
             return $this->total;
         }
+        
+        function invite() {
+            $id = $this->getState('id');
+            $db = JFactory::getDBO();
+            $sql = " UPDATE `#__guilds_characters` SET `invite` = '1' WHERE `id` = ".$id;
+            $db->setQuery($sql);
+            $result = $db->query();
+            return $result;
+        }
+        
+        function invited() {
+            $id = $this->getState('id');
+            $db = JFactory::getDBO();
+            $sql = " UPDATE `#__guilds_characters` SET `invite` = '0' WHERE `id` = ".$id;
+            $db->setQuery($sql);
+            $result = $db->query();
+            return $result;
+        }
 
     }
