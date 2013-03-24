@@ -44,7 +44,8 @@ $(document).ready(function() {
        url:'index.php?option=com_guilds&view=characters&task=update&format=ajax',
        //clear:'<button class="btn">Clear</button>',
        datepicker: {
-           todayBtn:'linked'
+           todayBtn:'linked',
+           todayHightlight:true
        }
    });
    
