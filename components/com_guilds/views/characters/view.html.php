@@ -49,6 +49,18 @@ class GuildsViewCharacters extends JView {
 
             parent::display($tmpl);
         }
+        
+        function displayAjax() {
+            $characters =& $this->get('CharactersByUserId');
+            $types =& $this->get('Types','types');
+            $pagination =& $this->get('Pagination');
+
+            $this->assignRef('characters',$characters);
+            $this->assignRef('types',$types);
+            $this->assignRef('pagination',$pagination);
+            
+            parent::display();
+        }
     
         function displayCharacters() {
             JHTML::stylesheet('guilds.css','components/com_guilds/media/css/');
@@ -66,6 +78,8 @@ class GuildsViewCharacters extends JView {
             $this->assignRef('characters',$characters);
             $this->assignRef('types',$types);
             $this->assignRef('pagination',$pagination);
+            
+            parent::display();
         }
     
     function displayRoster() {
@@ -95,11 +109,12 @@ class GuildsViewCharacters extends JView {
         $this->assignRef('types', $types);
         $this->assignRef('categories',$categories);
         $this->assignRef('pagination',$pagination);
-		
+	
+        parent::display();
     }
     
     function displayCharacter() {
-    	
+    	// For the future, when members can view other members characters
 
     }
     
@@ -115,13 +130,15 @@ class GuildsViewCharacters extends JView {
         JHTML::script('characters.jquery.js','components/com_guilds/media/js/',false);
 
 
-        $character =& $this->get('Character');
-        $types =& $this->get('Types');
-        $categories =& $this->get('Categories');
+        $character = $this->get('Character');
+        $types = $this->get('Types','types');
+        $categories = $this->get('Categories','categories');
 
         $this->assignRef('character',$character);
         $this->assignRef('types', $types);
         $this->assignRef('categories', $categories);
+        
+        parent::display();
     }
     
     function displayPending() {
@@ -140,6 +157,8 @@ class GuildsViewCharacters extends JView {
         $this->assignRef('invites',$invites);
         $this->assignRef('promotions', $promotions);
         $this->assignRef('types',$types);
+        
+        parent::display();
     }
     
 	function pagination() {

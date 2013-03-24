@@ -108,10 +108,10 @@ $(document).ready(function() {
             option:'com_guilds',
             view:'characters',
             //task:'ajax',
-            format:'ajax',
+            //format:'ajax',
             layout:'ajax',
-            tmpl:'component',
-            user:id
+            //tmpl:'component',
+            id:id
         },
         function(data){
             var html = $(data);

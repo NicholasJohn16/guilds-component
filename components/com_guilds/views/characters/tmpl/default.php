@@ -2,7 +2,7 @@
     <div class="row">
         <div class="btn-toolbar">
             <div class="btn-group">
-                <a class="btn" href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&layout=form'); ?>"><i class="icon-plus"></i> Add Character</a>
+                <a class="btn" href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task=add'); ?>"><i class="icon-plus"></i> Add Character</a>
             </div>
         </div>
     </div>
@@ -34,6 +34,7 @@
         <div class="span2" data-type="date" data-name="checked" data-placement="right" data-title="Update Date" data-pk="<?php echo $character->id; ?>"><?php echo $character->checked; ?></div>
         <div class="span2">
             <a class="btn btn-mini <?php if($character->invite) {echo "disabled"; } ?>" title="<?php if(!$character->invite) {echo "Request an Invite"; } else { echo "Invite Pending"; } ?>" href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task=invite&id='.$character->id); ?>"><i class="icon-share"></i></a>
+            <a class="btn btn-mini" title="Edit Character" href="<?php echo JRoute::_('index.php?com_guilds&view=characters&task=edit&id='.$character->id); ?>"><i class="icon-edit"></i></a>
             <a class="btn btn-mini btn-danger" title="Delete Character"  href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task=drop&id='.$character->id); ?>"><i class="icon-remove icon-white"></i></a>
         </div>
     </div>
@@ -66,7 +67,7 @@
         <div class="span4">
             <h4>Request an Invite</h4>
             <p>When adding a new character, set Request Invite to Yes or with a 
-                current character just click the invite button (<button class="btn"><i class="icon-share"></i></button>).</p>
+                current character just click the invite button (<button class="btn btn-mini"><i class="icon-share"></i></button>).</p>
         </div>
     </div>
 </div>

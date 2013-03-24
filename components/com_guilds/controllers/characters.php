@@ -24,25 +24,40 @@ class GuildsControllerCharacters extends JController {
     }
         		
         /* Task Functions */
+    
+    function add() {
+        // For the add task, we're doing basically the same thing as editing
+        $this->edit();
+    }
 
-        function add() {
-                $user = JRequest::getVar('user',null,'','int');
-                $character_name = JRequest::getVar('character_name',null,'','string');
+        function save() {
+                dump(JRequest::get('post'),"Add Character POST");
+                $user_id = JRequest::getVar('user_id',null,'','int');
+                $name = JRequest::getVar('name',null,'','string');
                 $categories = JRequest::getVar('category',array(),'','array');
                 $checked = JRequest::getVar('checked',null,'','string');
+                $invite = JRequest::getVar('invite',null,'','bool');
 
-                if($character_name == "") {
+                if($name == "") {
                         JError::raiseError(500,'Character name not given');
                 }
-                if($user == "") {
+                if($user_id == "") {
                         JError::raiserError(500,'User is not specified');
                 }
                 $model = $this->getModel('characters');
-                $model->setState('user',$user);
-                $model->setState('character_name',$character_name);
+                $model->setState('user_id',$user_id);
+                $model->setState('name',$name);
                 $model->setState('categories',$categories);
                 $model->setState('checked',$checked);
-                $model->add();
+                $model->setState('invite',$invite);
+                $result = $model->add();
+                
+                if($result) {
+                    alertsHelper::alert(array('title'=>'Character Saved','msg'=>'Character was saved successfully!','class'=>'success'));
+                } else {
+                    alertsHelper::alert(array('title'=>'Save Failed','msg'=>'There was an error and your character could not be saved','class'=>'error'));
+                }
+                $this->setRedirect(JRoute::_('index.php?option=com_guilds&view=characters',false));
         }
 
         function ajax() {
@@ -58,18 +73,17 @@ class GuildsControllerCharacters extends JController {
         }
 
         function edit() {
-                $character = JRequest::getVar('character',null,'','int');	
-
-                if($character === null){
-                        // Report an error if there was no id
-                        JError::raiseError(500,'ID parameter missing from the request');
-                }
+                $id = JRequest::getVar('id',null,'','int');	
                 $view = $this->getView('characters','html');
-                $model = $this->getModel('characters');
-                $model->setState('character',$character);
-                $view->setModel($model,true);
+                $characters_model = $this->getModel('characters');
+                $categories_model = $this->getModel('categories');
+                $types_model = $this->getModel('types');
+                $characters_model->setState('id',$id);
+                $view->setModel($characters_model,true);
+                $view->setModel($categories_model);
+                $view->setModel($types_model);
                 $view->setLayout('form');
-                $view->display();
+                $view->displayForm();
         }
 
         function delete() {
@@ -89,15 +103,19 @@ class GuildsControllerCharacters extends JController {
         }
         
         function drop() {
+            // Just unpublish the character, so it isn't visible to the Member anymore
             $this->unpublish();
-            
-            $this->setRedirect('index.php?option=com_guilds&view=characters');
+            //Redirect back to the Characters view
+            $this->setRedirect(JRoute::_('index.php?option=com_guilds&view=characters',false));
         }
 
         function display() {
+                // Get the view info so we can call the correct one
                 $layout = JRequest::getVar('layout','default','','string');
                 $format = JRequest::getVar('format','html','','string');
                 $view = $this->getView('characters',$format);
+                
+                // Get all the models and push them into the view
                 $characters_model = $this->getModel('characters');
                 $categories_model = $this->getModel('categories');
                 $types_model = $this->getModel('types');
@@ -105,25 +123,50 @@ class GuildsControllerCharacters extends JController {
                 $view->setModel($categories_model);
                 $view->setModel($types_model);
                 $view->setLayout($layout);
-
+                dump($layout,"Characters View: Layout");
                 // Depending on the model, we need to set the user to different values
                 switch($layout) {
-                        case 'roster':
-                                //The roster layout should have all characters so we set it to null
-                                $user = null;
-                                break;
-                        case 'ajax':
-                                //The ajax layout should only get characters for the called user
-                                $user = JRequest::getVar('user',0,'','int');
-                                break;
-                        default:
-                                //For the default layout, we should get the current user's characters only
-                                $user = JFactory::getUser()->id;
+                    case 'ajax':
+                        $id = JRequest::getVar('id',null,'','int');
+                        JRequest::setVar('tmpl','component');
+                        $characters_model->setState('id',$id);
+                        $characters_model->setState('publishedOnly',false);
+                        $view->displayAjax();
+                        break;
+                    // Isn't needed because form layout's task is edit
+                    //case 'form':
+                    //    break;
+                    case 'pending':
+                        $view->displayPending();
+                        break;
+                    case 'roster':
+                        $view->displayRoster();
+                        break;
+                    default:
+                        $id = JFactory::getUser()->id;
+                        $characters_model->setState('id',$id);
+                        $characters_model->setState('publishedOnly',true);
+                        $view->displayCharacters();
                 }
+                
+                
+//                switch($layout) {
+//                        case 'roster':
+//                                //The roster layout should have all characters so we set it to null
+//                                $user = null;
+//                                break;
+//                        case 'ajax':
+//                                //The ajax layout should only get characters for the called user
+//                                $user = JRequest::getVar('user',0,'','int');
+//                                break;
+//                        default:
+//                                //For the default layout, we should get the current user's characters only
+//                                $user = JFactory::getUser()->id;
+//                }
 
-                $characters_model->setState('user',$user);
-                $characters_model->setState('layout',$layout);
-                $view->display();
+                //$characters_model->setState('user',$user);
+                //$characters_model->setState('layout',$layout);
+                //$view->display();
         }
 
         function update() {
@@ -134,7 +177,7 @@ class GuildsControllerCharacters extends JController {
                 $model = $this->getModel('characters');
 
                 if($name == NULL || $id == NULL) {
-                    JError::raiseError('500','Invalid Request');
+                    JError::raiseError('500','Name or pk is missing from the request.');
                 }
 
                 if(!$model->update($name,$id,$value)) {
@@ -178,7 +221,7 @@ class GuildsControllerCharacters extends JController {
                 alertsHelper::alert(array('title'=>'Invite Failed!','msg'=>'There was an error requesting your invite.','class'=>'error'));
             }
             
-            $this->setRedirect(JRoute::_('index.php?option=com_guilds&view=characters'));
+            $this->setRedirect(JRoute::_('index.php?option=com_guilds&view=characters',false));
         }
         
         function invited() {
@@ -191,6 +234,6 @@ class GuildsControllerCharacters extends JController {
             } else {
                 alertsHelper::alert(array('title'=>'Invite Failed!','msg'=>'There was an error updating the invite request.','class'=>'error'));
             }
-            $this->setRedirect(JRoute::_('index.php?option=com_guilds&view=characters&layout=pending'));
+            $this->setRedirect(JRoute::_('index.php?option=com_guilds&view=characters&layout=pending',false));
         }
 }

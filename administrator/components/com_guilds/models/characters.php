@@ -161,39 +161,56 @@
             // Gets multiple characters
             function getCharacters(){
                     $db = $this->getDBO();
-
                     if(empty($this->characters)) {
                             $query = $this->buildQuery();
-                            $limit = $this->getState('limitstart');
-                            $limitstart = $this->getState('limit');
-
                             $this->characters = $this->_getList($query,$this->getState('limitstart'),$this->getState('limit'));
                     }
-
                     return $this->characters;
             }
 
 
             //Gets a single character by character id
+            //If id is not supplied, returns empty object
             function getCharacter() {
+                $id = $this->getState('id');
+                $types_model = $this->getInstance('types','GuildsModel');
+                dump($types_model);
+                $types = $types_model->getTypes();
+                dump($types);
                 if(empty($this->character)){
-                    $db =& JFactory::getDBO();
-                    $query = $this->buildSelect();
-                    $character = $this->getState('character');
-                    $query .= " WHERE a.id = ".$character;
-                    $db->setQuery($query);
-                    $this->character = $db->loadObject();
+                    if($id == NULL ) {
+                        $this->character = new stdClass();
+                        $this->character->user_id = JFactory::getUser()->id;
+                        $this->character->id = NULL;
+                        $this->character->username = JFactory::getUser()->username;
+                        $this->character->name = NULL;
+                        $this->character->invite = NULL;
+                        foreach($types as $type) {
+                            $type_id = $type->name.'_id';
+                            $this->character->$type_id = NULL;
+                        }
+                    } else {
+                        $db =& JFactory::getDBO();
+                        $query = $this->buildSelect();
+                        $id = $this->getState('id');
+                        $query .= " WHERE a.id = ".$id;
+                        $db->setQuery($query);
+                        $this->character = $db->loadObject();
+                    }
                 }
                 return $this->character;
             }
             
             function getCharactersByUserID() {
                 $db = JFactory::getDBO();
-                $user_id = $this->getState('user');
+                $id = $this->getState('id');
+                dump($id,"Model: User ID");
+                $publishedOnly = $this->getState('publishedOnly');
                 
                 if(empty($this->charactersForUser)) {
                     $query = $this->buildSelect();
-                    $query .= " WHERE user_id = ".$user_id . " AND a.published = 1 ";
+                    $query .= " WHERE user_id = ".$id;
+                    if($publishedOnly) { $query .= " AND a.published = 1 "; }
                     $db->setQuery($query);
                     $this->charactersForUser = $db->loadObjectList();
                 }
@@ -206,9 +223,10 @@
             function add(){
                     // Get the database object and all necessary states
                     $db = $this->getDBO();
-                    $user = $this->getState('user');
-                    $character_name = $this->getState('character_name');
+                    $user_id = $this->getState('user_id');
+                    $name = $this->getState('name');
                     $categories = $this->getState('categories');
+                    $invite = $this->getState('invite');
                     $checked = ($this->getState('checked') == "" ? 'NULL' : $this->getState('checked'));
 
                     // Create category arries and loop over the category input
@@ -223,15 +241,11 @@
                     // Create the query
                     // implode the arrays created earlier so their values are included
                     $query = 'INSERT INTO #__guilds_characters '
-                            . '(`user_id`, `name`, `checked`,`published`,'.implode(',',$category_names).')'
-                            . ' VALUES ('.$user.',"'.$character_name.'",'.$checked.',1,'.implode(',',$category_values).')';
+                            . '(`user_id`, `name`, `checked`,`published`,`invite`,`'.implode('`,`',$category_names).'`)'
+                            . ' VALUES ('.$user_id.',"'.$name.'",'.$checked.',1,'.$invite.','.implode(',',$category_values).')';
+                    dump($query,"Character add query");
                     $db->setQuery($query);
-                    if(!$db->query()) {
-                            JError::raiserError(500,'Character add failed!');
-                            return false;
-                    } else {
-                            return true;
-                    }
+                    return $db->query();
             }
 
             function delete(){
