@@ -17,6 +17,8 @@ jimport('joomla.application.component.controller');
 class GuildsControllerCharacters extends JController {
     
     function __construct($config = array()) {
+        // When the drop task is called, use the unpublish function
+        //$this->registerTask('drop','unpublish');
         $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models');
         parent::__construct($config);
     }
@@ -85,6 +87,12 @@ class GuildsControllerCharacters extends JController {
                 $params = array('title'=>'Character(s) deleted.','msg'=>'The character(s) were deleted successfully','class'=>'success');
                 alertsHelper::alert($params);
         }
+        
+        function drop() {
+            $this->unpublish();
+            
+            $this->setRedirect('index.php?option=com_guilds&view=characters');
+        }
 
         function display() {
                 $layout = JRequest::getVar('layout','default','','string');
@@ -140,7 +148,21 @@ class GuildsControllerCharacters extends JController {
         }
 
         function unpublish() {
-
+            $id = JRequest::getVar('id',NULL,'','int');
+            
+            if($id == "") {
+                JError::raiseError('500','Character ID missing from request!');
+            }
+            
+            $model = $this->getModel('characters');
+            $model->setState('id',$id);
+            $result = $model->unpublish();
+            
+            if($result) {
+                alertsHelper::alert(array('title'=>'Character deleted!','msg'=>'Your character was successfully deleted.','class'=>'success'));
+            } else {
+                alertsHelper::alert(array('title'=>'Delete failed','msg'=>'I\'m sorry there was an error processing your request.  If error percists, please notify the leadership.','class'=>'error'));
+            }
 
         }
         

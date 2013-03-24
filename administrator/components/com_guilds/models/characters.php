@@ -248,7 +248,7 @@
             }
 
             function update($name,$id,$value) {
-                $db = $this->getDBO();
+                $db = JFactory::getDBO();
                 $query  = " UPDATE #__guilds_characters ";
                 // If we're trying to reset the Checked date set it to NULL
                 if($name == 'checked' && $value == '') {
@@ -263,11 +263,15 @@
             }
 
             function publish(){
-
+                
             }
 
             function unpublish(){
-
+                $db = JFactory::getDBO();
+                $id = $this->getState('id');
+                $sql = " UPDATE #__guilds_characters SET published = 0 WHERE id = ".$id;
+                $db->setQuery($sql);
+                return $db->query();
             }
 
         /* Pagination functions */

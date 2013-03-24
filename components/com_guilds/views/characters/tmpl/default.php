@@ -1,7 +1,3 @@
-<?php if(count($this->characters) == 0): ?>
-    <?php alertsHelper::display(); ?>
-<?php else: ?>
-<?php dump($this->characters); ?>
 <div class="container-fluid">
     <div class="row">
         <div class="btn-toolbar">
@@ -11,6 +7,13 @@
         </div>
     </div>
 </div>
+<?php if(count($this->characters) == 0): ?>
+    <div class="alert alert-block alert-info">
+        <h4 class="alert-heading">No Characters Found</h4>
+        <p>You don't have any characters added to your profile yet. Click the <strong>Add Character</strong> button above to add your first character!</p>
+    </div>
+<?php else: ?>
+<?php dump($this->characters); ?>
 <div class="com-guilds container-fluid">
     <div class="row-fluid header">
         <div class="span2">Name</div>
@@ -31,7 +34,7 @@
         <div class="span2" data-type="date" data-name="checked" data-placement="right" data-title="Update Date" data-pk="<?php echo $character->id; ?>"><?php echo $character->checked; ?></div>
         <div class="span2">
             <a class="btn btn-mini <?php if($character->invite) {echo "disabled"; } ?>" title="<?php if(!$character->invite) {echo "Request an Invite"; } else { echo "Invite Pending"; } ?>" href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task=invite&id='.$character->id); ?>"><i class="icon-share"></i></a>
-            <a class="btn btn-mini btn-danger" title="Delete Character"  href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task=delete&id='.$character->id); ?>"><i class="icon-remove icon-white"></i></a>
+            <a class="btn btn-mini btn-danger" title="Delete Character"  href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task=drop&id='.$character->id); ?>"><i class="icon-remove icon-white"></i></a>
         </div>
     </div>
     <?php
@@ -45,6 +48,8 @@
 </div>
 <!-- Must be here to make sure that character list has proper bottom padding -->
 <div style="clear:both"></div>
+
+<?php endif; ?>
 <div class="container-fluid" style="margin-top:10px;">
     <div class="row-fluid">
         <div class="span4">
@@ -65,4 +70,3 @@
         </div>
     </div>
 </div>
-<?php endif; ?>
