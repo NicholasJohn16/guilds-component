@@ -42,7 +42,10 @@ $(document).ready(function() {
    $('.accordion').editable({
        selector:'div.editable-click',
        url:'index.php?option=com_guilds&view=characters&task=update&format=ajax',
-       clear:'<button class="btn">Clear</button>'
+       //clear:'<button class="btn">Clear</button>',
+       datepicker: {
+           todayBtn:'linked'
+       }
    });
    
 //   $('.accordion').on('click','div.editable-click',function(){

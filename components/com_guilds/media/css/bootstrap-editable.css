@@ -134,6 +134,10 @@
     *display: inline;    
 }
 
+.editable-container .popover-inner {
+    width:auto;
+}
+
 .editable-container.ui-widget {
    font-size: inherit;  /* jqueryui widget font 1.1em too big, overwrite it */
 }
