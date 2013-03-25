@@ -251,11 +251,11 @@
 
             function delete(){
                 $db = $this->getDBO();
-                $characters = $this->getState('characters');
-                $query = " DELETE FROM `#__guilds_characters` WHERE id IN (".$characters.")";
+                $ids = $this->getState('ids');
+                dump($ids,"IDs from Model");
+                $query = " DELETE FROM `#__guilds_characters` WHERE id IN (".implode(',', $ids).")";
                 $db->setQuery($query);
-                $result = $db->query();
-                return $result;
+                return $db->query();
             }
 
             function edit(){

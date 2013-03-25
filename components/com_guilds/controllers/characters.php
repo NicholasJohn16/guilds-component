@@ -67,18 +67,6 @@ class GuildsControllerCharacters extends JController {
         $this->setRedirect(JRoute::_('index.php?option=com_guilds&view=characters&layout='.$layout, false));
     }
 
-    function ajax() {
-        JRequest::setVar('tmpl', 'component');
-        $user = JRequest::getVar('user_id', null, '', 'int');
-
-        $view = $this->getView('characters', 'ajax');
-        $model = $this->getModel('characters');
-        $model->setState('user', $user);
-        $view->setModel($model, true);
-        $view->setLayout('ajax');
-        $view->display();
-    }
-
     function edit() {
         $id = JRequest::getVar('id', null, '', 'int');
         $redirect = JRequest::getVar('redirect','','','string');
@@ -97,10 +85,10 @@ class GuildsControllerCharacters extends JController {
 
     function delete() {
         $layout = JRequest::getVar('layout', 'default', '', 'string');
-        $characters = JRequest::getVar('characters', null, '', 'array');
-        $ids = implode(',', $characters);
+        $ids = JRequest::getVar('ids', null, '', 'array');
+        dump($ids,'IDs from Controller');
         $model = $this->getModel('characters');
-        $model->setState('characters', $ids);
+        $model->setState('ids', $ids);
         $model->delete();
 
         if ($layout != 'ajax') {
@@ -138,6 +126,7 @@ class GuildsControllerCharacters extends JController {
             case 'ajax':
                 $id = JRequest::getVar('id', null, '', 'int');
                 JRequest::setVar('tmpl', 'component');
+                JRequest::setVar('format','raw');
                 $characters_model->setState('id', $id);
                 $characters_model->setState('publishedOnly', false);
                 $view->displayAjax();

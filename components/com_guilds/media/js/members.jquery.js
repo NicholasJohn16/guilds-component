@@ -108,7 +108,7 @@ $(document).ready(function() {
             option:'com_guilds',
             view:'characters',
             //task:'ajax',
-            //format:'ajax',
+            format:'raw',
             layout:'ajax',
             //tmpl:'component',
             id:id
@@ -160,7 +160,6 @@ $(document).ready(function() {
     // Submits new characters from the Character form
     $('#character-form input[type="submit"]').click(function(event){
         event.preventDefault();
-        var sData = "";
         var form = $(this).parents('form');
         var user = form.find('#user').val();
         var character_name = form.find('input[name="character_name"]').val(); 
@@ -188,7 +187,6 @@ $(document).ready(function() {
         eCategories.each(function(index,value) {
             sData = sData + "&" + $(value).attr('name')+"="+$(value).val();  
         });
-        console.log(sData);
 	   
         $.ajax({
             type:"POST",
@@ -208,7 +206,7 @@ $(document).ready(function() {
 	// Get the user_id so we can search for all checked boxes
         var user = $(this).parents('.accordion-group').attr('data-user');
         // Search for all the checked characters
-        var checkboxes = $('#characters-'+user+' .com-guilds-row input[type="checkbox"]:checked');
+        var checkboxes = $('#characters-'+user+' input[type="checkbox"]:checked');
 	   
         // Make sure there are some characters selected
         if(checkboxes.length == 0 ) {
@@ -228,12 +226,12 @@ $(document).ready(function() {
         checkboxes.each(function(index,element) {
             characters.push($(element).val());
         });
-        characters = characters.join('characters[],');
+        characters = characters.join(',');
 	   
         $.ajax({
             type:'POST',
             url:'index.php',
-            data:'option=com_guilds&view=characters&task=delete&tmpl=component&layout=ajax&characters='+characters,
+            data:'option=com_guilds&view=characters&task=delete&tmpl=component&layout=ajax&ids='+characters,
             success:function() {
                 refreshCharacters(user);
             }
