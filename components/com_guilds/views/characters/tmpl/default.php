@@ -13,7 +13,6 @@
         <p>You don't have any characters added to your profile yet. Click the <strong>Add Character</strong> button above to add your first character!</p>
     </div>
 <?php else: ?>
-<?php dump($this->characters); ?>
 <div class="com-guilds container-fluid">
     <div class="row-fluid header">
         <div class="span2">Name</div>
@@ -38,13 +37,6 @@
             <a class="btn btn-mini btn-danger" title="Delete Character"  href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task=drop&id='.$character->id); ?>"><i class="icon-remove icon-white"></i></a>
         </div>
     </div>
-    <?php
-        if($character->invite) {
-            dump('Invite: True!');
-        } else {
-            dump('Invite: False :(');
-        }
-    ?>
     <?php endforeach; ?>
 </div>
 <!-- Must be here to make sure that character list has proper bottom padding -->

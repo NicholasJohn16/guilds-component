@@ -127,8 +127,14 @@ class GuildsViewCharacters extends JView {
         JHTML::script('bootstrap.js','components/com_guilds/media/js/',false);
 
         JHTML::script('bootstrap-datepicker.js','components/com_guilds/media/js/',false);
-        JHTML::script('characters.jquery.js','components/com_guilds/media/js/',false);
-
+        //JHTML::script('characters.jquery.js','components/com_guilds/media/js/',false);
+        
+        // Get the IDs for Admin groups
+        $admin_gids = array(24,25);
+        // Check if current user is in Admin group
+        $isAdmin = in_array(JFactory::getUser()->gid,$admin_gids);
+        $redirect = $this->redirect;
+        
 
         $character = $this->get('Character');
         $types = $this->get('Types','types');
@@ -137,6 +143,8 @@ class GuildsViewCharacters extends JView {
         $this->assignRef('character',$character);
         $this->assignRef('types', $types);
         $this->assignRef('categories', $categories);
+        $this->assignRef('isAdmin',$isAdmin);
+        $this->assignRef('redirect',$redirect);
         
         parent::display();
     }

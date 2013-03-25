@@ -160,7 +160,6 @@
 
             // Gets multiple characters
             function getCharacters(){
-                    $db = $this->getDBO();
                     if(empty($this->characters)) {
                             $query = $this->buildQuery();
                             $this->characters = $this->_getList($query,$this->getState('limitstart'),$this->getState('limit'));
@@ -185,6 +184,8 @@
                         $this->character->username = JFactory::getUser()->username;
                         $this->character->name = NULL;
                         $this->character->invite = NULL;
+                        $this->character->checked = NULL;
+                        $this->character->published = NULL;
                         foreach($types as $type) {
                             $type_id = $type->name.'_id';
                             $this->character->$type_id = NULL;
@@ -258,6 +259,27 @@
             }
 
             function edit(){
+                // Get the database object and all necessary states
+                    $db = $this->getDBO();
+                    $user_id = $this->getState('user_id');
+                    $id = $this->getState('id');
+                    $name = $this->getState('name');
+                    $categories = $this->getState('categories');
+                    $invite = $this->getState('invite');
+                    $checked = ($this->getState('checked') == "" ? 'NULL' : $this->getState('checked'));
+
+                    // Create the query
+                    $sql = ' UPDATE #__guilds_characters SET '
+                         . ' `name` = '.$db->quote($name).', '
+                         . ' `checked` = '.$db->quote($checked).', '
+                         . ' `invite` = '.$db->quote($invite).' ';
+                    foreach($categories as $category => $value) {
+                        $sql .= ', '.$db->nameQuote($category).' = '.$db->quote($value).' ';
+                    }
+                    $sql .= ' WHERE id = '.$id;
+                    $db->setQuery($sql);
+                    $result = $db->query();
+                    return $result;
 
             }
 
@@ -277,6 +299,17 @@
             }
 
             function publish(){
+                
+            }
+            
+            function save() {
+                $id = $this->getState('id');
+                
+                if($id < 1) {
+                    return $this->add();
+                } else {
+                    return $this->edit();
+                }
                 
             }
 
