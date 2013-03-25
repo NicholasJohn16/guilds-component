@@ -1,5 +1,8 @@
 <?php if(count($this->characters) == 0): ?>
-    <?php alertsHelper::display(); ?>
+    <div class="alert alert-block alert-info" style="margin-bottom:0px;">
+        <h4 class="alert-heading">No Characters Found</h4>
+        <p>This member doesn't have any characters yet.  To add a character, click the <strong>Add Character</strong> button below.</p>
+    </div>
 <?php else: ?>
 <div class="com-guilds container-fluid">
     <?php dump($this->characters); ?>
