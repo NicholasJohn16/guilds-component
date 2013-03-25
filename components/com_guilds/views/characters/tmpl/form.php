@@ -110,5 +110,4 @@ defined('_JEXEC') or die('Restricted access');
     </div>
     <input type="hidden" name="id" value="<?php echo $this->character->id; ?>" />
     <input type="hidden" name="task" value="save" />
-    <input type="hidden" name="layout" value="<?php echo $this->redirect; ?>"/>
 </form>
