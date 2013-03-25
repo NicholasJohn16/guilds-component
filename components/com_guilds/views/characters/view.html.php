@@ -125,6 +125,7 @@ class GuildsViewCharacters extends JView {
         JHTML::stylesheet('guilds.css','components/com_guilds/media/css/');
         JHTML::script('jquery.js','https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/');
         JHTML::script('bootstrap.js','components/com_guilds/media/js/',false);
+        JHTML::script('category-validation.js','components/com_guilds/media/js/',false);
 
         JHTML::script('bootstrap-datepicker.js','components/com_guilds/media/js/',false);
         //JHTML::script('characters.jquery.js','components/com_guilds/media/js/',false);

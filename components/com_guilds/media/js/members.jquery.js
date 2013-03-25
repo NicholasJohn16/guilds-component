@@ -251,27 +251,6 @@ $(document).ready(function() {
         form.find('select[name^="category"]').val("");
     });
    
-    //   $('#character-form option').click(function() {
-    //		var parent = $(this).attr('data-parent');
-    //		//var children = $(this).attr('data-children');
-    //		console.log(parent);
-    //		//console.log(children);
-    //		selectParents(parent);
-    //		
-    //	});
-    //	
-    //	function selectParents(parent_id) {
-    //		var options = $(this).parent('.guilds-row').children('option').each(function(index,element){
-    //			if($(element).val() == parent_id){
-    //				$(element).parent('select').val(parent_id);
-    //				var new_parent = $(element).attr('data-parent');
-    //				if(new_parent != "0") {
-    //					selectParents(new_parent);
-    //				}
-    //			}
-    //		});
-    //	}
-   
     //When a "Check All" Input is clicked, all inputs in the list are checked.
     $('form').on('click','.checkall',function(event) {
         var checkboxes = $(this).parents('div[id^="characters"]').find('input[type="checkbox"]');
