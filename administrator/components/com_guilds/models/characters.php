@@ -266,12 +266,12 @@
                     $name = $this->getState('name');
                     $categories = $this->getState('categories');
                     $invite = $this->getState('invite');
-                    $checked = ($this->getState('checked') == "" ? 'NULL' : $this->getState('checked'));
+                    //$checked = ($this->getState('checked') == "" ? 'NULL' : $this->getState('checked'));
 
                     // Create the query
                     $sql = ' UPDATE #__guilds_characters SET '
                          . ' `name` = '.$db->quote($name).', '
-                         . ' `checked` = '.$db->quote($checked).', '
+                         //. ' `checked` = '.$db->quote($checked).', '
                          . ' `invite` = '.$db->quote($invite).' ';
                     foreach($categories as $category => $value) {
                         $sql .= ', '.$db->nameQuote($category).' = '.$db->quote($value).' ';
