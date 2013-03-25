@@ -7,7 +7,6 @@
     
     //$session =& JFactory::getSession();
     //$registry = $session->get('registry');
-    //dump($registry,'Registry');
 
     // Include the Alerts helper
     include_once JPATH_COMPONENT.DS.'helpers'.DS.'alertsHelper.php';

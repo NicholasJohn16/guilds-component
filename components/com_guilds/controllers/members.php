@@ -60,7 +60,6 @@ class GuildsControllerMembers extends JController {
 
     function save() {
         $post = JRequest::get('post');
-        dump($post);
         $id = JRequest::getVar('id', null, '', 'int');
         $sto_handle = JRequest::getVar('sto_handle', null, '', 'string');
         $tor_handle = JRequest::getVar('tor_handle', null, '', 'string');
@@ -92,8 +91,6 @@ class GuildsControllerMembers extends JController {
         $value = JRequest::getVar('value', NULL, '', 'string');
         $value = ($value == '') ? NULL : $value;
         $model = $this->getModel('members');
-        dump($value, 'Value');
-        dump($name, 'Name');
         if ($name == NULL || $id == NULL) {
             JError::raiseError('500', 'Invalid Request');
         }

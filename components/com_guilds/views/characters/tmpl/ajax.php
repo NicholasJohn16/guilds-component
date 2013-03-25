@@ -5,7 +5,6 @@
     </div>
 <?php else: ?>
 <div class="com-guilds container-fluid">
-    <?php dump($this->characters); ?>
     <div class="row-fluid header">
         <div class="span1"><input type="checkbox" class="checkall" title="Check All"/> ID</div>
         <div class="span2">Name</div>

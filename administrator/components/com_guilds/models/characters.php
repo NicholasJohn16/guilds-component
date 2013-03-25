@@ -65,7 +65,6 @@
                     $select = $this->buildSelect();
                     $where = $this->buildWhere();
                     $order = $this->buildOrderBy();
-                    dump($select.$where.$order,"Query");
                     return $select.$where.$order;
             }
 
@@ -173,9 +172,7 @@
             function getCharacter() {
                 $id = $this->getState('id');
                 $types_model = $this->getInstance('types','GuildsModel');
-                dump($types_model);
                 $types = $types_model->getTypes();
-                dump($types);
                 if(empty($this->character)){
                     if($id == NULL ) {
                         $this->character = new stdClass();
@@ -205,7 +202,6 @@
             function getCharactersByUserID() {
                 $db = JFactory::getDBO();
                 $id = $this->getState('id');
-                dump($id,"Model: User ID");
                 $publishedOnly = $this->getState('publishedOnly');
                 
                 if(empty($this->charactersForUser)) {
@@ -244,7 +240,6 @@
                     $query = 'INSERT INTO #__guilds_characters '
                             . '(`user_id`, `name`, `checked`,`published`,`invite`,`'.implode('`,`',$category_names).'`)'
                             . ' VALUES ('.$user_id.',"'.$name.'",'.$checked.',1,'.$invite.','.implode(',',$category_values).')';
-                    dump($query,"Character add query");
                     $db->setQuery($query);
                     return $db->query();
             }
@@ -252,7 +247,6 @@
             function delete(){
                 $db = $this->getDBO();
                 $ids = $this->getState('ids');
-                dump($ids,"IDs from Model");
                 $query = " DELETE FROM `#__guilds_characters` WHERE id IN (".implode(',', $ids).")";
                 $db->setQuery($query);
                 return $db->query();
@@ -380,7 +374,6 @@
         }
         
         function invited() {
-            dump("Character was invited!");
             $id = $this->getState('id');
             $db = JFactory::getDBO();
             $sql = " UPDATE `#__guilds_characters` SET `invite` = '0' WHERE `id` = ".$id;

@@ -31,7 +31,6 @@ class GuildsControllerCharacters extends JController {
     }
 
     function save() {
-        dump(JRequest::get('post'), "Add Character POST");
         $id = JRequest::getVar('id', null, '', 'int');
         $user_id = JRequest::getVar('user_id', null, '', 'int');
         $name = JRequest::getVar('name', null, '', 'string');
@@ -83,7 +82,6 @@ class GuildsControllerCharacters extends JController {
     function delete() {
         $layout = JRequest::getVar('layout', 'default', '', 'string');
         $ids = JRequest::getVar('ids', null, '', 'array');
-        dump($ids,'IDs from Controller');
         $model = $this->getModel('characters');
         $model->setState('ids', $ids);
         $model->delete();

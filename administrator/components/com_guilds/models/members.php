@@ -74,7 +74,6 @@
 	    	//$groupBy = ' GROUP BY id ';
 	    	$orderBy = $this->buildOrderBy();
                 $query = $select.$where.$orderBy;
-                dump($query,"Members query");
 	    	return $query;
 	    }
     
@@ -94,8 +93,6 @@
 	    	$search = $this->getState('search');
                 $users = $this->getState('users');
                 $conditions = array();
-	    	
-                dump($search,"Search");
                                 
 	    	if($search != "" || !empty($search)) {
                     // Split the search string into an array
@@ -118,7 +115,6 @@
                 $where = implode(" OR ",$conditions);
                 
 //                if($users != null) {
-//                    dump("Users state is null")
 //                    $conditions[] = array("AND","a.id","IN",'('.implode(',',$users).')');
 //                }
                 	
@@ -315,7 +311,7 @@
              $sql .= ' `appdate` =  "'.$appdate.'",';
              $sql .= ' `notes` =  "'.$notes.'"';
              $sql .= ' WHERE `id` = '.$id;
-             dump($sql);
+             
              $db->setQuery($sql);
              $result = $db->query();
              return $result;
