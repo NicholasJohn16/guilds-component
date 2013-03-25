@@ -20,7 +20,13 @@ defined('_JEXEC') or die('Restricted access');
         });
     ");
 ?>
-<div class="page-header"><h1>Edit Character</h1></div>
+<div class="page-header">
+    <?php if($this->isNew) :?>
+        <h1>Add Character</h1>
+    <?php else: ?>
+        <h1>Edit Character</h1>
+    <?php endif; ?>
+</div>
 <form action="<?php echo JRoute::_('index.php?option=com_guilds&view=characters') ?>" method="post" class="form-horizontal">
     <fieldset style="float:left;border:0 none;padding:0;margin:0;">
         <legend><?php echo JText::_('Character Info'); ?></legend>
