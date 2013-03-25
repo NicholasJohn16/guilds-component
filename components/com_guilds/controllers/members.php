@@ -21,7 +21,7 @@ class GuildsControllerMembers extends JController {
 
     function __construct() {
         global $mainframe;
-        $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR . DS . 'models');
+        $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models');
         $user = & JFactory::getUser();
         if ($user->guest) {
             $mainframe->redirect('index.php?option=com_user&view=login');
@@ -59,7 +59,6 @@ class GuildsControllerMembers extends JController {
     }
 
     function save() {
-        $post = JRequest::get('post');
         $id = JRequest::getVar('id', null, '', 'int');
         $sto_handle = JRequest::getVar('sto_handle', null, '', 'string');
         $tor_handle = JRequest::getVar('tor_handle', null, '', 'string');

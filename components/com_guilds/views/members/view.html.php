@@ -49,7 +49,7 @@ class GuildsViewMembers extends JView {
         global $mainframe, $option;
         // Get the layout so it can be used to make request variable layout specific
         $layout	= $this->getLayout();
-
+        
         $this->order		= $mainframe->getUserStateFromRequest($option.$layout.'order','order',null,'cmd' );
         $this->direction	= $mainframe->getUserStateFromRequest($option.$layout.'direction','direction',null,'word');
         $this->search		= $mainframe->getUserStateFromRequest($option.$layout.'search','search','','string' );
