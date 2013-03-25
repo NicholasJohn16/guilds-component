@@ -19,11 +19,9 @@ class GuildsViewCharacters extends JView {
     function displayAjax() {
             $characters =& $this->get('CharactersByUserId');
             $types =& $this->get('Types','types');
-            $pagination =& $this->get('Pagination');
 
             $this->assignRef('characters',$characters);
             $this->assignRef('types',$types);
-            $this->assignRef('pagination',$pagination);
             
             parent::display();
         }
