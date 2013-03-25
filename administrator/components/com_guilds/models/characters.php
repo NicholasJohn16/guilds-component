@@ -147,7 +147,7 @@
                     $order = $this->getState("order");
                     $direction = $this->getState("direction");
 
-                    $orderBy = "ORDER BY ".$order." ".$direction;
+                    $orderBy = "ORDER BY a.".$order." ".$direction;
 
                     if( $order == null || $direction == null ) {
                             $orderBy = "";	
@@ -161,6 +161,7 @@
             function getCharacters(){
                     if(empty($this->characters)) {
                             $query = $this->buildQuery();
+                            dump($query);
                             $this->characters = $this->_getList($query,$this->getState('limitstart'),$this->getState('limit'));
                     }
                     return $this->characters;

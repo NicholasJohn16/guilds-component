@@ -42,6 +42,7 @@
             <div class="span1"><?php echo $this->sortable("Published"); ?></div>
         </div>
         <?php $i = 0; ?>
+        <?php dump($this->characters); ?>
         <?php foreach ($this->characters as $character): ?>
             <div class="row-fluid">
                 <div class="span1"><input id="cb<?php echo $i ?>" type="checkbox" value="<?php echo $character->id; ?>" name="characters[]"/>

@@ -99,7 +99,7 @@ class GuildsViewCharacters extends JView {
         $pagination =& $this->get('Pagination');
         $types	=& $this->get('Types','types');	
         $categories =& $this->get('Categories','categories');
-
+        dump($characters);
         // Assign them references so they can be accessed in the tmpl
         $this->assignRef('search',$this->search);
         $this->assignRef('filter_type',$this->filter_type);
