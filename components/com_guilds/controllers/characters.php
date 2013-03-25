@@ -60,11 +60,8 @@ class GuildsControllerCharacters extends JController {
         } else {
             alertsHelper::alert(array('title' => 'Save Failed', 'msg' => 'There was an error and your character could not be saved', 'class' => 'error'));
         }
-        // This is to make sure that Admins get redirected to the Roster view
-        // When editing a character through the form
-        $url = 'index.php?option=com_guilds&view=characters';
-        $url .= ($layout == '') ? '' : 'layout='.$layout;
-        $this->setRedirect(JRoute::_('index.php?option=com_guilds&view=characters&layout='.$layout, false));
+        
+        $this->setRedirect(JRoute::_('index.php?option=com_guilds&view=characters', false));
     }
 
     function edit() {
