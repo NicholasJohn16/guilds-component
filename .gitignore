@@ -495,6 +495,7 @@ LICENSES.php
 index.php
 index2.php
 joomla.xml
+nbproject/*
 *.txt
 
 #################
