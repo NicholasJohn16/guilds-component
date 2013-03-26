@@ -174,6 +174,9 @@ $(document).ready(function() {
                 el.attr('title',task.charAt(0).toUpperCase() + toggle[task].slice(1));
                 el.children('i').toggleClass('icon-white');
                 el.children('i').toggleClass('icon-eye-close icon-eye-open');
+            },
+            error:function() {
+                alert("The Character could not be updated.\nTry refreshing the page.\nIf there error persists, contact an admin.");
             }
         });
     });

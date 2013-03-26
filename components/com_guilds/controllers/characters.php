@@ -173,7 +173,11 @@ class GuildsControllerCharacters extends JController {
         
         $model = $this->getModel('characters');
         $model->setState('id',$id);
-        return $model->publish();
+        $result = $model->publish();
+        
+        if(!$result) {
+            JError::raiseError('500','Character could not be updated.');
+        }
     }
 
     function unpublish() {
@@ -185,7 +189,11 @@ class GuildsControllerCharacters extends JController {
 
         $model = $this->getModel('characters');
         $model->setState('id', $id);
-        return $model->unpublish();
+        $result = $model->unpublish();
+        
+        if(!$result) {
+            JError::raiseError('500','Character could not be updated.');
+        }
     }
 
     function invite() {
