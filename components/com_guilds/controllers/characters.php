@@ -96,7 +96,12 @@ class GuildsControllerCharacters extends JController {
 
     function drop() {
         // Just unpublish the character, so it isn't visible to the Member anymore
-        $this->unpublish();
+        if ($this->unpublish()) {
+            alertsHelper::alert(array('title' => 'Character deleted!', 'msg' => 'Your character was successfully deleted.', 'class' => 'success'));
+        } else {
+            alertsHelper::alert(array('title' => 'Delete failed', 'msg' => 'I\'m sorry there was an error processing your request.  If error percists, please notify the leadership.', 'class' => 'error'));
+        }
+        
         //Redirect back to the Characters view
         $this->setRedirect(JRoute::_('index.php?option=com_guilds&view=characters', false));
     }
@@ -160,7 +165,15 @@ class GuildsControllerCharacters extends JController {
     }
 
     function publish() {
+        $id = JRequest::getVar('id',NULL,'','int');
         
+        if($id == "") {
+            JError::raiseError('500',"Charcter ID missing from request!");
+        }
+        
+        $model = $this->getModel('characters');
+        $model->setState('id',$id);
+        return $model->publish();
     }
 
     function unpublish() {
@@ -172,13 +185,7 @@ class GuildsControllerCharacters extends JController {
 
         $model = $this->getModel('characters');
         $model->setState('id', $id);
-        $result = $model->unpublish();
-
-        if ($result) {
-            alertsHelper::alert(array('title' => 'Character deleted!', 'msg' => 'Your character was successfully deleted.', 'class' => 'success'));
-        } else {
-            alertsHelper::alert(array('title' => 'Delete failed', 'msg' => 'I\'m sorry there was an error processing your request.  If error percists, please notify the leadership.', 'class' => 'error'));
-        }
+        return $model->unpublish();
     }
 
     function invite() {

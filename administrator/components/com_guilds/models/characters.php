@@ -294,7 +294,11 @@
             }
 
             function publish(){
-                
+                $db = JFactory::getDBO();
+                $id = $this->getState('id');
+                $sql = " UPDATE #__guilds_characters SET published = 1 WHERE id = ".$id;
+                $db->setQuery($sql);
+                return $db->query();
             }
             
             function save() {

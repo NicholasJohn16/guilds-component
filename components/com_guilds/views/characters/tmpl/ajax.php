@@ -26,9 +26,9 @@
         <div class="editable-click span2" data-type="date" data-name="checked" data-placement="right" data-title="Update Date" data-pk="<?php echo $character->id; ?>"><?php echo $character->checked; ?></div>
         <?php $pub = array('title'=>array('Unpublished','Published'),'icon'=>array('eye-close icon-white','eye-open'),'task'=>array('publish','unpublish'),'class'=>array('btn-inverse','')); ?>
         <div class="span1">
-            <a title="<?php echo $pub['title'][$character->published]; ?>" class="btn btn-mini <?php echo $pub['class'][$character->published]; ?>" href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task='.$pub['task'][$character->published].'&id='.$character->id); ?>">
+            <button title="<?php echo $pub['title'][$character->published] . " Character"; ?>" class="btn btn-mini publish <?php echo $pub['class'][$character->published]; ?>" data-task="<?php echo $pub['task'][$character->published]; ?>" data-id="<?php echo $character->id; ?>">
                 <i class="icon-<?php echo $pub['icon'][$character->published]; ?>"></i>
-            </a>
+            </button>
         </div>
         <div class="span2"><?php echo $character->unpublisheddate; ?></div>
     </div>

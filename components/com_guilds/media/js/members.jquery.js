@@ -98,7 +98,6 @@ $(document).ready(function() {
     $('button[title="Refresh Characters"]').each(function(){
         $(this).click(function(event){
             var user = $(this).parents('.accordion-group').attr('data-user');
-            console.log(user);
             refreshCharacters(user);
         });
     });
@@ -153,8 +152,30 @@ $(document).ready(function() {
     //Have username field grab focs
     $('#character-form').on('shown', function(){
         var username_field = $('#username');
-        console.log(username_field);
         username_field.focus();
+    });
+    
+    $('body').on('click','.publish',function(event) {
+        event.preventDefault();
+        var el = $(this);
+        var task = el.attr('data-task');
+        var id = el.attr('data-id');
+        var toggle = {
+            'publish':'unpublish',
+            'unpublish':'publish'
+        };
+        
+        $.ajax({
+            url:'index.php?option=com_guilds&view=characters&task='+task+'&id='+id,
+            success:function() {
+                el.toggleClass('btn-inverse');
+                el.attr('data-task',toggle[task]);
+                //el.attr('title',toggle[task].charAt(0).toUpperCase() + toggle[task].slice(1) + ' Character');
+                el.attr('title',task.charAt(0).toUpperCase() + toggle[task].slice(1));
+                el.children('i').toggleClass('icon-white');
+                el.children('i').toggleClass('icon-eye-close icon-eye-open');
+            }
+        });
     });
    
     // Submits new characters from the Character form
