@@ -14,7 +14,7 @@ $document->addScriptDeclaration("
     <li><a href="#network" data-toggle="tab">Network</a></li>
     <li><a href="#notes" data-toggle="tab">Notes</a></li>
 </ul>
-<form class="form-horizontal" action="index.php" method="post">
+<form class="form-horizontal" action="<?php echo JRoute::_('index.php?view=members'); ?>" method="post">
     <div class="tab-content">
         <div class="tab-pane active" id="guilds">
             <div class="control-group">
@@ -56,8 +56,6 @@ $document->addScriptDeclaration("
         <button class="btn btn-primary" type="submit">Submit</button>
         <a href="<?php echo JRoute::_('index.php?view=members'); ?>" class="btn">Cancel</a>
     </div>
-    <input type="hidden" name="option" value="com_guilds"/>
-    <input type="hidden" name="view" value="members"/>
     <input type="hidden" name="task" value="save" />
     <input type="hidden" name="id" value="<?php echo $this->member->id; ?>" />
 </form>
