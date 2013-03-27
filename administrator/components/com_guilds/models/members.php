@@ -176,9 +176,11 @@
                 $this->setState('member_ids',$member_ids);
 
                 // Update the status values for the members within view
-                $this->updateStatus();
+                //$this->updateStatus();
 
-                $this->members = $this->getMembersByIds();
+                $members = $this->getMembersByIds();
+                $this->setState('members',$members);
+                $this->members = $this->updateStatus();
 
             }
             return $this->members;
@@ -219,10 +221,23 @@
         }
   	
         function updateStatus() {
-                $users = $this->getState('users');
+                $members = $this->getState('members');
+                $today = time();
                 
+                foreach($members as $member) {
+                    $member->status = "Recruit";
+                    if(!empty($member->sto_handle) || !empty($member->tor_handle) || !empty($member->gw2_handle) ) {
+                        $member->status = "Cadet";
+                        
+                        $seconds_ago = $today - strtotime($member->appdate);
+                        $days_ago = floor($seconds_ago/(60*60*24));
+                        if(!empty($member->appdate) && $days_ago > 14) {
+                            $member->status = "Member";
+                        }
+                    }
+                }
                 
-
+                return $members;
         }
         
         function update($field,$id,$value){
