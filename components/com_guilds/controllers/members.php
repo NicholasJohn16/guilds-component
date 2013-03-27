@@ -81,7 +81,7 @@ class GuildsControllerMembers extends JController {
             alertsHelper::alert(array('title' => 'Edit failed.', 'msg' => 'The modifications weren\'t saved', 'class' => 'error'));
         }
 
-        $this->setRedirect(JRoute::_('index.php?option=com_guilds&view=members'));
+        $this->setRedirect(JRoute::_('index.php?option=com_guilds&view=members',false));
     }
 
     function update() {
