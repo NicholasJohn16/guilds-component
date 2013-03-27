@@ -73,16 +73,21 @@
                     $types = $types_model->getTypes();
                 
                     //$types = $this->getTypes();
-                    $i = 99;
-                    $n = 99;
-                    $query  = " SELECT *,a.name as name,a.id as id, a.published as published ";
+                    $i = 100;
+                    $n = 100;
+                    $query  = ' SELECT a.id, a.user_id, a.name, a.checked, '
+                            . ' a.unpublisheddate, a.invite, a.name as name, '
+                            . ' a.id AS id, a.published AS published, '
+                            . ' b.sto_handle, b.tor_handle, b.gw2_handle, '
+                            . ' b.appdate, b.status ';
                     foreach($types AS $type) {
                             $query .= ",a.".$type->name." AS ".$type->name."_id ";
                             $query .= ",".chr($i).".name AS ".$type->name."_name ";
                             $i++;
                     }
                     $query .= " FROM #__guilds_characters AS a ";
-                    $query .= " LEFT JOIN #__users AS b ON a.user_id = b.id ";
+                    $query .= " LEFT JOIN #__guilds_members AS b ON a.user_id = b.user_id ";
+                    $query .= " LEFT JOIN #__users AS c ON a.user_id = c.id ";
                     foreach($types AS $type){
                             $query .= " LEFT JOIN #__guilds_categories AS ".chr($n)." ON ".chr($n).".id = a.".$type->name." ";
                             $n++;
@@ -157,15 +162,36 @@
                     return $orderBy;
             }
 
-            // Gets multiple characters
-            function getCharacters(){
-                    if(empty($this->characters)) {
-                            $query = $this->buildQuery();
-                            dump($query);
-                            $this->characters = $this->_getList($query,$this->getState('limitstart'),$this->getState('limit'));
+    // Gets multiple characters
+    function getCharacters() {
+        $today = time();
+
+        if (empty($this->characters)) {
+            $query = $this->buildQuery();
+            dump($query);
+            $characters = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+
+            foreach ($characters as $character) {
+                // Default all statuses to Recruit
+                $character->status = "Recruit";
+                // If they have provided an in-game handle
+                if (!empty($character->sto_handle) || !empty($character->tor_handle) || !empty($character->gw2_handle)) {
+                    // Set their status to Cadet
+                    $character->status = "Cadet";
+                    // Calculate the number of days between now and their application
+                    $seconds_ago = $today - strtotime($character->appdate);
+                    $days_ago = floor($seconds_ago / (60 * 60 * 24));
+                    // If it's great than 14, then promote them to Member
+                    if (!empty($character->appdate) && $days_ago > 14) {
+                        $character->status = "Member";
                     }
-                    return $this->characters;
+                }
             }
+
+            $this->characters = $characters;
+        }
+        return $this->characters;
+    }
 
 
             //Gets a single character by character id
@@ -207,7 +233,7 @@
                 
                 if(empty($this->charactersForUser)) {
                     $query = $this->buildSelect();
-                    $query .= " WHERE user_id = ".$id;
+                    $query .= " WHERE a.user_id = ".$id;
                     if($publishedOnly) { $query .= " AND a.published = 1 "; }
                     $db->setQuery($query);
                     $this->charactersForUser = $db->loadObjectList();
@@ -345,8 +371,13 @@
         }
         
         function getPendingPromotions() {
+            $db = JFactory::getDBO();
             
+            if(empty($this->pendingPromotions)) {
+                $sql = $this->buildSelect();
+            }
             
+            return $this->pendingPromotions;
         }
 
         function buildQueryforTotal(){
