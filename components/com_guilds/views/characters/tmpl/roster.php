@@ -32,8 +32,9 @@
     <div class="com-guilds container-fluid">
         <div class="row-fluid header">
             <div class="span1"><input type="checkbox" name="toggle" value="" id="checkAll" /> <?php echo $this->sortable("ID"); ?></div>
-            <div class="span2"><?php echo $this->sortable("Name"); ?></div>
-            <div class="span2"><?php echo $this->sortable("Username"); ?></div>
+            <div class="span1"><?php echo $this->sortable("Name"); ?></div>
+            <div class="span2"><?php echo $this->sortable("Handle"); ?></div>
+            <div class="span1"><?php echo 'Status'; ?></div>
             <?php foreach ($this->types as $type): ?>
                 <?php $type_name = $type->name . '_name'; ?>
                 <div class="span2 com-guilds-<?php echo $type->name; ?>"><?php echo $this->sortable(ucfirst($type->name)); ?></a></div>
@@ -50,8 +51,9 @@
                         <?php echo $character->id; ?>
 <!--                </a>-->
                 </div>
-                <div class="span2 editable" data-name="name" data-pk="<?php echo $character->id; ?>" data-title="Edit Character Name"><?php echo $character->name; ?></div>
-                <div class="span2" title="<?php //echo $character->sto_handle; ?>"><?php //echo $character->sto_handle; ?></div>
+                <div class="span1 editable" data-name="name" data-pk="<?php echo $character->id; ?>" data-title="Edit Character Name"><?php echo $character->name; ?></div>
+                <div class="span2" title="<?php echo $character->sto_handle; ?>"><?php echo $character->sto_handle; ?></div>
+                <div class="span1"><?php echo $character->status; ?></div>
                 <?php foreach ($this->types as $type): ?>
                     <?php $type_name = $type->name . '_name'; ?>
                     <?php $type_id = $type->name . '_id'; ?>
