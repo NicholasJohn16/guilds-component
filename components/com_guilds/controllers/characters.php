@@ -223,5 +223,19 @@ class GuildsControllerCharacters extends JController {
         }
         $this->setRedirect(JRoute::_('index.php?option=com_guilds&view=characters&layout=pending', false));
     }
+    
+    function promoted() {
+        $id = JRequest::getVar('id',NULL,'','int');
+        $model = $this->getMOdel('characters');
+        $model->setState('id',$id);
+        $result = $model->promoted();
+                
+        if($result) {
+              alertsHelper::alert(array('title' => 'Character Promoted!', 'msg' => 'The character was promoted successfully', 'class' => 'success'));
+        } else {
+            alertsHelper::alert(array('title' => 'Promotion Failed!', 'msg' => 'There was an error promoting the character', 'class' => 'error'));
+        }
+        $this->setRedirect(JRoute::_('index.php?option=com_guilds&view=characters&layout=pending',false));
+    }
 
 }

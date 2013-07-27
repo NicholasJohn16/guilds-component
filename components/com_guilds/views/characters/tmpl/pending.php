@@ -43,8 +43,9 @@
         <?php foreach($this->types as $type):?>
             <div class="span2 com-guilds-<?php echo $type->name; ?>"><?php echo ucwords($type->name); ?></div>
         <?php endforeach;?>
+        <div class="span2">Intro Date</div>
         <div class="span2">Checked</div>
-        <div class="span2">Actions</div>
+        <div class="span1">Actions</div>
     </div>
     <?php foreach($this->promotions as $promotion):?>
     <div class="row-fluid">
@@ -54,8 +55,9 @@
             <?php $type_id = $type->name.'_id'; ?>
             <div class="span2 com-guilds-<?php echo $type->name;?> editable-click category" data-title="Select Category" data-type="select" data-pk="<?php echo $promotion->id; ?>" data-name="<?php echo $type->name; ?>" data-source="index.php?option=com_guilds&view=categories&format=json&type=<?php echo $type->name; ?>" data-value="<?php echo $promotion->$type_id; ?>"><?php echo $promotion->$type_name; ?></div>
         <?php endforeach;?>
+        <div class="span2"><?php echo $promotion->appdate; ?></div>
         <div class="editable-click span2" data-type="date" data-name="checked" data-placement="right" data-title="Update Date" data-pk="<?php echo $promotion->id; ?>"><?php echo $promotion->checked; ?></div>
-        <div class="span2"><a class="btn btn-mini" title="Character Promoted!" href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task=promoted&id='.$promotion->id); ?>"><i class="icon-check"></i></a></div>
+        <div class="span1"><a class="btn btn-mini" title="Character Promoted!" href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&layout=pending&task=promoted&id='.$promotion->id); ?>"><i class="icon-check"></i></a></div>
     </div>
     <?php endforeach; ?>
 <!-- Must be here to make sure that character list has proper bottom padding -->

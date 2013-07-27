@@ -81,8 +81,8 @@
                             . ' b.sto_handle, b.tor_handle, b.gw2_handle, '
                             . ' b.appdate, b.status ';
                     foreach($types AS $type) {
-                            $query .= ",a.".$type->name." AS ".$type->name."_id ";
-                            $query .= ",".chr($i).".name AS ".$type->name."_name ";
+                            $query .= ", a.".$type->name." AS ".$type->name."_id";
+                            $query .= ", ".chr($i).".name AS ".$type->name."_name";
                             $i++;
                     }
                     $query .= " FROM #__guilds_characters AS a ";
@@ -375,8 +375,14 @@
             
             if(empty($this->pendingPromotions)) {
                 $sql = $this->buildSelect();
+                $sql .= ' WHERE (date_add(appdate,INTERVAL 14 DAY) <= curdate() '
+                     . ' AND date( checked ) < date_add(appdate,INTERVAL 14 DAY) '
+                     . ' OR checked IS NULL ) ';
+                dump($sql);
+                $db->setQuery($sql);
+                $this->pendingPromotions = $db->loadObjectList();
             }
-            
+            dump($this->pendingPromotions);
             return $this->pendingPromotions;
         }
 
@@ -413,6 +419,15 @@
             $id = $this->getState('id');
             $db = JFactory::getDBO();
             $sql = " UPDATE `#__guilds_characters` SET `invite` = '0' WHERE `id` = ".$id;
+            $db->setQuery($sql);
+            $result = $db->query();
+            return $result;
+        }
+        
+        function promoted() {
+            $id = $this->getState('id');
+            $db = JFactory::getDBO();
+            $sql = " UPDATE `#__guilds_characters` SET `checked` = CURRENT_DATE WHERE `id` = ".$id;
             $db->setQuery($sql);
             $result = $db->query();
             return $result;
