@@ -266,7 +266,7 @@
                     // implode the arrays created earlier so their values are included
                     $query = 'INSERT INTO #__guilds_characters '
                             . '(`user_id`, `name`, `checked`,`published`,`invite`,`'.implode('`,`',$category_names).'`)'
-                            . ' VALUES ('.$user_id.',"'.$name.'",'.$checked.',1,'.$invite.','.implode(',',$category_values).')';
+                            . ' VALUES ('.$user_id.',"'.$name.'","'.$checked.'",1,'.$invite.','.implode(',',$category_values).')';
                     $db->setQuery($query);
                     return $db->query();
             }
@@ -281,26 +281,26 @@
 
             function edit(){
                 // Get the database object and all necessary states
-                    $db = $this->getDBO();
-                    $user_id = $this->getState('user_id');
-                    $id = $this->getState('id');
-                    $name = $this->getState('name');
-                    $categories = $this->getState('categories');
-                    $invite = $this->getState('invite');
-                    //$checked = ($this->getState('checked') == "" ? 'NULL' : $this->getState('checked'));
+                $db = $this->getDBO();
+                $user_id = $this->getState('user_id');
+                $id = $this->getState('id');
+                $name = $this->getState('name');
+                $categories = $this->getState('categories');
+                $invite = $this->getState('invite');
+                //$checked = ($this->getState('checked') == "" ? 'NULL' : $this->getState('checked'));
 
-                    // Create the query
-                    $sql = ' UPDATE #__guilds_characters SET '
-                         . ' `name` = '.$db->quote($name).', '
-                         //. ' `checked` = '.$db->quote($checked).', '
-                         . ' `invite` = '.$db->quote($invite).' ';
-                    foreach($categories as $category => $value) {
-                        $sql .= ', '.$db->nameQuote($category).' = '.$db->quote($value).' ';
-                    }
-                    $sql .= ' WHERE id = '.$id;
-                    $db->setQuery($sql);
-                    $result = $db->query();
-                    return $result;
+                // Create the query
+                $sql = ' UPDATE #__guilds_characters SET '
+                     . ' `name` = '.$db->quote($name).', '
+                     //. ' `checked` = '.$db->quote($checked).', '
+                     . ' `invite` = '.$db->quote($invite).' ';
+                foreach($categories as $category => $value) {
+                    $sql .= ', '.$db->nameQuote($category).' = '.$db->quote($value).' ';
+                }
+                $sql .= ' WHERE id = '.$id;
+                $db->setQuery($sql);
+                $result = $db->query();
+                return $result;
 
             }
 
