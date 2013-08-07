@@ -37,7 +37,6 @@ class GuildsViewMembers extends JView {
         JHTML::script('bootstrap.js','components/com_guilds/media/js/',false);
         //JHTML::script('bootstrap-notify.js','components/com_guilds/media/js/',false);
         JHTML::script('bootstrap-editable.js','components/com_guilds/media/js/',false);
-        JHTML::script('category-validation.js','components/com_guilds/media/js/',false);
         JHTML::script('members.jquery.js','components/com_guilds/media/js/',false);
         
         $members = $this->get('Members');

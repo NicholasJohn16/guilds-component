@@ -121,39 +121,7 @@ $(document).ready(function() {
     };
    
    
-    // Activate date picker for date field in Character form
-    $('#date').datepicker({
-        autoclose:true,
-        todayBtn:'linked'
-    });
-       
-    // Hide the character form when close is clicked
-    $('#close').click(function(event){
-        event.preventDefault();
-        $('#character-form').modal('hide');
-    });
-   
-    // When the Add Character button is clicked
-    $('a[title="Add Character"]').click(function() {
-        // get the user id and user name store them in inputs
-        var user = $(this).attr('data-user');
-        var username = $(this).attr('data-username');
-	   
-        // set them on the character form
-        $('#username').val(username).focus();
-        $('#user').val(user);
-           
-        if(username != undefined) {
-            $('#username').attr('disabled','disabled');
-        }
-    });
-   
-    //When character modal is activated,
-    //Have username field grab focs
-    $('#character-form').on('shown', function(){
-        var username_field = $('#username');
-        username_field.focus();
-    });
+    
     
     $('body').on('click','.publish',function(event) {
         event.preventDefault();
@@ -180,51 +148,9 @@ $(document).ready(function() {
             }
         });
     });
-   
-    // Submits new characters from the Character form
-    $('#character-form input[type="submit"]').click(function(event){
-        event.preventDefault();
-        var form = $(this).parents('form');
-        var user = form.find('#user').val();
-        var character_name = form.find('input[name="character_name"]').val(); 
-        var checked = form.find('#date').val();
-	   
-        var eCategories = form.find('select[name^="category"]');
-	   
-        // This shouldn't happen, but just in case
-        // If a user isn't set, return an error
-        if(user == "") {
-            alert("User is not selected!");
-            return false;
-        }
-        // If the Character name isn't set
-        if(character_name == "") {
-            // Show an error for this field
-            form.find('input[name="character_name"]').parents(".control-group").addClass("error");
-            // And force its focuse
-            form.find('input[name="character_name"]').focus();
-            // Stops the function from going any farther
-            return false;
-        }
-        // Build the data string to be sent in the request
-        var sData = "user="+user+"&character_name="+character_name+"&checked="+checked;
-        eCategories.each(function(index,value) {
-            sData = sData + "&" + $(value).attr('name')+"="+$(value).val();  
-        });
-	   
-        $.ajax({
-            type:"POST",
-            url:"index.php",
-            data:'option=com_guilds&view=characters&task=add&tmpl=component&'+sData,
-            success:function() {
-                // onSuccess, hide the form and update the character list
-                form.modal('hide');
-                refreshCharacters(user);
-            }
-        });
-    });
+    
    /*
-    * Deletes checked character(s) when delee character button is clicked
+    * Deletes checked character(s) when delete character button is clicked
     */
     $('button[title="Delete Character(s)"]').click(function() {
 	// Get the user_id so we can search for all checked boxes
@@ -261,18 +187,6 @@ $(document).ready(function() {
             }
         });
 	   
-    });
-   
-    // When the Character form is hidden
-    $('#character-form').on('hidden',function() {
-        // Reset the form back
-        var form = $('#character-form');
-        form.find('#username').val("");
-        form.find('#username').removeAttr('disabled');
-        form.find('#user').val('');
-        form.find('input[name="character_name"]').val(""); 
-        form.find('input[name="checked"]').val(""); 
-        form.find('select[name^="category"]').val("");
     });
    
     //When a "Check All" Input is clicked, all inputs in the list are checked.
