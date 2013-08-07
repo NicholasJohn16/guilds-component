@@ -25,9 +25,32 @@ class GuildsControllerCharacters extends JController {
 
     /* Task Functions */
 
-    function add() {
-        // For the add task, we're doing basically the same thing as editing
-        $this->edit();
+    function ajaxSave() {
+        $id = JRequest::getVar('id', null, '', 'int');
+        $user_id = JRequest::getVar('user_id', null, '', 'int');
+        $name = JRequest::getVar('name', null, '', 'string');
+        $categories = JRequest::getVar('category', array(), '', 'array');
+        $checked = JRequest::getVar('checked', null, '', 'string');
+        $invite = JRequest::getVar('invite', 0, '', 'int');
+
+        if ($name == "") {
+            JError::raiseError(500, 'Character name not given');
+        }
+        if ($user_id == "") {
+            JError::raiserError(500, 'User is not specified');
+        }
+        $model = $this->getModel('characters');
+        $model->setState('id', $id);
+        $model->setState('user_id', $user_id);
+        $model->setState('name', $name);
+        $model->setState('categories', $categories);
+        $model->setState('checked', $checked);
+        $model->setState('invite', $invite);
+        $result = $model->save();
+
+        if (!$result) {
+            JError::raiseError(500,'Unable to save character.');
+        }
     }
 
     function save() {
@@ -54,7 +77,7 @@ class GuildsControllerCharacters extends JController {
         $model->setState('invite', $invite);
         $result = $model->save();
 
-        if ($result) {
+        if (!$result) {
             alertsHelper::alert(array('title' => 'Character Saved', 'msg' => 'Character was saved successfully!', 'class' => 'success'));
         } else {
             alertsHelper::alert(array('title' => 'Save Failed', 'msg' => 'There was an error and your character could not be saved', 'class' => 'error'));
@@ -62,8 +85,16 @@ class GuildsControllerCharacters extends JController {
         
         $this->setRedirect(JRoute::_('index.php?option=com_guilds&view=characters', false));
     }
-
+    
+    function add() {
+        $this->form();
+    }
+    
     function edit() {
+        $this->form();
+    }
+
+    function form() {
         $id = JRequest::getVar('id', null, '', 'int');
         $redirect = JRequest::getVar('redirect','','','string');
         $view = $this->getView('characters', 'html');
