@@ -77,4 +77,6 @@
     <div style="clear:both"></div>
     <?php echo $this->pagination(); ?>
 </form>
-
+<div id="character-form-modal" class="modal hide fade in">
+    <?php include_once JPATH_COMPONENT.DS.'views'.DS.'characters'.DS.'tmpl'.DS.'admin-form.php'; ?>
+</div>
