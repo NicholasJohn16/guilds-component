@@ -91,7 +91,15 @@ class GuildsControllerCharacters extends JController {
     }
     
     function edit() {
-        $this->form();
+        $id = JRequest::getVar('id',null,'','int');
+        
+        if($id == null || $id < 0) {
+            alertsHelper::alert(array('title'=>'Edit Failed','msg'=>'Uh oh! There was no Character ID in the request so we can\'t edit it!','class'=>'error'));
+            $this->setRedirect(JRoute::_('index.php?option=com_guilds&view=characters',false));
+            return false;
+        } else {
+            $this->form();
+        }
     }
 
     function form() {
