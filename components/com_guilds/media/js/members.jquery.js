@@ -1,3 +1,27 @@
+function refreshCharacters(user) {
+        $('#characters-'+user).addClass('com-guilds-ajax');
+        $('#characters-'+user).html("");
+        getCharactersByUserId(user);
+    };
+
+function getCharactersByUserId(id){
+        $.get('index.php',{
+            option:'com_guilds',
+            view:'characters',
+            //task:'ajax',
+            format:'raw',
+            layout:'ajax',
+            //tmpl:'component',
+            id:id
+        },
+        function(data){
+            var html = $(data);
+		   
+            $('#characters-'+id).removeClass('com-guilds-ajax');
+            $('#characters-'+id).append(html);
+        });
+    };
+
 $(document).ready(function() {
 	
     // Prevent clicking buttons from submitting the form
@@ -89,40 +113,13 @@ $(document).ready(function() {
         }
     });
    
-    function refreshCharacters(user) {
-        $('#characters-'+user).addClass('com-guilds-ajax');
-        $('#characters-'+user).html("");
-        getCharactersByUserId(user);
-    }
-   
-    $('button[title="Refresh Characters"]').each(function(){
+   $('button[title="Refresh Characters"]').each(function(){
         $(this).click(function(event){
             var user = $(this).parents('.accordion-group').attr('data-user');
             refreshCharacters(user);
         });
     });
    
-    function getCharactersByUserId(id){
-        $.get('index.php',{
-            option:'com_guilds',
-            view:'characters',
-            //task:'ajax',
-            format:'raw',
-            layout:'ajax',
-            //tmpl:'component',
-            id:id
-        },
-        function(data){
-            var html = $(data);
-		   
-            $('#characters-'+id).removeClass('com-guilds-ajax');
-            $('#characters-'+id).append(html);
-        });
-    };
-   
-   
-    
-    
     $('body').on('click','.publish',function(event) {
         event.preventDefault();
         var el = $(this);
