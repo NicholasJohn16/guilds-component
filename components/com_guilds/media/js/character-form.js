@@ -65,7 +65,7 @@ $(document).ready(function() {
 	   
         $.ajax({
             type:"POST",
-            url:"index.php?option=com_guilds&view=characters&task=add&tmpl=component",
+            url:"index.php?option=com_guilds&view=characters&task=ajaxSave&tmpl=component",
             data:data,
             success:function() {
                 // onSuccess, hide the form and update the character list
