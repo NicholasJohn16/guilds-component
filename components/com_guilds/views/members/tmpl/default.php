@@ -69,17 +69,15 @@
             <?php
             $i++;
         endforeach;
-    ?>
-<!--	<input type="hidden" name="option" value="com_guilds"/>
-        <input type="hidden" name="view" value="members"/>-->
-        <input type="hidden" name="limitstart" value="<?php echo $this->pagination->limitstart; ?>"/>
-        <input type="hidden" name="order" value="<?php echo $this->order; ?>" />
-        <input type="hidden" name="direction" value="<?php echo $this->direction; ?>" />
+    ?>   
     </div>
     <!--<span style="float:left"><?php echo $this->pagination->getPagesCounter(); ?></span> -->
     <div style="clear:both"></div>
     <?php echo $this->pagination(); ?>
     <!--<span style="float:right"><?php echo $this->pagination->getLimitBox(); ?></span> -->
+    <input type="hidden" name="limitstart" value="<?php echo $this->pagination->limitstart; ?>"/>
+    <input type="hidden" id="order" name="order" value="<?php echo $this->order; ?>" />
+    <input type="hidden" id="direction" name="direction" value="<?php echo $this->direction; ?>" />
 </form>
 <div id="character-form-modal" class="modal hide fade in">
     <?php include_once JPATH_COMPONENT.DS.'views'.DS.'characters'.DS.'tmpl'.DS.'admin-form.php'; ?>
