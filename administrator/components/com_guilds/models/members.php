@@ -171,14 +171,17 @@
             // Load the data
             if (empty( $this->members )) {
                 $query = $this->buildQuery();
+                dump($query,"Query");
                 $db->setQuery($query,$this->getState('limitstart'),$this->getState('limit'));
                 $member_ids = $db->loadResultArray();
+                // Incase no matching members were found
+                // return false
+                if(empty($member_ids)) {
+                    return false;
+                }
                 $this->setState('member_ids',$member_ids);
-
-                // Update the status values for the members within view
-                //$this->updateStatus();
-
                 $members = $this->getMembersByIds();
+                dump($members);
                 $this->setState('members',$members);
                 $this->members = $this->updateStatus();
 
