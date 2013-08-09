@@ -46,9 +46,9 @@
             $limitstart = $mainframe->getUserStateFromRequest($option.$view.$layout.'limitstart','limitstart',0);
 
             // Get filter values for Roster view
-            $order = $mainframe->getUserStateFromRequest($option.$view.$layout."order",'order',null,'cmd' );
+            $order = $mainframe->getUserStateFromRequest($option.$view.$layout.'order','order',null,'cmd' );
             $direction = $mainframe->getUserStateFromRequest($option.$view.$layout."direction",'direction',null,'word');
-            $search = $mainframe->getUserStateFromRequest($option.$view.$layout."search",'search','','string' );
+            $search = $mainframe->getUserStateFromRequest($option.$view.$layout.'search','search','','string' );
             $filter_type = $mainframe->getUserStateFromRequest($option.$view.$layout.'filter_type','filter_type',array(),'array');
 
             // In case limit has been changed, adjust it
@@ -168,7 +168,6 @@
 
         if (empty($this->characters)) {
             $query = $this->buildQuery();
-            dump($query);
             $characters = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 
             foreach ($characters as $character) {
