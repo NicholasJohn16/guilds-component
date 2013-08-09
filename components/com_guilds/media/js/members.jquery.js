@@ -28,6 +28,12 @@ $(document).ready(function() {
     $('.action').click(function(event) {
         event.preventDefault();
     });
+    
+    // Whenever the form is submitted, reset the limit to 0
+    // So the user is return to the first page
+    $('#members-form').submit(function(event){
+            $('#members-form').children('input[name="limitstart"]').val(0);
+    });
    
     // Change some of the editable plugin defaults.
     //$.fn.editable.defaults.mode = 'inline';
