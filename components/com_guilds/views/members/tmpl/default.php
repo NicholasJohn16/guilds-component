@@ -10,7 +10,7 @@
                 <button class="btn btn-inverse btn-small" type="submit">Submit</button>
                 <button class="btn btn-inverse btn-small" type="reset">Reset</button>
                 <ul class="nav pull-right">
-                    <li><a data-target="#character-form-modal" data-toggle="modal" title="Add Character" href="#">Add Character</a></li>
+                    <li><a title="Add Character" href="#">Add Character</a></li>
                 </ul>
             </div>
         </div>
@@ -56,7 +56,7 @@
                     <div class="accordion-footing">
                         <div class="accordion-inner">
                             <div class="btn-group">
-                                <a class="btn" title="Add Character" href="index.php?option=com_guilds&view=character&task=add&id=<?php echo $member->id; ?>" data-toggle="modal" data-target="#character-form" data-user="<?php echo $member->id; ?>" data-username="<?php echo $member->username; ?>">
+                                <a class="btn" title="Add Character" href="index.php?option=com_guilds&view=character&task=add&id=<?php echo $member->id; ?>" data-user="<?php echo $member->id; ?>" data-username="<?php echo $member->username; ?>">
                                     <i class="icon-plus"></i>
                                 </a>
                                 <button class="btn action" title="Delete Character(s)"><i class="icon-remove"></i></button>
