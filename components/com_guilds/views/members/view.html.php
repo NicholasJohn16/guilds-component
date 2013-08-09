@@ -86,21 +86,25 @@ class GuildsViewMembers extends JView {
             $cur_page = $limitstart/$limit +1;
             $link = 'index.php?option=com_guilds&view=members&limitstart=';
 
-            $current_range = array(($cur_page-2 < 1 ? 1 : $cur_page-2), ($cur_page+2 > $total ? $total : $cur_page+2));
+            if($total > 0) {
+                $current_range = array(($cur_page-2 < 1 ? 1 : $cur_page-2), ($cur_page+2 > $total ? $total : $cur_page+2));
 
-            // First and Last pages
-            $first_page = $cur_page > 3 ? '<li><a href="'.$link.'0">First</a></li>' : null;
-            $last_page = $cur_page < $total-2 ? '<li><a href="'.$link.(($total-1)*$limit).'">Last</a></li>' : null;
+                // First and Last pages
+                $first_page = $cur_page > 3 ? '<li><a href="'.$link.'0">First</a></li>' : null;
+                $last_page = $cur_page < $total-2 ? '<li><a href="'.$link.(($total-1)*$limit).'">Last</a></li>' : null;
 
-            // Previous and next page
-            $previous_page = $cur_page > 1 ? '<li><a title="Previous" href="'.$link.($limitstart-$limit).'">&laquo;</a></li>' : null;
-            $next_page = $cur_page < $total ? '<li><a title="Next" href="'.$link.($limitstart+$limit).'">&raquo;</a></li>' : null;
+                // Previous and next page
+                $previous_page = $cur_page > 1 ? '<li><a title="Previous" href="'.$link.($limitstart-$limit).'">&laquo;</a></li>' : null;
+                $next_page = $cur_page < $total ? '<li><a title="Next" href="'.$link.($limitstart+$limit).'">&raquo;</a></li>' : null;
 
-            // Display pages that are in range
-            for ($x=$current_range[0];$x <= $current_range[1]; ++$x) {
-                    $pages[] = '<li '.($x == $cur_page ? 'class="active"':null).'><a href="'.$link.($x-1)*$limit.'">'.$x.'</a></li>';
+                // Display pages that are in range
+                for ($x=$current_range[0];$x <= $current_range[1]; ++$x) {
+                        $pages[] = '<li '.($x == $cur_page ? 'class="active"':null).'><a href="'.$link.($x-1)*$limit.'">'.$x.'</a></li>';
+                }
+                return '<div class="com-guilds-pagination"><ul>'.$first_page.$previous_page.implode($pages).$next_page.$last_page.'</ul></div>';
+            } else {
+                return false;
             }
-            return '<div class="com-guilds-pagination"><ul>'.$first_page.$previous_page.implode($pages).$next_page.$last_page.'</ul></div>';
 	}
 	
 	function sortable($title,$order = null){
