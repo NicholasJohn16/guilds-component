@@ -8,9 +8,7 @@
                 </div>
                 <button class="btn btn-inverse btn-small" type="submit">Submit</button><button class="btn btn-inverse btn-small" type="reset">Reset</button>
                 <ul class="nav pull-right">
-                    <li><a href="index.php?option=com_guilds&view=characters&layout=form" data-task="add">Add Character</a></li>
-                    <li><a href="#" data-task="edit">Edit Character</a></li>
-                    <li><a href="#" data-task="delete">Delete Character(s)</a></li>
+                    <li><a href="index.php?option=com_guilds&view=characters&layout=form" title="Add Character">Add Character</a></li>
                 </ul>
             </div>
         </div>
