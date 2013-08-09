@@ -26,10 +26,15 @@
         </ul>
     </div>
     <div class="accordion">
-        <?php
-        $i = 0;
-        foreach ($this->members AS &$member):
-            ?>
+        <?php dump($this->members,'Members'); ?>
+        <?php if(!$this->members): ?>
+            <div class="alert alert-block alert-error">
+                <h4 class="alert-heading">No Characters Found</h4>
+                <p>No matching characters were found.  Revise your search and try again.</p>
+            </div>
+        <?php else: ?>
+        <?php $i = 0; ?>
+        <?php foreach ($this->members AS $member): ?>
             <div class="accordion-group fluid-row" data-user="<?php echo $member->id; ?>">
                 <div class="accordion-heading">
                     <div class="span1"><span class="badge badge-inverse"><?php echo $member->id; ?></span></div>
@@ -69,6 +74,7 @@
             <?php
             $i++;
         endforeach;
+        endif;
     ?>   
     </div>
     <!--<span style="float:left"><?php echo $this->pagination->getPagesCounter(); ?></span> -->
