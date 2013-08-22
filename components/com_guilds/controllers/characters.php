@@ -60,8 +60,7 @@ class GuildsControllerCharacters extends JController {
         $categories = JRequest::getVar('category', array(), '', 'array');
         $checked = JRequest::getVar('checked', null, '', 'string');
         $invite = JRequest::getVar('invite', null, '', 'int');
-        $layout = JRequest::getVar('layout','','','string');
-
+        dump($checked,"Checked");
         if ($name == "") {
             JError::raiseError(500, 'Character name not given');
         }
@@ -76,8 +75,8 @@ class GuildsControllerCharacters extends JController {
         $model->setState('checked', $checked);
         $model->setState('invite', $invite);
         $result = $model->save();
-
-        if (!$result) {
+        
+        if ($result) {
             alertsHelper::alert(array('title' => 'Character Saved', 'msg' => 'Character was saved successfully!', 'class' => 'success'));
         } else {
             alertsHelper::alert(array('title' => 'Save Failed', 'msg' => 'There was an error and your character could not be saved', 'class' => 'error'));
@@ -93,6 +92,9 @@ class GuildsControllerCharacters extends JController {
     function edit() {
         $id = JRequest::getVar('id',null,'','int');
         
+        // If there isn't an id in the request
+        // then the character can't be loaded
+        // return error
         if($id == null || $id < 0) {
             alertsHelper::alert(array('title'=>'Edit Failed','msg'=>'Uh oh! There was no Character ID in the request so we can\'t edit it!','class'=>'error'));
             $this->setRedirect(JRoute::_('index.php?option=com_guilds&view=characters',false));
@@ -134,8 +136,11 @@ class GuildsControllerCharacters extends JController {
     }
 
     function drop() {
+        $id = JRequest::getVar('id',NULL,'','int');
+        $model = $this->getModel('characters');
+        $model->setState('id',$id);
         // Just unpublish the character, so it isn't visible to the Member anymore
-        if ($this->unpublish()) {
+        if ($model->unpublish()) {
             alertsHelper::alert(array('title' => 'Character deleted!', 'msg' => 'Your character was successfully deleted.', 'class' => 'success'));
         } else {
             alertsHelper::alert(array('title' => 'Delete failed', 'msg' => 'I\'m sorry there was an error processing your request.  If error percists, please notify the leadership.', 'class' => 'error'));
