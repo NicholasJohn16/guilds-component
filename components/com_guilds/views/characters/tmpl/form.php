@@ -48,14 +48,6 @@ defined('_JEXEC') or die('Restricted access');
                 <input type="text" name="name" size="32" value="<?php echo $this->character->name; ?>"/>
             </div>	
         </div>
-<!--        <?php if($this->isAdmin): ?>
-        <div class="control-group">
-            <label class="control-label" for="checked">Checked</label>
-            <div class="controls">
-                <input type="text" name="checked" id="datepicker" value="<?php $this->character->checked ?>"/>
-            </div>
-        </div>-->
-        <?php endif; ?>
         <div class="control-group">
             <label class="control-label" for="invite">Request an Invite?</label>
             <div class="controls">
@@ -67,19 +59,6 @@ defined('_JEXEC') or die('Restricted access');
                 </label>
             </div>
         </div>
-        <?php if($this->isAdmin): ?>
-<!--        <div class="control-group">
-            <label class="control-label" for="published">Published</label>
-            <div class="controls">
-                <label class="radio inline">
-                    <input type="radio" name="published" id="inlineCheckbox1" <?php if($this->character->published) { echo 'checked="checked"'; } ?> value="1"> Yes
-                </label>
-                <label class="radio inline">
-                    <input type="radio" name="published" id="inlineCheckbox2" <?php if(!$this->character->published) { echo 'checked="checked"'; } ?> value="0"> No
-                </label>
-            </div>
-        </div>-->
-        <?php endif; ?>
     </fieldset>
     <fieldset style="float:left;border:0 none;padding:0;margin:0;">
         <legend>Categories</legend>
