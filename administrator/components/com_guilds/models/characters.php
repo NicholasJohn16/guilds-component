@@ -251,28 +251,37 @@ class GuildsModelCharacters extends JModel {
     function add() {
         // Get the database object and all necessary states
         $db = $this->getDBO();
-        $user_id = $this->getState('user_id');
-        $name = $this->getState('name');
+        $fields = array();
+        $fields['user_id'] = $this->getState('user_id');
+        $fields['name'] = $this->getState('name');
+        $fields['handle'] = $this->getState('handle');
+        $fields['invite'] = $this->getState('invite');
+        $fields['checked'] = $this->getState('checked');
+        $fields['published'] = $this->getState('published');
+        
         $categories = $this->getState('categories');
-        $invite = $this->getState('invite');
-        $checked = ($this->getState('checked') == "" ? 'NULL' : $this->getState('checked'));
-
-        // Create category arries and loop over the category input
-        // to create the necessary fields and values
-        $category_names = array();
-        $category_values = array();
-        foreach ($categories as $category_name => $category_value) {
-            $category_names[] = $category_name;
-            $category_value = ($category_value == "" ? "NULL" : $category_value);
-            $category_values[] = $category_value;
+        foreach($categories as $name => $value) {
+            // force categoriy ids to be ints so aren't quoted later
+            $fields[$name] = (int)$value;
         }
-        // Create the query
-        // implode the arrays created earlier so their values are included
-        $query = 'INSERT INTO #__guilds_characters '
-                . '(`user_id`, `name`, `checked`,`published`,`invite`,`' . implode('`,`', $category_names) . '`)'
-                . ' VALUES (' . $user_id . ',"' . $name . '","' . $checked . '",1,' . $invite . ',' . implode(',', $category_values) . ')';
+        // must be an alias to unset
+        foreach($fields as $name => $value) {
+            //if the value is null, empty or a zero
+            if(!$value) {
+                // remove it from the fields
+                unset($fields[$name]);
+                
+            } elseif(is_string($value)) {
+                
+                $fields[$name] = $db->quote($value);
+            }   
+        }
+        $query  = " INSERT INTO #__guilds_characters ";
+        $query .= " ( `" . implode("`, `",array_keys($fields)) . "` )";
+        $query .= " VALUES ( " . implode(", ",$fields) . ") ";
         $db->setQuery($query);
-        return $db->query();
+        $result = $db->query();
+        return $result;
     }
 
     function delete() {
