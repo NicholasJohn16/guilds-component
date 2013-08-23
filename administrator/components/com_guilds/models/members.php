@@ -138,12 +138,22 @@
             $direction = $this->getState('direction');
 
             if($order != null || $direction != null ) {
-                    $orderBy = ' ORDER BY a.'.$order.' '.$direction;	
-            } else {
-                    $orderBy = '';
+                switch($order) {
+                    case 'id':
+                    case 'username':
+                        $orderBy = ' ORDER BY a.'.$order.' '.$direction;	
+                        break;
+                    case 'status':
+                        $orderBy = ' ORDER BY b.status '.$direction;	
+                        break;
+                    default:
+                        $orderBy = ' ORDER BY b.'.$order.' '.$direction;	
+                }
             }
 
-            return $orderBy;
+            if(isset($orderBy)) {
+                return $orderBy;
+            }
         }
         function getMember() {
             $id = $this->getState('id');
@@ -200,6 +210,7 @@
                     . " LEFT JOIN jos_guilds_members AS b ON a.id = b.user_id "
                     . " LEFT JOIN jos_guilds_ranks AS c ON b.status = c.id ";
             $query .= " WHERE a.id IN (" . implode(',', $member_ids) . ")";
+            dump($query,'Members query');
             $db->setQuery($query);
             $members = $db->loadObjectList();
             return $members;
