@@ -19,10 +19,10 @@
         <ul class="nav nav-pills">
             <li class="span1"><?php echo $this->sortable("#", "id"); ?></li>
             <li class="span3"><?php echo $this->sortable("Username"); ?></li>
-            <li class="span2"><?php echo $this->sortable("@Handle", "value"); ?></li>
+            <li class="span2"><?php echo $this->sortable("@Handle", "sto_handle"); ?></li>
             <li class="span2"><?php echo $this->sortable("Introduction", "appdate"); ?></li>
             <li class="span2"><?php echo $this->sortable("Status"); ?></li>
-            <li class="span3"><?php echo $this->sortable("Forum Rank", "rank_title"); ?></li>
+            <li class="span3">Forum Rank</li>
         </ul>
     </div>
     <div class="accordion">
