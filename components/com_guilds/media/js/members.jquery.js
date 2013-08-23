@@ -21,6 +21,19 @@ function getCharactersByUserId(id){
             $('#characters-'+id).append(html);
         });
     };
+    
+//function updateStatusforUserId(id){
+//    $.get('index.php',{
+//        option:'com_guilds',
+//        view:'members',
+//        task:'getStatus',
+//        id:id
+//    },
+//    function(data) {
+//        var
+//    }
+//)
+//};
 
 $(document).ready(function() {
 	
