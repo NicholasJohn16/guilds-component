@@ -21,7 +21,12 @@
         <?php foreach($this->types as $type):?>
             <?php $type_name = $type->name.'_name'; ?>
             <?php $type_id = $type->name.'_id'; ?>
-            <div class="span2 com-guilds-<?php echo $type->name;?> editable-click category" data-title="Select Category" data-type="select" data-pk="<?php echo $character->id; ?>" data-name="<?php echo $type->name; ?>" data-source="index.php?option=com_guilds&view=categories&format=json&type=<?php echo $type->name; ?>" data-value="<?php echo $character->$type_id; ?>"><?php echo $character->$type_name; ?></div>
+            <div class="span2 com-guilds-<?php echo $type->name;?> editable-click category" 
+                 data-title="Select Category" data-type="select" 
+                 data-pk="<?php echo $character->id; ?>" 
+                 data-name="<?php echo $type->name; ?>" 
+                 data-source="index.php?option=com_guilds&view=categories&format=json&type=<?php echo $type->name; ?>" 
+                 data-value="<?php echo $character->$type_id; ?>"><?php echo $character->$type_name; ?></div>
         <?php endforeach;?>
         <div class="editable-click span2" data-type="date" data-name="checked" data-placement="right" data-title="Update Date" data-pk="<?php echo $character->id; ?>"><?php echo $character->checked; ?></div>
         <?php $pub = array('title'=>array('Unpublished','Published'),'icon'=>array('eye-close icon-white','eye-open'),'task'=>array('publish','unpublish'),'class'=>array('btn-inverse','')); ?>
