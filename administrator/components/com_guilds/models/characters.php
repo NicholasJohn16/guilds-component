@@ -33,10 +33,13 @@ class GuildsModelCharacters extends JModel {
      * @var object
      */
     var $pagination = null;
+    
+    var $categories = array();
 
     /**
      * Constructor
      */
+    
     function __construct() {
         global $mainframe, $option;
         parent::__construct();
@@ -202,12 +205,12 @@ class GuildsModelCharacters extends JModel {
         $id = $this->getState('id');
         $types_model = $this->getInstance('types', 'GuildsModel');
         $types = $types_model->getTypes();
+        dump(JFactory::getUser(),"User");
         if (empty($this->character)) {
             if ($id == NULL) {
                 $this->character = new stdClass();
                 $this->character->user_id = JFactory::getUser()->id;
                 $this->character->id = NULL;
-                $this->character->username = JFactory::getUser()->username;
                 $this->character->name = NULL;
                 $this->character->invite = NULL;
                 $this->character->checked = NULL;
@@ -225,6 +228,7 @@ class GuildsModelCharacters extends JModel {
                 $this->character = $db->loadObject();
             }
         }
+        dump($this->character);
         return $this->character;
     }
 
@@ -260,14 +264,16 @@ class GuildsModelCharacters extends JModel {
         $fields['published'] = $this->getState('published');
         
         $categories = $this->getState('categories');
-        foreach($categories as $name => $value) {
-            // force categoriy ids to be ints so aren't quoted later
-            $fields[$name] = (int)$value;
+        if(is_array($categories)){
+            foreach($categories as $name => $value) {
+                // force categoriy ids to be ints so aren't quoted later
+                $fields[$name] = (int)$value;
+            }
         }
-        // must be an alias to unset
+        
         foreach($fields as $name => $value) {
-            //if the value is null, empty or a zero
-            if(!$value) {
+            //if the value is null and an empty string
+            if($value === NULL || $value === "") {
                 // remove it from the fields
                 unset($fields[$name]);
                 
@@ -292,50 +298,52 @@ class GuildsModelCharacters extends JModel {
         return $db->query();
     }
 
-    function edit() {
+    function update() {
         // Get the database object and all necessary states
         $db = $this->getDBO();
-        $user_id = $this->getState('user_id');
         $id = $this->getState('id');
-        $name = $this->getState('name');
+        $fields = array();
+        $fields['user_id'] = $this->getState('user_id');
+        $fields['name'] = $this->getState('name');
+        $fields['handle'] = $this->getState('handle');
+        $fields['invite'] = $this->getState('invite');
+        $fields['checked'] = $this->getState('checked');
+        $fields['published'] = $this->getState('published');
+        
         $categories = $this->getState('categories');
-        $invite = $this->getState('invite');
-        //$checked = ($this->getState('checked') == "" ? 'NULL' : $this->getState('checked'));
-        // Create the query
-        $sql = ' UPDATE #__guilds_characters SET '
-                . ' `name` = ' . $db->quote($name) . ', '
-                //. ' `checked` = '.$db->quote($checked).', '
-                . ' `invite` = ' . $db->quote($invite) . ' ';
-        foreach ($categories as $category => $value) {
-            $sql .= ', ' . $db->nameQuote($category) . ' = ' . $db->quote($value) . ' ';
+        if(is_array($categories)) {
+            foreach($categories as $name => $value) {
+                // force categoriy ids to be ints so aren't quoted later
+                $fields[$name] = (int)$value;
+            }
         }
-        $sql .= ' WHERE id = ' . $id;
+        
+        foreach($fields as $name => $value) {
+            //if the value is null or an empty string
+            if($value === NULL || $value === "") {
+                // remove it from the fields
+                unset($fields[$name]);
+                
+            } elseif(is_string($value)) {
+                
+                $fields[$name] = $db->quote($value);
+            }   
+        }
+        
+        $count = count($fields);
+        $i = 1;
+        $sql  = " UPDATE #__guilds_characters SET ";
+        foreach($fields as $name => $value) {
+            $sql .= " `" . $name . "` = " . $value;
+            if($i < $count) {
+                $sql .= ", ";
+            }
+            $i++;
+        }
+        $sql .= " WHERE id = " . $id;
         $db->setQuery($sql);
         $result = $db->query();
         return $result;
-    }
-
-    function update($name, $id, $value) {
-        $db = JFactory::getDBO();
-        $query = " UPDATE #__guilds_characters ";
-        // If we're trying to reset the Checked date set it to NULL
-        if ($name == 'checked' && $value == '') {
-            $query .= " SET `checked` = NULL ";
-        } else {
-            $query .= " SET " . $db->nameQuote($name) . " = " . $db->quote($value);
-        }
-        $query .= " WHERE " . $db->nameQuote('id') . " = " . $id;
-        $db->setQuery($query);
-
-        return $db->query();
-    }
-
-    function publish() {
-        $db = JFactory::getDBO();
-        $id = $this->getState('id');
-        $sql = " UPDATE #__guilds_characters SET published = 1 WHERE id = " . $id;
-        $db->setQuery($sql);
-        return $db->query();
     }
 
     function save() {
@@ -344,16 +352,8 @@ class GuildsModelCharacters extends JModel {
         if ($id < 1) {
             return $this->add();
         } else {
-            return $this->edit();
+            return $this->update();
         }
-    }
-
-    function unpublish() {
-        $db = JFactory::getDBO();
-        $id = $this->getState('id');
-        $sql = " UPDATE #__guilds_characters SET published = 0 WHERE id = " . $id;
-        $db->setQuery($sql);
-        return $db->query();
     }
 
     /* Pagination functions */
@@ -388,11 +388,9 @@ class GuildsModelCharacters extends JModel {
             $sql .= ' WHERE (date_add(appdate,INTERVAL 14 DAY) <= curdate() '
                     . ' AND date( checked ) < date_add(appdate,INTERVAL 14 DAY) '
                     . ' OR checked IS NULL ) ';
-            dump($sql);
             $db->setQuery($sql);
             $this->pendingPromotions = $db->loadObjectList();
         }
-        dump($this->pendingPromotions);
         return $this->pendingPromotions;
     }
 
@@ -414,33 +412,6 @@ class GuildsModelCharacters extends JModel {
             $this->total = $this->_getListCount($query);
         }
         return $this->total;
-    }
-
-    function invite() {
-        $id = $this->getState('id');
-        $db = JFactory::getDBO();
-        $sql = " UPDATE `#__guilds_characters` SET `invite` = '1' WHERE `id` = " . $id;
-        $db->setQuery($sql);
-        $result = $db->query();
-        return $result;
-    }
-
-    function invited() {
-        $id = $this->getState('id');
-        $db = JFactory::getDBO();
-        $sql = " UPDATE `#__guilds_characters` SET `invite` = '0' WHERE `id` = " . $id;
-        $db->setQuery($sql);
-        $result = $db->query();
-        return $result;
-    }
-
-    function promoted() {
-        $id = $this->getState('id');
-        $db = JFactory::getDBO();
-        $sql = " UPDATE `#__guilds_characters` SET `checked` = CURRENT_DATE WHERE `id` = " . $id;
-        $db->setQuery($sql);
-        $result = $db->query();
-        return $result;
     }
 
 }

@@ -60,12 +60,12 @@ class GuildsControllerCharacters extends JController {
         $categories = JRequest::getVar('category', array(), '', 'array');
         $checked = JRequest::getVar('checked', null, '', 'string');
         $invite = JRequest::getVar('invite', null, '', 'int');
-        dump($checked,"Checked");
+        
         if ($name == "") {
             JError::raiseError(500, 'Character name not given');
         }
         if ($user_id == "") {
-            JError::raiserError(500, 'User is not specified');
+            JError::raiseError(500, 'User is not specified');
         }
         $model = $this->getModel('characters');
         $model->setState('id', $id);
@@ -139,8 +139,9 @@ class GuildsControllerCharacters extends JController {
         $id = JRequest::getVar('id',NULL,'','int');
         $model = $this->getModel('characters');
         $model->setState('id',$id);
+        $model->setState('published',0);
         // Just unpublish the character, so it isn't visible to the Member anymore
-        if ($model->unpublish()) {
+        if ($model->update()) {
             alertsHelper::alert(array('title' => 'Character deleted!', 'msg' => 'Your character was successfully deleted.', 'class' => 'success'));
         } else {
             alertsHelper::alert(array('title' => 'Delete failed', 'msg' => 'I\'m sorry there was an error processing your request.  If error percists, please notify the leadership.', 'class' => 'error'));
@@ -191,19 +192,23 @@ class GuildsControllerCharacters extends JController {
                 $view->displayCharacters();
         }
     }
-
+    
     function update() {
         JRequest::setVar('template', 'component');
         $name = JRequest::getVar('name', NULL, '', 'string');
         $id = JRequest::getVar('pk', NULL, '', 'int');
         $value = JRequest::getVar('value', NULL, '', 'string');
+        $categories = JRequest::getVar('category',NULL,'','array');
         $model = $this->getModel('characters');
+        $model->setState('id',$id);
+        $model->setState($name,$value);
+        $model->setState('categories',$categories);
 
         if ($name == NULL || $id == NULL) {
             JError::raiseError('500', 'Name or pk is missing from the request.');
         }
 
-        if (!$model->update($name, $id, $value)) {
+        if (!$model->update()) {
             JError::raiseError('500', 'Update failed');
         }
     }
@@ -217,7 +222,8 @@ class GuildsControllerCharacters extends JController {
         
         $model = $this->getModel('characters');
         $model->setState('id',$id);
-        $result = $model->publish();
+        $model->setState('published',1);
+        $result = $model->update();
         
         if(!$result) {
             JError::raiseError('500','Character could not be updated.');
@@ -233,7 +239,8 @@ class GuildsControllerCharacters extends JController {
 
         $model = $this->getModel('characters');
         $model->setState('id', $id);
-        $result = $model->unpublish();
+        $model->setState('published',0);
+        $result = $model->update();
         
         if(!$result) {
             JError::raiseError('500','Character could not be updated.');
@@ -244,7 +251,8 @@ class GuildsControllerCharacters extends JController {
         $id = JRequest::getVar('id', NULL, '', 'int');
         $model = $this->getModel('characters');
         $model->setState('id', $id);
-        $result = $model->invite();
+        $model->setState('invite',1);
+        $result = $model->update();
 
         if ($result) {
             alertsHelper::alert(array('title' => 'Invite Pending', 'msg' => 'Your invite has been requested.', 'class' => 'success'));
@@ -259,7 +267,8 @@ class GuildsControllerCharacters extends JController {
         $id = JRequest::getVar('id', NULL, '', 'int');
         $model = $this->getModel('characters');
         $model->setState('id', $id);
-        $result = $model->invited();
+        $model->setState('invite',0);
+        $result = $model->update();
         if ($result) {
             alertsHelper::alert(array('title' => 'Invite Sent!', 'msg' => 'Character invite was sent.', 'class' => 'success'));
         } else {
@@ -272,7 +281,8 @@ class GuildsControllerCharacters extends JController {
         $id = JRequest::getVar('id',NULL,'','int');
         $model = $this->getMOdel('characters');
         $model->setState('id',$id);
-        $result = $model->promoted();
+        $model->setState('checked',date('Y-m-d'));
+        $result = $model->update();
                 
         if($result) {
               alertsHelper::alert(array('title' => 'Character Promoted!', 'msg' => 'The character was promoted successfully', 'class' => 'success'));
