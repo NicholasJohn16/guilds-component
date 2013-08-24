@@ -89,6 +89,18 @@ $(document).ready(function() {
         datepicker: {
             todayBtn:'linked',
             todayHightlight:true
+        },
+        // 
+        params:function(params) {
+            // modify the params so that it conforms to other category submission
+            // ie submit as an array
+            params["category["+params.name+"]"] = params.value;
+            params.id = params.pk;
+            // remove old variables so there's no confusion
+            delete params.value;
+            delete params.pk;
+            delete params.name;
+            return params
         }
     });
    
