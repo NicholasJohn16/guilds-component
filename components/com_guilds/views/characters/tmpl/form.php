@@ -9,17 +9,6 @@
 defined('_JEXEC') or die('Restricted access');
 
 ?>
-<?php
-    $document = JFactory::getDocument();
-    $document->addScriptDeclaration("
-        $(document).ready(function() {
-            $('#datepicker').datepicker({
-                format:'yyyy-mm-dd',
-                todayBtn:'linked'
-            });
-        });
-    ");
-?>
 <div class="page-header">
     <?php if($this->isNew) :?>
         <h1>Add Character</h1>
