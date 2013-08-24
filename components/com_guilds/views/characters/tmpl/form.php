@@ -20,18 +20,6 @@ defined('_JEXEC') or die('Restricted access');
     <fieldset style="float:left;border:0 none;padding:0;margin:0;">
         <legend><?php echo JText::_('Character Info'); ?></legend>
         <div class="control-group">
-            <label class="control-label" for="user_id">User ID</label>
-            <div class="controls">
-                <input type="text" id="user_id" name="user_id" size="32" readonly="readonly" value="<?php echo $this->character->user_id; ?>"/>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="username">Username</label>
-            <div class="controls">
-                <input type="text" id="username" name="username" readonly="readonly" size="32" value="<?php echo $this->character->username; ?>"/>
-            </div>
-        </div>
-        <div class="control-group">
             <label class="control-label" for="name">Character Name</label>
             <div class="controls">
                 <input type="text" name="name" size="32" value="<?php echo $this->character->name; ?>"/>
@@ -79,9 +67,12 @@ defined('_JEXEC') or die('Restricted access');
     </fieldset>
     <div style="clear:both"></div>
     <div class="form-actions">
-        <button class="btn btn-primary pull-right" type="submit">Submit</button>
-            <a class="btn pull-right" href="<?php echo JRoute::_('index.php?com_guilds&view=characters'); ?>">Cancel</a>
+        <div class="pull-right">
+            <button class="btn btn-primary" type="submit">Submit</button>
+            <a class="btn" href="<?php echo JRoute::_('index.php?com_guilds&view=characters'); ?>">Cancel</a>
+        </div>
     </div>
     <input type="hidden" name="id" value="<?php echo $this->character->id; ?>" />
+    <input type="hidden" name="user_id" value="<?php echo $this->character->user_id; ?>" />
     <input type="hidden" name="task" value="save" />
 </form>
