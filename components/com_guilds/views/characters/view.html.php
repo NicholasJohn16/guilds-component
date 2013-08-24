@@ -134,17 +134,12 @@ class GuildsViewCharacters extends JView {
         $types = $this->get('Types','types');
         $categories = $this->get('Categories','categories');
 
-        // Get the IDs for Admin groups
-        $admin_gids = array(24,25);
-        // Check if current user is in Admin group
-        $isAdmin = in_array(JFactory::getUser()->gid,$admin_gids);
-        $isNew = ($character->id < 1) ? true : false;
+        $title = ($character->id < 1) ? "Add Character" : "Edit Character";
 
         $this->assignRef('character',$character);
         $this->assignRef('types', $types);
         $this->assignRef('categories', $categories);
-        $this->assignRef('isAdmin',$isAdmin);
-        $this->assignRef('isNew', $isNew);
+        $this->assignRef('title', $title);
         
         parent::display();
     }
