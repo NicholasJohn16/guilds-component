@@ -205,7 +205,7 @@ class GuildsModelCharacters extends JModel {
         $id = $this->getState('id');
         $types_model = $this->getInstance('types', 'GuildsModel');
         $types = $types_model->getTypes();
-        dump(JFactory::getUser(),"User");
+        
         if (empty($this->character)) {
             if ($id == NULL) {
                 $this->character = new stdClass();
@@ -228,7 +228,7 @@ class GuildsModelCharacters extends JModel {
                 $this->character = $db->loadObject();
             }
         }
-        dump($this->character);
+        
         return $this->character;
     }
 
@@ -302,6 +302,9 @@ class GuildsModelCharacters extends JModel {
         // Get the database object and all necessary states
         $db = $this->getDBO();
         $id = $this->getState('id');
+        $types_model = $this->getInstance('types', 'GuildsModel');
+        $types = $types_model->getTypes();
+        
         $fields = array();
         $fields['user_id'] = $this->getState('user_id');
         $fields['name'] = $this->getState('name');
@@ -316,6 +319,12 @@ class GuildsModelCharacters extends JModel {
                 // force categoriy ids to be ints so aren't quoted later
                 $fields[$name] = (int)$value;
             }
+        }
+        
+        //an additional check incase category changes are being 
+        //submitted through editable grid
+        foreach($types as $type) {
+            $fields[$type->name] = $this->getState($type->name);
         }
         
         foreach($fields as $name => $value) {
@@ -341,6 +350,7 @@ class GuildsModelCharacters extends JModel {
             $i++;
         }
         $sql .= " WHERE id = " . $id;
+        
         $db->setQuery($sql);
         $result = $db->query();
         return $result;
