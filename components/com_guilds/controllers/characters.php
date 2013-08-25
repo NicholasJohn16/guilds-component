@@ -20,6 +20,10 @@ class GuildsControllerCharacters extends JController {
         // When the drop task is called, use the unpublish function
         //$this->registerTask('drop','unpublish');
         $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR . DS . 'models');
+        $user = & JFactory::getUser();
+        if ($user->guest) {
+            $mainframe->redirect('index.php?option=com_user&view=login');
+        }
         parent::__construct($config);
     }
 
