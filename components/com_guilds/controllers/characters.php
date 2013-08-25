@@ -195,14 +195,12 @@ class GuildsControllerCharacters extends JController {
     
     function update() {
         JRequest::setVar('template', 'component');
-        $name = JRequest::getVar('name', NULL, '', 'string');
+        $name = JRequest::getVar('name',NULL, '', 'string');
         $id = JRequest::getVar('pk', NULL, '', 'int');
         $value = JRequest::getVar('value', NULL, '', 'string');
-        $categories = JRequest::getVar('category',NULL,'','array');
         $model = $this->getModel('characters');
         $model->setState('id',$id);
         $model->setState($name,$value);
-        $model->setState('categories',$categories);
 
         if ($name == NULL || $id == NULL) {
             JError::raiseError('500', 'Name or pk is missing from the request.');
