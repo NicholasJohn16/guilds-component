@@ -2,6 +2,8 @@
     $document = JFactory::getDocument();
     $document->addScript('components/com_guilds/media/js/character-form.js');
     $document->addScript('components/com_guilds/media/js/category-validation.js');
+    $document->addScript('components/com_guilds/media/js/select2.min.js');
+    $document->addStylesheet('components/com_guilds/media/css/select2.css');
 ?>
 <form class="form-horizontal" id="character-form">
     <div class="modal-header" style="background-color:#F5F5F5;border-bottom:1px solid #DDDDDD;box-shadow: 0 -1px 0 #FFFFFF inset;">
@@ -14,8 +16,7 @@
             <div class="control-group">
                 <label class="control-label" for="username">User</label>
                 <div class="controls">
-                    <input type="text" name="username" tabindex="1" id="username" value=""/>
-                    <input type="hidden" name="user_id" id="user_id"/>
+                    <input type="hidden" name="user_id" id="user" style="display:block;"/>
                 </div>
             </div>
             <div class="control-group">

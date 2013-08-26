@@ -218,31 +218,33 @@
         
         function getHandleList() {
             $db = JFactory::getDBO();
-            $name = $this->getState('name');
+            $name = trim($this->getState('name'));
             
             if(empty($this->handle_list)) {
-            
-            $sql  = ' ( SELECT id, username AS name, "Username" AS "Source" ';
-            $sql .= '   FROM jos_users ';
-            $sql .= '   WHERE username LIKE "%nic%" ) ';
-            $sql .= ' UNION ';
-            $sql .= ' ( SELECT user_id AS id , sto_handle AS name, "Cryptic @Handle" AS "Source" ';
-            $sql .= '   FROM jos_guilds_members AS b ';
-            $sql .= '   WHERE sto_handle LIKE "%nic%"  ) ';
-            $sql .= ' UNION ';
-            $sql .= ' ( SELECT user_id AS id, tor_handle AS name, "TOR Handle" AS "Source" ';
-            $sql .= '   FROM jos_guilds_members AS c ';
-            $sql .= '   WHERE tor_handle LIKE "%nic%"  ) ';
-            $sql .= ' UNION ';
-            $sql .= ' ( SELECT user_id AS id, gw2_handle AS name, "Guild Wars User ID" AS "Source" ';
-            $sql .= '   FROM jos_guilds_members AS d ';
-            $sql .= '   WHERE gw2_handle LIKE "%nic%" ) ';
-            $sql .= ' UNION ';
-            $sql .= '( SELECT user_id AS id, name, "Character Name" AS "Source" ';
-            $sql .= '  FROM jos_guilds_characters AS e ';
-            $sql .= '  WHERE name LIKE "%nic%"  ) ';
-            $sql .= ' ORDER BY name asc ';
-            
+                $sql  = ' ( SELECT id, username AS text ';
+                $sql .= '   FROM jos_users ';
+                $sql .= '   WHERE username LIKE "%'.$name.'%" ) ';
+                $sql .= ' UNION ';
+                $sql .= ' ( SELECT user_id AS id , sto_handle AS text ';
+                $sql .= '   FROM jos_guilds_members AS b ';
+                $sql .= '   WHERE sto_handle LIKE "%'.$name.'%"  ) ';
+                $sql .= ' UNION ';
+                $sql .= ' ( SELECT user_id AS id, tor_handle AS text ';
+                $sql .= '   FROM jos_guilds_members AS c ';
+                $sql .= '   WHERE tor_handle LIKE "%'.$name.'%"  ) ';
+                $sql .= ' UNION ';
+                $sql .= ' ( SELECT user_id AS id, gw2_handle AS text ';
+                $sql .= '   FROM jos_guilds_members AS d ';
+                $sql .= '   WHERE gw2_handle LIKE "%'.$name.'%" ) ';
+                $sql .= ' UNION ';
+                $sql .= '( SELECT user_id AS id, name as text ';
+                $sql .= '  FROM jos_guilds_characters AS e ';
+                $sql .= '  WHERE name LIKE "%'.$name.'%"  ) ';
+                $sql .= ' ORDER BY text asc ';
+                $sql .= ' LIMIT 10 ';
+                $db->setQuery($sql);
+                dump($sql);
+                $this->handle_list = $db->loadObjectList();
             }
             
             return $this->handle_list;

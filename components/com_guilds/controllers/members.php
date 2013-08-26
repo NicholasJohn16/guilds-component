@@ -103,6 +103,17 @@ class GuildsControllerMembers extends JController {
         echo json_encode($ranks);
     }
 
+    function handles() {
+        JRequest::setVar('tmpl','component');
+        JRequest::setVar('format','raw');
+        $name = JRequest::getVar('name',NULL,'','string');
+        dump($name,"name");
+        $model = $this->getModel('members');
+        $model->setState('name',$name);
+        //$handles = new stdClass();
+        $handles = $model->getHandleList();
+        $json = json_encode($handles);
+        echo $json;
+    }   
 }
-
 ?>

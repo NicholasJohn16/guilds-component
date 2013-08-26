@@ -79,13 +79,30 @@ $(document).ready(function() {
     $('#character-form-modal').on('hidden',function() {
         // Reset the form back
         var form = $('#character-form');
-        form.find('#username').val("");
+        form.find('#username').val('');
         form.find('#username').removeAttr('disabled');
         form.find('#user').val('');
         form.find('#checked').val('');
-        form.find('input[name="character_name"]').val(""); 
-        form.find('input[name="checked"]').val(""); 
-        form.find('select[name^="category"]').val("");
+        form.find('input[name="character_name"]').val(''); 
+        form.find('input[name="checked"]').val(''); 
+        form.find('select[name^="category"]').val('');
+    });
+    
+    $('#user').select2({
+        minimumInputLength:1,
+        ajax: {
+            url:'index.php?option=com_guilds&view=members&format=raw&task=handles',
+            datatype:'html',
+            data:function(term,page) {
+                return {
+                    name:term
+                };
+            },
+            results:function(data,page) {
+                console.log(data);
+                return { results:data }
+            }
+        }
     });
     
 });
