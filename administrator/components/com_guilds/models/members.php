@@ -243,8 +243,14 @@
                 $sql .= ' ORDER BY text asc ';
                 $sql .= ' LIMIT 10 ';
                 $db->setQuery($sql);
-                dump($sql);
-                $this->handle_list = $db->loadObjectList();
+                
+                $handles = $db->loadObjectList();
+                $this->handle_list = array();
+                foreach($handles as $handle) {
+                    $this->handle_list[] = array(
+                        'value'=> $handle->id, 
+                        'tokens'=>array($handle->text));
+                }
             }
             
             return $this->handle_list;

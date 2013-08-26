@@ -88,21 +88,13 @@ $(document).ready(function() {
         form.find('select[name^="category"]').val('');
     });
     
-    $('#user').select2({
-        minimumInputLength:1,
-        ajax: {
-            url:'index.php?option=com_guilds&view=members&format=raw&task=handles',
-            datatype:'html',
-            data:function(term,page) {
-                return {
-                    name:term
-                };
-            },
-            results:function(data,page) {
-                console.log(data);
-                return { results:data }
-            }
+    $('#user').typeahead([
+        {
+            name:'user-for-character',
+            remote:'index.php?option=com_guilds&view=members&format=raw&task=handles&name=%QUERY',
+            template:'<p>{{tokens}}</p>',
+            engine:Hogan
         }
-    });
+    ]);
     
 });
