@@ -27,8 +27,7 @@ $(document).ready(function() {
     //When character modal is activated,
     //Have username field grab focs
     $('#character-form-modal').on('shown', function(){
-        var username_field = $('#username');
-        username_field.focus();
+        $('#character-form-user_id').focus();
     });
     
     // Activate date picker for date field in Character form
@@ -103,6 +102,25 @@ $(document).ready(function() {
                 return { results:data }
             }
         }
+    });
+    
+    $('#character-form-user').bind('typeahead:selected typeahead:autocompleted', function(event, item){
+        $('#character-form-user_id').val(item.id);
+    });
+    
+    $('#character-form-handle-link').bind('click keypress',function(event){
+        // make sure its the spacebar that triggered the event
+        if(event.charCode == 32 || event.type == 'click') {
+            $('#character-form-handle-link').hide();
+            $('#character-form-handle').show().focus();
+            $('#character-form-handle-cancel').show();
+        }
+    });
+    
+    $('#character-form-handle-cancel').click(function(){
+       $('#character-form-handle-cancel').hide();
+       $('#character-form-handle').hide();
+       $('#character-form-handle-link').show().focus();
     });
     
 });

@@ -16,13 +16,21 @@
             <div class="control-group">
                 <label class="control-label" for="username">User</label>
                 <div class="controls">
-                    <input type="hidden" name="user_id" id="user" style="display:block;"/>
+                    <input type="hidden" name="user_id" id="character-form-user_id" style="width:220px;"/>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="name">Character Name</label>
                 <div class="controls">
                     <input type="text" tabindex="2" id="name" name="name" size="32" value=""/>
+                </div>	
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="name">Handle</label>
+                <div class="controls">
+                    <a href="#" tabindex="3" style="line-height:28px;" id="character-form-handle-link">Add a different handle for this character?</a>
+                    <input style="display:none;" tabindex="3" type="text" id="character-form-handle" name="handle" size="32" value=""/>
+                    <a href="#" style="margin-left:5px;display:none;" id="character-form-handle-cancel">Cancel</a>
                 </div>	
             </div>
             <div class="control-group">
