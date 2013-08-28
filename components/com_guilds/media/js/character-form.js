@@ -77,24 +77,43 @@ $(document).ready(function() {
     
     // When the Character form is hidden
     $('#character-form-modal').on('hidden',function() {
-        // Reset the form back
-        var form = $('#character-form');
-        form.find('#username').val('');
-        form.find('#username').removeAttr('disabled');
-        form.find('#user').val('');
-        form.find('#checked').val('');
-        form.find('input[name="character_name"]').val(''); 
-        form.find('input[name="checked"]').val(''); 
-        form.find('select[name^="category"]').val('');
+        //reset the form
+        $('#character-form-user').val('');
+        $('#character-form-user').removeAttr('disabled');
+        $('#character-form-user_id').val('');
+        $('#character-form-handle-cancel').hide();
+        $('#character-form-handle').hide();
+        $('#character-form-handle-link').show();
+        $('#character-form-name').val(''); 
+        $('#character-form-checked').val('');
+        $('select[id^="character-form-category"]').val('');
     });
     
-    $('#user').typeahead([
+    $('#character-form-user').typeahead([
         {
             name:'user-for-character',
             remote:'index.php?option=com_guilds&view=members&format=raw&task=handles&name=%QUERY',
-            template:'<p>{{tokens}}</p>',
+            template:'<p>{{value}}</p>',
             engine:Hogan
         }
     ]);
     
+    $('#character-form-user').bind('typeahead:selected typeahead:autocompleted', function(event, item){
+        $('#character-form-user_id').val(item.id);
+    });
+    
+    $('#character-form-handle-link').bind('click keypress',function(event){
+        // make sure its the spacebar that triggered the event
+        if(event.charCode == 32 || event.type == 'click') {
+            $('#character-form-handle-link').hide();
+            $('#character-form-handle').show().focus();
+            $('#character-form-handle-cancel').show();
+        }
+    });
+    
+    $('#character-form-handle-cancel').click(function(){
+       $('#character-form-handle-cancel').hide();
+       $('#character-form-handle').hide();
+       $('#character-form-handle-link').show().focus();
+    });
 });

@@ -221,36 +221,30 @@
             $name = trim($this->getState('name'));
             
             if(empty($this->handle_list)) {
-                $sql  = ' ( SELECT id, username AS text ';
+                $sql  = ' ( SELECT id, username AS value ';
                 $sql .= '   FROM jos_users ';
                 $sql .= '   WHERE username LIKE "%'.$name.'%" ) ';
                 $sql .= ' UNION ';
-                $sql .= ' ( SELECT user_id AS id , sto_handle AS text ';
+                $sql .= ' ( SELECT user_id AS id , sto_handle AS value ';
                 $sql .= '   FROM jos_guilds_members AS b ';
                 $sql .= '   WHERE sto_handle LIKE "%'.$name.'%"  ) ';
                 $sql .= ' UNION ';
-                $sql .= ' ( SELECT user_id AS id, tor_handle AS text ';
+                $sql .= ' ( SELECT user_id AS id, tor_handle AS value ';
                 $sql .= '   FROM jos_guilds_members AS c ';
                 $sql .= '   WHERE tor_handle LIKE "%'.$name.'%"  ) ';
                 $sql .= ' UNION ';
-                $sql .= ' ( SELECT user_id AS id, gw2_handle AS text ';
+                $sql .= ' ( SELECT user_id AS id, gw2_handle AS value ';
                 $sql .= '   FROM jos_guilds_members AS d ';
                 $sql .= '   WHERE gw2_handle LIKE "%'.$name.'%" ) ';
                 $sql .= ' UNION ';
-                $sql .= '( SELECT user_id AS id, name as text ';
+                $sql .= '( SELECT user_id AS id, name as value ';
                 $sql .= '  FROM jos_guilds_characters AS e ';
                 $sql .= '  WHERE name LIKE "%'.$name.'%"  ) ';
-                $sql .= ' ORDER BY text asc ';
+                $sql .= ' ORDER BY value asc ';
                 $sql .= ' LIMIT 10 ';
                 $db->setQuery($sql);
                 
-                $handles = $db->loadObjectList();
-                $this->handle_list = array();
-                foreach($handles as $handle) {
-                    $this->handle_list[] = array(
-                        'value'=> $handle->id, 
-                        'tokens'=>array($handle->text));
-                }
+                $this->handle_list = $db->loadObjectList();
             }
             
             return $this->handle_list;
