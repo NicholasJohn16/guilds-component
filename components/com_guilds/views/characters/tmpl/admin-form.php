@@ -17,31 +17,39 @@
             <div class="control-group">
                 <label class="control-label" for="username">User</label>
                 <div class="controls">
-                    <input type="text" name="user_id" id="user"/>
+                    <input type="text" tabindex="1" name="user" id="character-form-user"/>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="name">Character Name</label>
                 <div class="controls">
-                    <input type="text" tabindex="2" id="name" name="name" size="32" value=""/>
+                    <input type="text" tabindex="2" id="character-form-name" name="name" size="32" value=""/>
+                </div>	
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="name">Handle</label>
+                <div class="controls">
+                    <a href="#" tabindex="3" style="line-height:28px;" id="character-form-handle-link">Add a different handle for this character?</a>
+                    <input style="display:none;" tabindex="3" type="text" id="character-form-handle" name="handle" size="32" value=""/>
+                    <a href="#" style="margin-left:5px;display:none;" id="character-form-handle-cancel">Cancel</a>
                 </div>	
             </div>
             <div class="control-group">
                 <label class="control-label" for="checked">Checked</label>
                 <div class="controls">
-                    <input size="16" type="text" tabindex="3" value="" name="checked" id="character-form-checked">
+                    <input size="16" type="text" tabindex="4" value="" name="checked" id="character-form-checked">
                 </div>
             </div>
         </fieldset>
         <fieldset style="float:left;border:0 none;padding:0;margin:0;">
             <legend>Categories</legend>
-            <?php $tab = 4; ?>
+            <?php $tab = 5; ?>
             <?php foreach ($this->types as $type): ?>
                 <?php $type_id = $type->name . '_id'; ?>
                 <div class="control-group">
                     <label class="control-label" for="<?php echo $type->name; ?>"><?php echo ucfirst($type->name); ?></label>
                     <div class="controls">
-                        <select tabindex="<?php echo $tab; ?>" name="category[<?php echo $type->name; ?>]">
+                        <select tabindex="<?php echo $tab; ?>" name="category[<?php echo $type->name; ?>]" id="character-form-category-<?php echo $type->name;?>">
                             <option value=""><?php echo 'Select ' . ucfirst($type->name); ?></option>
                             <?php foreach ($this->categories as $category): ?>
                                 <?php if ($category->type == $type->name): ?>
@@ -66,4 +74,5 @@
         <button id="character-form-close" class="btn">Cancel</button>
         <input tabindex="<?php echo $tab; ?>" id="character-form-submit" type="submit" class="btn btn-primary" value="Add" />
     </div>
+    <input type="hidden" id="character-form-user_id" name="user_id" />
 </form>
