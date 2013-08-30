@@ -234,12 +234,12 @@ class GuildsModelCharacters extends JModel {
 
     function getCharactersByUserID() {
         $db = JFactory::getDBO();
-        $id = $this->getState('id');
+        $user_id = $this->getState('user_id');
         $publishedOnly = $this->getState('publishedOnly');
 
         if (empty($this->charactersForUser)) {
             $query = $this->buildSelect();
-            $query .= " WHERE a.user_id = " . $id;
+            $query .= " WHERE a.user_id = " . $user_id;
             if ($publishedOnly) {
                 $query .= " AND a.published = 1 ";
             }
@@ -312,6 +312,7 @@ class GuildsModelCharacters extends JModel {
         $fields['invite'] = $this->getState('invite');
         $fields['checked'] = $this->getState('checked');
         $fields['published'] = $this->getState('published');
+        $fields['unpublisheddate'] = $this->getState('unpublisheddate');
         
         $categories = $this->getState('categories');
         if(is_array($categories)) {
