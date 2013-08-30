@@ -144,11 +144,12 @@ class GuildsControllerCharacters extends JController {
         $model = $this->getModel('characters');
         $model->setState('id',$id);
         $model->setState('published',0);
+        $model->setState('unpublisheddate',date('Y-m-d'));
         // Just unpublish the character, so it isn't visible to the Member anymore
         if ($model->update()) {
             alertsHelper::alert(array('title' => 'Character deleted!', 'msg' => 'Your character was successfully deleted.', 'class' => 'success'));
         } else {
-            alertsHelper::alert(array('title' => 'Delete failed', 'msg' => 'I\'m sorry there was an error processing your request.  If error percists, please notify the leadership.', 'class' => 'error'));
+            alertsHelper::alert(array('title' => 'Delete failed', 'msg' => 'I\'m sorry, Dave. I\'m affarid I can\'t do that.  If error persists, please notify the leadership.', 'class' => 'error'));
         }
         
         //Redirect back to the Characters view
@@ -173,10 +174,10 @@ class GuildsControllerCharacters extends JController {
         // Depending on the model, we need to set the user to different values
         switch ($layout) {
             case 'ajax':
-                $id = JRequest::getVar('id', null, '', 'int');
+                $user_id = JRequest::getVar('id', null, '', 'int');
                 JRequest::setVar('tmpl', 'component');
                 JRequest::setVar('format','raw');
-                $characters_model->setState('id', $id);
+                $characters_model->setState('user_id', $user_id);
                 $characters_model->setState('publishedOnly', false);
                 $view->displayAjax();
                 break;
@@ -190,8 +191,8 @@ class GuildsControllerCharacters extends JController {
                 $view->displayRoster();
                 break;
             default:
-                $id = JFactory::getUser()->id;
-                $characters_model->setState('id', $id);
+                $user_id = JFactory::getUser()->id;
+                $characters_model->setState('user_id', $user_id);
                 $characters_model->setState('publishedOnly', true);
                 $view->displayCharacters();
         }
@@ -281,7 +282,7 @@ class GuildsControllerCharacters extends JController {
     
     function promoted() {
         $id = JRequest::getVar('id',NULL,'','int');
-        $model = $this->getMOdel('characters');
+        $model = $this->getModel('characters');
         $model->setState('id',$id);
         $model->setState('checked',date('Y-m-d'));
         $result = $model->update();
@@ -292,6 +293,20 @@ class GuildsControllerCharacters extends JController {
             alertsHelper::alert(array('title' => 'Promotion Failed!', 'msg' => 'There was an error promoting the character', 'class' => 'error'));
         }
         $this->setRedirect(JRoute::_('index.php?option=com_guilds&view=characters&layout=pending',false));
+    }
+    
+    function characters() {
+        JRequest::setVar('tmpl','component');
+        $user_id = JRequest::getVar('user_id',NULL,'','int');
+        $model = $this->getModel('characters');
+        $model->setState('user_id',$user_id);
+        $characters = $model->getCharactersByUserID();
+        $names = array();
+        foreach($characters as $character) {
+            $names[] = array('id'=>$character->id,'text'=>$character->name);
+        }
+        
+        echo json_encode($names);
     }
 
 }
