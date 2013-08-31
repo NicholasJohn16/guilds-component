@@ -10,7 +10,7 @@
                 <button class="btn btn-inverse btn-small" type="submit">Submit</button>
                 <button class="btn btn-inverse btn-small" type="reset">Reset</button>
                 <ul class="nav pull-right">
-                    <li><a title="Add Character" href="#">Add Character</a></li>
+                    <li><a title="Add Character" id="add-character" href="#">Add Character</a></li>
                 </ul>
             </div>
         </div>
@@ -26,7 +26,6 @@
         </ul>
     </div>
     <div class="accordion">
-        <?php dump($this->members,'Members'); ?>
         <?php if(!$this->members): ?>
             <div class="alert alert-block alert-error">
                 <h4 class="alert-heading">No Characters Found</h4>
@@ -61,7 +60,7 @@
                     <div class="accordion-footing">
                         <div class="accordion-inner">
                             <div class="btn-group">
-                                <a class="btn" title="Add Character" href="index.php?option=com_guilds&view=character&task=add&id=<?php echo $member->id; ?>" data-user="<?php echo $member->id; ?>" data-username="<?php echo $member->username; ?>">
+                                <a class="btn add-character" title="Add Character" href="#" data-user="<?php echo $member->id; ?>" data-username="<?php echo $member->username; ?>">
                                     <i class="icon-plus"></i>
                                 </a>
                                 <button class="btn action" title="Delete Character(s)"><i class="icon-remove"></i></button>

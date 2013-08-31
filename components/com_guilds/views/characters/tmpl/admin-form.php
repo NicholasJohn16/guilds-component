@@ -16,13 +16,14 @@
             <div class="control-group">
                 <label class="control-label" for="username">User</label>
                 <div class="controls">
-                    <input type="hidden" name="user_id" id="character-form-user_id" style="width:220px;"/>
+                    <input tabindex="1" type="hidden" name="user_id" id="character-form-user_id" style="width:220px;"/>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="name">Character Name</label>
                 <div class="controls">
-                    <input type="text" tabindex="2" id="name" name="name" size="32" value=""/>
+                    <input tabindex="2" type="hidden" name="name" id="character-form-character" style="width:220px;"/>
+                    <!-- <input type="text" tabindex="2" id="name" name="name" size="32" value=""/> -->
                 </div>	
             </div>
             <div class="control-group">
@@ -42,30 +43,9 @@
         </fieldset>
         <fieldset style="float:left;border:0 none;padding:0;margin:0;">
             <legend>Categories</legend>
+            
             <?php $tab = 4; ?>
-            <?php foreach ($this->types as $type): ?>
-                <?php $type_id = $type->name . '_id'; ?>
-                <div class="control-group">
-                    <label class="control-label" for="<?php echo $type->name; ?>"><?php echo ucfirst($type->name); ?></label>
-                    <div class="controls">
-                        <select tabindex="<?php echo $tab; ?>" name="category[<?php echo $type->name; ?>]">
-                            <option value=""><?php echo 'Select ' . ucfirst($type->name); ?></option>
-                            <?php foreach ($this->categories as $category): ?>
-                                <?php if ($category->type == $type->name): ?>
-                                    <option value="<?php echo $category->id
-                                    ?>" data-parent="<?php echo $category->parent;
-                                    ?>"<?php if ($category->children != NULL) {
-                                    echo 'data-children="' . $category->children . '"';
-                                }
-                                    ?>><?php echo $category->name;
-                                    ?></option>
-        <?php endif; ?>
-    <?php endforeach; ?>
-                        </select>
-                    </div>
-                </div>
-    <?php $tab++; ?>
-<?php endforeach; ?>
+            <?php echo categoriesHelper::display($this->types,$this->categories,array('tab'=>4,'id_prefix'=>'character-form-')); ?>
         </fieldset>
     </div>
     <div style="clear:both"></div>

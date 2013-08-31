@@ -12,6 +12,8 @@
     include_once JPATH_COMPONENT.DS.'helpers'.DS.'alertsHelper.php';
     // Display stored alerts
     alertsHelper::display();
+    
+    include_once JPATH_COMPONENT.DS.'helpers'.DS.'categoriesHelper.php';
 
     //$script = "$('.bottom-right').notify({message:'This is the msg.'}).show();";
     //$document =& JFactory::getDocument();
