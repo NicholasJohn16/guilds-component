@@ -35,9 +35,9 @@ class GuildsControllerCharacters extends JController {
         $name = JRequest::getVar('name', null, '', 'string');
         $categories = JRequest::getVar('category', array(), '', 'array');
         $checked = JRequest::getVar('checked', null, '', 'string');
-        $invite = JRequest::getVar('invite', 0, '', 'int');
-
-        if ($name == "") {
+        $invite = JRequest::getVar('invite', null, '', 'int');
+        dump($id,"ID from Controller");
+        if ($name == NULL && $id == NULL) {
             JError::raiseError(500, 'Character name not given');
         }
         if ($user_id == "") {

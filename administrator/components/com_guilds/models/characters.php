@@ -302,6 +302,7 @@ class GuildsModelCharacters extends JModel {
         // Get the database object and all necessary states
         $db = $this->getDBO();
         $id = $this->getState('id');
+        $values = array();
         $types_model = $this->getInstance('types', 'GuildsModel');
         $types = $types_model->getTypes();
         
@@ -324,32 +325,28 @@ class GuildsModelCharacters extends JModel {
         
         //an additional check incase category changes are being 
         //submitted through editable grid
-        foreach($types as $type) {
-            $fields[$type->name] = $this->getState($type->name);
-        }
-        
+//        foreach($types as $type) {
+//            $fields[$type->name] = $this->getState($type->name);
+//        }
+        // Filter out fields that aren't being updated
         foreach($fields as $name => $value) {
             //if the value is null or an empty string
             if($value === NULL || $value === "") {
                 // remove it from the fields
                 unset($fields[$name]);
-                
             } elseif(is_string($value)) {
-                
+                // if its a string, go ahead and quote it
                 $fields[$name] = $db->quote($value);
             }   
         }
         
-        $count = count($fields);
-        $i = 1;
-        $sql  = " UPDATE #__guilds_characters SET ";
         foreach($fields as $name => $value) {
-            $sql .= " `" . $name . "` = " . $value;
-            if($i < $count) {
-                $sql .= ", ";
-            }
-            $i++;
+            $values[] = " `".$name."` = ".$value." ";
         }
+        
+        
+        $sql  = " UPDATE #__guilds_characters SET ";
+        $sql .= implode(", ", $values);
         $sql .= " WHERE id = " . $id;
         
         $db->setQuery($sql);
@@ -361,8 +358,10 @@ class GuildsModelCharacters extends JModel {
         $id = $this->getState('id');
 
         if ($id < 1) {
+            dump("Add");
             return $this->add();
         } else {
+            dump("Update");
             return $this->update();
         }
     }

@@ -44,7 +44,7 @@ class GuildsViewMembers extends JView {
         $ranks = $this->get('Ranks');
         $types = $this->get('Types','types');
         $categories = $this->get('Categories','categories');
-
+        
         global $mainframe, $option;
         // Get the layout so it can be used to make request variable layout specific
         $layout	= $this->getLayout();

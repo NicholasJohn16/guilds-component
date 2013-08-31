@@ -8,7 +8,7 @@
                 </div>
                 <button class="btn btn-inverse btn-small" type="submit">Submit</button><button class="btn btn-inverse btn-small" type="reset">Reset</button>
                 <ul class="nav pull-right">
-                    <li><a href="index.php?option=com_guilds&view=characters&layout=form" title="Add Character">Add Character</a></li>
+                    <li><a id="add-character" href="#" title="Add Character">Add Character</a></li>
                 </ul>
             </div>
         </div>
@@ -41,7 +41,6 @@
             <div class="span1"><?php echo $this->sortable("Published"); ?></div>
         </div>
         <?php $i = 0; ?>
-        <?php dump($this->characters); ?>
         <?php foreach ($this->characters as $character): ?>
             <div class="row-fluid">
                 <div class="span1"><input id="cb<?php echo $i ?>" type="checkbox" value="<?php echo $character->id; ?>" name="characters[]"/>

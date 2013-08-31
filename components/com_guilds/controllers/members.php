@@ -107,7 +107,6 @@ class GuildsControllerMembers extends JController {
         JRequest::setVar('tmpl','component');
         JRequest::setVar('format','raw');
         $name = JRequest::getVar('name',NULL,'','string');
-        dump($name,"name");
         $model = $this->getModel('members');
         $model->setState('name',$name);
         //$handles = new stdClass();
