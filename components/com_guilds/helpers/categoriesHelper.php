@@ -39,7 +39,6 @@ class categoriesHelper extends JObject {
             $html .= $select->display();
         }
         
-        dump($selects);
         return $html;
     }
 }
