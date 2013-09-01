@@ -54,7 +54,7 @@
                 <?php foreach ($this->types as $type): ?>
                     <?php $type_name = $type->name . '_name'; ?>
                     <?php $type_id = $type->name . '_id'; ?>
-                    <div class="span2 editable com-guilds-<?php echo $type->name; ?>" data-type="select" data-value="<?php echo $character->$type_id; ?>" data-title="Edit <?php echo ucfirst($type->name); ?>" data-pk="<?php echo $character->id; ?>" data-source="index.php?option=com_guilds&view=categories&format=json&type=<?php echo $type->name; ?>" data-name="<?php echo $type->name; ?>"><?php echo $character->$type_name; ?></div>
+                    <div class="span2 editable com-guilds-<?php echo $type->name; ?>" data-type="select" data-value="<?php echo $character->$type_id; ?>" data-title="Edit <?php echo ucfirst($type->name); ?>" data-pk="<?php echo $character->id; ?>" data-source="index.php?option=com_guilds&view=categories&format=json&type=<?php echo $type->name; ?>" data-name="category[<?php echo $type->name; ?>]"><?php echo $character->$type_name; ?></div>
                 <?php endforeach; ?>
                 <div class="span2 editable" data-type="date" data-placement="right" data-name="checked" data-title="Edit Checked Date" data-pk="<?php echo $character->id; ?>"><?php echo $character->checked; ?></div>
                 <?php $pub = array('title' => array('Unpublished', 'Published'), 'icon' => array('eye-close icon-white', 'eye-open'), 'task' => array('publish', 'unpublish'), 'class' => array('btn-inverse', '')); ?>

@@ -316,13 +316,14 @@ class GuildsModelCharacters extends JModel {
         $fields['unpublisheddate'] = $this->getState('unpublisheddate');
         
         $categories = $this->getState('categories');
+        dump($categories,'Categories');
         if(is_array($categories)) {
             foreach($categories as $name => $value) {
                 // force categoriy ids to be ints so aren't quoted later
                 $fields[$name] = (int)$value;
             }
         }
-        
+        dump($fields,'Fields');
         //an additional check incase category changes are being 
         //submitted through editable grid
 //        foreach($types as $type) {
@@ -348,7 +349,7 @@ class GuildsModelCharacters extends JModel {
         $sql  = " UPDATE #__guilds_characters SET ";
         $sql .= implode(", ", $values);
         $sql .= " WHERE id = " . $id;
-        
+        dump($sql,'Update Characters Query');
         $db->setQuery($sql);
         $result = $db->query();
         return $result;
@@ -358,10 +359,8 @@ class GuildsModelCharacters extends JModel {
         $id = $this->getState('id');
 
         if ($id < 1) {
-            dump("Add");
             return $this->add();
         } else {
-            dump("Update");
             return $this->update();
         }
     }

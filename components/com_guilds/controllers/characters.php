@@ -30,19 +30,14 @@ class GuildsControllerCharacters extends JController {
     /* Task Functions */
 
     function ajaxSave() {
+        dump(JRequest::get('post'),'Post');
         $id = JRequest::getVar('id', null, '', 'int');
         $user_id = JRequest::getVar('user_id', null, '', 'int');
         $name = JRequest::getVar('name', null, '', 'string');
         $categories = JRequest::getVar('category', array(), '', 'array');
         $checked = JRequest::getVar('checked', null, '', 'string');
         $invite = JRequest::getVar('invite', null, '', 'int');
-        dump($id,"ID from Controller");
-        if ($name == NULL && $id == NULL) {
-            JError::raiseError(500, 'Character name not given');
-        }
-        if ($user_id == "") {
-            JError::raiserError(500, 'User is not specified');
-        }
+        dump($categories,'Categories in Controller');
         $model = $this->getModel('characters');
         $model->setState('id', $id);
         $model->setState('user_id', $user_id);
@@ -53,7 +48,7 @@ class GuildsControllerCharacters extends JController {
         $result = $model->save();
 
         if (!$result) {
-            JError::raiseError(500,'Unable to save character.');
+            JError::raiseError(400,'Unable to save character.');
         }
     }
 
@@ -65,12 +60,13 @@ class GuildsControllerCharacters extends JController {
         $checked = JRequest::getVar('checked', null, '', 'string');
         $invite = JRequest::getVar('invite', null, '', 'int');
         
-        if ($name == "") {
-            JError::raiseError(500, 'Character name not given');
-        }
-        if ($user_id == "") {
-            JError::raiseError(500, 'User is not specified');
-        }
+//        if ($name == "") {
+//            JError::raiseError(400, 'Character name not given');
+//        }
+//        if ($user_id == "") {
+//            JError::raiseError(400, 'User is not specified');
+//        }
+        
         $model = $this->getModel('characters');
         $model->setState('id', $id);
         $model->setState('user_id', $user_id);
@@ -208,11 +204,11 @@ class GuildsControllerCharacters extends JController {
         $model->setState($name,$value);
 
         if ($name == NULL || $id == NULL) {
-            JError::raiseError('500', 'Name or pk is missing from the request.');
+            JError::raiseError('400', 'Name or pk is missing from the request.');
         }
 
         if (!$model->update()) {
-            JError::raiseError('500', 'Update failed');
+            JError::raiseError('400', 'Update failed');
         }
     }
 
@@ -229,7 +225,7 @@ class GuildsControllerCharacters extends JController {
         $result = $model->update();
         
         if(!$result) {
-            JError::raiseError('500','Character could not be updated.');
+            JError::raiseError('400','Character could not be updated.');
         }
     }
 
@@ -237,7 +233,7 @@ class GuildsControllerCharacters extends JController {
         $id = JRequest::getVar('id', NULL, '', 'int');
 
         if ($id == "") {
-            JError::raiseError('500', 'Character ID missing from request!');
+            JError::raiseError('400', 'Character ID missing from request!');
         }
 
         $model = $this->getModel('characters');
@@ -246,7 +242,7 @@ class GuildsControllerCharacters extends JController {
         $result = $model->update();
         
         if(!$result) {
-            JError::raiseError('500','Character could not be updated.');
+            JError::raiseError('400','Character could not be updated.');
         }
     }
 

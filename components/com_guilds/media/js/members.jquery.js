@@ -84,11 +84,22 @@ $(document).ready(function() {
    
     $('.accordion').editable({
         selector:'div.editable-click',
-        url:'index.php?option=com_guilds&view=characters&task=update&format=ajax',
+        url:'index.php?option=com_guilds&view=characters&task=ajaxSave&format=raw',
         //clear:'<button class="btn">Clear</button>',
         datepicker: {
             todayBtn:'linked',
             todayHightlight:true
+                },
+        params:function(params) {
+            // modify the params so that it conforms to other category submission
+            // ie submit as an array
+            params["category["+params.name+"]"] = params.value;
+            params.id = params.pk;
+            // remove old variables so there's no confusion
+            delete params.value;
+            delete params.pk;
+            delete params.name;
+            return params 
         }
     });
    

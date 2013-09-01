@@ -6,7 +6,24 @@ $(document).ready(function() {
         $.fn.editable.defaults.emptyclass = '';
         
         $('.editable').editable({
-           url:'index.php?option=com_guilds&view=characters&task=update&format=ajax'
+           url:'index.php?option=com_guilds&view=characters&task=ajaxSave&format=raw',
+           params:function(params) {
+            // Store the values so they won't be deleted
+            var field = params.name;
+            var value = params.value;
+            var id = params.pk;
+            
+            // Remove the params
+            delete params.name;
+            delete params.pk;
+            delete params.value;
+            
+            // Set the new params
+            params[field] = value;
+            params.id = id;
+            
+            return params 
+        }
         });
         
 	
