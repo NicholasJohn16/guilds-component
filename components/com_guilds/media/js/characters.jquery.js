@@ -31,7 +31,7 @@ $(document).ready(function() {
 		event.preventDefault();
 	});
 	
-	$('select').change(function(event){
+	$('#filters select').change(function(event){
 		$('#roster-form').submit();
 	});
 	
