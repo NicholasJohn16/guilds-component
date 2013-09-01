@@ -57,11 +57,11 @@
                     <div class="span2 editable com-guilds-<?php echo $type->name; ?>" data-type="select" data-value="<?php echo $character->$type_id; ?>" data-title="Edit <?php echo ucfirst($type->name); ?>" data-pk="<?php echo $character->id; ?>" data-source="index.php?option=com_guilds&view=categories&format=json&type=<?php echo $type->name; ?>" data-name="category[<?php echo $type->name; ?>]"><?php echo $character->$type_name; ?></div>
                 <?php endforeach; ?>
                 <div class="span2 editable" data-type="date" data-placement="right" data-name="checked" data-title="Edit Checked Date" data-pk="<?php echo $character->id; ?>"><?php echo $character->checked; ?></div>
-                <?php $pub = array('title' => array('Unpublished', 'Published'), 'icon' => array('eye-close icon-white', 'eye-open'), 'task' => array('publish', 'unpublish'), 'class' => array('btn-inverse', '')); ?>
+                <?php $pub = array('title'=>array('Unpublished','Published'),'icon'=>array('eye-close icon-white','eye-open'),'task'=>array('publish','unpublish'),'class'=>array('btn-inverse','')); ?>
                 <div class="span1">
-                    <a title="<?php echo $pub['title'][$character->published]; ?>" class="btn btn-mini <?php echo $pub['class'][$character->published]; ?>" href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task=' . $pub['task'][$character->published] . '&id=' . $character->id); ?>">
+                    <button title="<?php echo $pub['title'][$character->published] . " Character"; ?>" class="btn btn-mini publish <?php echo $pub['class'][$character->published]; ?>" data-task="<?php echo $pub['task'][$character->published]; ?>" data-id="<?php echo $character->id; ?>">
                         <i class="icon-<?php echo $pub['icon'][$character->published]; ?>"></i>
-                    </a>
+                    </button>
                 </div>
             </div>
             <?php $i++; ?>

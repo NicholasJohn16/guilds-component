@@ -75,11 +75,31 @@ $(document).ready(function() {
 			   checkboxes[i].checked = bool;
 		   };
 	});
-	
-	$('#datepicker').datepicker({
-		format:'yyyy-mm-dd',
-		todayBtn:true,
-		autoclose:true
-	});
+	        
+        $('body').on('click','.publish',function(event) {
+        event.preventDefault();
+        var el = $(this);
+        var task = el.attr('data-task');
+        var id = el.attr('data-id');
+        var toggle = {
+            'publish':'unpublish',
+            'unpublish':'publish'
+        };
+        
+        $.ajax({
+            url:'index.php?option=com_guilds&view=characters&task='+task+'&id='+id,
+            success:function() {
+                el.toggleClass('btn-inverse');
+                el.attr('data-task',toggle[task]);
+                //el.attr('title',toggle[task].charAt(0).toUpperCase() + toggle[task].slice(1) + ' Character');
+                el.attr('title',task.charAt(0).toUpperCase() + toggle[task].slice(1));
+                el.children('i').toggleClass('icon-white');
+                el.children('i').toggleClass('icon-eye-close icon-eye-open');
+            },
+            error:function() {
+                alert("The Character could not be updated.\nTry refreshing the page.\nIf there error persists, contact an admin.");
+            }
+        });
+    });
 	
  });
