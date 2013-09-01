@@ -302,9 +302,6 @@ class GuildsModelCharacters extends JModel {
         // Get the database object and all necessary states
         $db = $this->getDBO();
         $id = $this->getState('id');
-        $values = array();
-        $types_model = $this->getInstance('types', 'GuildsModel');
-        $types = $types_model->getTypes();
         
         $fields = array();
         $fields['user_id'] = $this->getState('user_id');
@@ -316,19 +313,13 @@ class GuildsModelCharacters extends JModel {
         $fields['unpublisheddate'] = $this->getState('unpublisheddate');
         
         $categories = $this->getState('categories');
-        dump($categories,'Categories');
         if(is_array($categories)) {
             foreach($categories as $name => $value) {
                 // force categoriy ids to be ints so aren't quoted later
                 $fields[$name] = (int)$value;
             }
         }
-        dump($fields,'Fields');
-        //an additional check incase category changes are being 
-        //submitted through editable grid
-//        foreach($types as $type) {
-//            $fields[$type->name] = $this->getState($type->name);
-//        }
+        
         // Filter out fields that aren't being updated
         foreach($fields as $name => $value) {
             //if the value is null or an empty string
@@ -344,12 +335,11 @@ class GuildsModelCharacters extends JModel {
         foreach($fields as $name => $value) {
             $values[] = " `".$name."` = ".$value." ";
         }
-        
-        
+      
         $sql  = " UPDATE #__guilds_characters SET ";
         $sql .= implode(", ", $values);
         $sql .= " WHERE id = " . $id;
-        dump($sql,'Update Characters Query');
+
         $db->setQuery($sql);
         $result = $db->query();
         return $result;
@@ -391,13 +381,15 @@ class GuildsModelCharacters extends JModel {
 
     function getPendingPromotions() {
         $db = JFactory::getDBO();
-
+        $today = date('Y-m-d');
+        
         if (empty($this->pendingPromotions)) {
             $sql = $this->buildSelect();
-            $sql .= ' WHERE (date_add(appdate,INTERVAL 14 DAY) <= curdate() '
-                    . ' AND date( checked ) < date_add(appdate,INTERVAL 14 DAY) '
-                    . ' OR checked IS NULL ) ';
+            $sql .= ' WHERE (date_add(appdate,INTERVAL 14 DAY) <= "'.$today.'"'
+                 . ' AND date( checked ) < date_add(appdate,INTERVAL 14 DAY) )'
+                 . ' OR ( checked IS NULL AND appdate IS NOT NULL ) ';
             $db->setQuery($sql);
+            
             $this->pendingPromotions = $db->loadObjectList();
         }
         return $this->pendingPromotions;
