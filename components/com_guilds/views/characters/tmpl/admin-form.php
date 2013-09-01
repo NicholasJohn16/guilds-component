@@ -45,7 +45,7 @@
             <legend>Categories</legend>
             
             <?php $tab = 4; ?>
-            <?php echo categoriesHelper::display($this->types,$this->categories,array('tab'=>4,'id_prefix'=>'character-form-')); ?>
+            <?php echo categoriesHelper::display($this->types,$this->categories,array('tab'=>4,'id_prefix'=>'character-form')); ?>
         </fieldset>
     </div>
     <div style="clear:both"></div>

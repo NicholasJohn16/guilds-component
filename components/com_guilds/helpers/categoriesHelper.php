@@ -8,6 +8,12 @@ class categoriesHelper extends JObject {
             $params['tab'] = false;
         }
         
+        if(isset($params['id_prefix'])) {
+            $params['id_prefix'] = $params['id_prefix'].'-category-';
+        } else {
+            $params['id_prefix'] = 'category-';
+        }
+        
         $selects = array();
         $html = "";
         
@@ -51,8 +57,8 @@ class Select {
     var $options = array();
     
     public function __construct($select,$params) {
-        $this->id = (isset($params['id_prefix'])) ? $params['id_prefix'].'-category-'.$this->name : 'category-'.$this->name;
         $this->name = $select->name;
+        $this->id = $params['id_prefix'] . $this->name;
         $this->tab = $params['tab'];
     }
     
