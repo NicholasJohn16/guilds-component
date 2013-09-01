@@ -240,7 +240,6 @@ $(document).ready(function() {
         $('input[name="order"]').val(order);
         $('input[name="direction"]').val(direction);
 		
-		
         $("#members-form").submit();
     });
    
