@@ -81,8 +81,8 @@ class GuildsModelCharacters extends JModel {
         $types = $types_model->getTypes();
 
         //$types = $this->getTypes();
-        $i = 100;
-        $n = 100;
+        $i = 99;
+        $n = 99;
         $query = ' SELECT a.id, a.user_id, a.name, a.checked, '
                 . ' a.unpublisheddate, a.invite, a.name as name, '
                 . ' a.id AS id, a.published AS published, '
@@ -95,7 +95,6 @@ class GuildsModelCharacters extends JModel {
         }
         $query .= " FROM #__guilds_characters AS a ";
         $query .= " LEFT JOIN #__guilds_members AS b ON a.user_id = b.user_id ";
-        $query .= " LEFT JOIN #__users AS c ON a.user_id = c.id ";
         foreach ($types AS $type) {
             $query .= " LEFT JOIN #__guilds_categories AS " . chr($n) . " ON " . chr($n) . ".id = a." . $type->name . " ";
             $n++;
@@ -324,9 +323,13 @@ class GuildsModelCharacters extends JModel {
         // Filter out fields that aren't being updated
         foreach($fields as $name => $value) {
             //if the value is null or an empty string
-            if($value === NULL || $value === "") {
+            if($value === NULL){
                 // remove it from the fields
                 unset($fields[$name]);
+            }
+            // if a value is an empty string, change it to NULL
+            if($value === "") {
+                $fields[$name] = "NULL";
             } elseif(is_string($value)) {
                 // if its a string, go ahead and quote it
                 $fields[$name] = $db->quote($value);
