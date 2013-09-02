@@ -237,9 +237,9 @@ class GuildsModelMembers extends JModel {
             $sql .= '   FROM jos_guilds_members AS d ';
             $sql .= '   WHERE gw2_handle LIKE "%' . $name . '%" ) ';
             $sql .= ' UNION ';
-            $sql .= '( SELECT user_id AS id, name as text ';
+            $sql .= '( SELECT user_id AS id, handle as text ';
             $sql .= '  FROM jos_guilds_characters AS e ';
-            $sql .= '  WHERE name LIKE "%' . $name . '%"  ) ';
+            $sql .= '  WHERE handle LIKE "%' . $name . '%"  ) ';
             $sql .= ' ORDER BY text asc ';
             $sql .= ' LIMIT 10 ';
             $db->setQuery($sql);
