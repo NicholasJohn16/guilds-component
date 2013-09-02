@@ -7,23 +7,28 @@ jimport('joomla.plugin.plugin');
 class plgUserGuildsUser extends JPlugin {
     
     function plgUserGuildsUser(&$subject, $config) {
-        dump('Constructed!');
         parent::__construct($subject, $config);
     }
     
     function onAfterStoreUser($user,$isNew,$success,$msg) {
-        if($success && $isNew) {
+        if($success) {
             $db = JFactory::getDBO();
-            
-            $sql  = ' INSERT INTO `#__guilds_members` ';
-            $sql .= ' ( `user_id` ) VALUES ( '.$user['id'].' ) ';
-            
-            $db->setQuery($sql);
-            $db->query();
-            
-            if($db->getErrorNum()) {
-                JError::raiseError(500,$db->stderr());
+            if($isNew) {
+                $sql  = ' INSERT INTO `#__guilds_members` ';
+                $sql .= ' ( `user_id`, `username` ) ';
+                $sql .= ' VALUES ( '.$user['id'].', "'.$user['username'].'" ) ';    
+            } else {
+                $sql  = ' UPDATE `#__guilds_members` ';
+                $sql .= ' SET `username` = "'.$user['username'].'"';
+                $sql .= ' WHERE `user_id` = '.$user['id'];
             }
+            
+        $db->setQuery($sql);
+        $db->query();
+        
+        if($db->getErrorNum()) {
+            JError::raiseError(500,$db->stderr());
+        }
         }
     }
     
