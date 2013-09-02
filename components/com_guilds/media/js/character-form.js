@@ -93,9 +93,10 @@ $(document).ready(function() {
         event.preventDefault();
         var user = $('#character-form-user_id').select2('val');
         var name = $('#character-form-character').select2('val');
+        var form = $('#character-form');
         
         // If a user isn't set, return an error
-        if(user == "") {
+        if(user === "") {
             alert("User is not selected!");
             return false;
         }
@@ -140,6 +141,7 @@ $(document).ready(function() {
     });
     
     $('#character-form-handle-link').bind('click keypress',function(event){
+        event.preventDefault();
         // make sure its the spacebar that triggered the event
         if(event.charCode == 32 || event.type == 'click') {
             $('#character-form-handle-link').hide();
@@ -149,6 +151,7 @@ $(document).ready(function() {
     });
     
     $('#character-form-handle-cancel').click(function(){
+        event.preventDefault();
        $('#character-form-handle-cancel').hide();
        $('#character-form-handle').hide();
        $('#character-form-handle-link').show().focus();
