@@ -9,7 +9,7 @@ SET jos_guilds_members.sto_handle = jos_community_fields_values.value
 WHERE jos_guilds_members.user_id = jos_community_fields_values.user_id
 AND jos_community_fields_values.field_id = 29
 
-# TOR
+# UPdate tor_handle with TOR forum name
 UPDATE jos_community_fields_values, jos_guilds_members
 SET jos_guilds_members.sto_handle = jos_community_fields_values.value
 WHERE jos_guilds_members.user_id = jos_community_fields_values.user_id
