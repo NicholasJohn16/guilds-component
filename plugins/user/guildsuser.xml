@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<install version="1.5" type="plugin" group="user" method="upgrade">
+    <name>User - Guilds User</name>
+    <author>Stonewall Gaming Network</author>
+    <creationDate>September 2013</creationDate>
+    <copyright>2013</copyright>
+    <license></license>
+    <authorEmail>support@stonewallgaming.net</authorEmail>
+    <authorUrl>http://stonewallgaming.net</authorUrl>
+    <version>1.0</version>
+    <description>A plugin to add and remove users to the Guilds Component</description>
+    <files>
+        <filename plugin="guildsuser">guildsuser.php</filename>
+    </files>
+    <params>
+    </params>
+    <config>
+    </config>
+</install>
