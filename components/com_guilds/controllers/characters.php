@@ -34,6 +34,7 @@ class GuildsControllerCharacters extends JController {
         $id = JRequest::getVar('id', null, '', 'int');
         $user_id = JRequest::getVar('user_id', null, '', 'int');
         $name = JRequest::getVar('name', null, '', 'string');
+        $handle = JRequest::getVar('handle',null,'','string');
         $categories = JRequest::getVar('category', array(), '', 'array');
         $checked = JRequest::getVar('checked', null, '', 'string');
         $invite = JRequest::getVar('invite', null, '', 'int');
@@ -42,6 +43,7 @@ class GuildsControllerCharacters extends JController {
         $model->setState('id', $id);
         $model->setState('user_id', $user_id);
         $model->setState('name', $name);
+        $model->setState('handle',$handle);
         $model->setState('categories', $categories);
         $model->setState('checked', $checked);
         $model->setState('invite', $invite);

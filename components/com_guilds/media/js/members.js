@@ -36,16 +36,11 @@ function getCharactersByUserId(id){
 //};
 
 $(document).ready(function() {
-	
-    // Prevent clicking buttons from submitting the form
-    $('.action').click(function(event) {
-        event.preventDefault();
-    });
-    
+
     // Whenever the form is submitted, reset the limit to 0
     // So the user is return to the first page
     $('#members-form').submit(function(event){
-            $('#members-form').children('input[name="limitstart"]').val(0);
+        $('#members-form').children('input[name="limitstart"]').val(0);
     });
    
     // Change some of the editable plugin defaults.
@@ -91,49 +86,23 @@ $(document).ready(function() {
             todayHightlight:true
                 },
         params:function(params) {
-            // modify the params so that it conforms to other category submission
-            // ie submit as an array
-            params["category["+params.name+"]"] = params.value;
-            params.id = params.pk;
-            // remove old variables so there's no confusion
-            delete params.value;
-            delete params.pk;
+            // Store the values so they won't be deleted
+            var field = params.name;
+            var value = params.value;
+            var id = params.pk;
+            
+            // Remove the params
             delete params.name;
+            delete params.pk;
+            delete params.value;
+            
+            // Set the new params
+            params[field] = value;
+            params.id = id;
+            
             return params 
         }
     });
-   
-    //   $('.accordion').on('click','div.editable-click',function(){
-    //       var name = $(this).attr('data-name');
-    //       var sourceUrl = 'index.php?option=com_guilds&view=characters&format=json&layout=categories&name='+name;
-    //       console.log(name,"Name");
-    //       $(this).editable({
-    //            selector:'div.editable-click',
-    //            url:'index.php?option=com_guilds&view=characters&task=update&format=ajax',
-    //            source:function(){
-    //                $.ajax({
-    //                    url:sourceUrl,
-    //                    dataType:'json',
-    //                    success:function(data){
-    //                        console.log(data);
-    //                    }
-    //                });
-    //            }
-    //        }).editable('show');
-    //   });
-   
-    //   $('.accordion').editable({
-    //       selector:'div.char_name',
-    //       name:'character_name',
-    //       title:'Edit Character Name'
-    //   });
-   
-    //   $('.accordion').editable({
-    //       selector:'div.category',
-    //       type:'select',
-    //       title:'Select Category',
-    //       source:'index.php?option=com_guilds&view=characters&format=json&layout=categories&name='+$(this).attr('data-name')
-    //   });
    
     $('.accordion-body').on('shown',function(){
         var user = $(this).parent('.accordion-group').attr('data-user');
@@ -143,12 +112,16 @@ $(document).ready(function() {
         }
     });
    
-   $('button[title="Refresh Characters"]').each(function(){
-        $(this).click(function(event){
-            var user = $(this).parents('.accordion-group').attr('data-user');
-            refreshCharacters(user);
-        });
+   $('.character-toggle').click(function(event) {
+       event.preventDefault();
+   });
+   
+   $('.refresh').click(function(event){
+        event.preventDefault();
+        var user = $(this).parents('.accordion-group').attr('data-user');
+        refreshCharacters(user);
     });
+    
    
     $('body').on('click','.publish',function(event) {
         event.preventDefault();
@@ -179,7 +152,8 @@ $(document).ready(function() {
    /*
     * Deletes checked character(s) when delete character button is clicked
     */
-    $('button[title="Delete Character(s)"]').click(function() {
+    $('.delete').click(function(event) {
+        event.preventDefault();
 	// Get the user_id so we can search for all checked boxes
         var user = $(this).parents('.accordion-group').attr('data-user');
         // Search for all the checked characters

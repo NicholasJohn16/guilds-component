@@ -86,7 +86,7 @@ class GuildsModelCharacters extends JModel {
         $query = ' SELECT a.id, a.user_id, a.name, a.checked, '
                 . ' a.unpublisheddate, a.invite, a.name as name, '
                 . ' a.id AS id, a.published AS published, '
-                . ' b.sto_handle, b.tor_handle, b.gw2_handle, '
+                . ' b.sto_handle, b.tor_handle, b.gw2_handle, a.handle, '
                 . ' b.appdate, b.status ';
         foreach ($types AS $type) {
             $query .= ", a." . $type->name . " AS " . $type->name . "_id";
@@ -212,6 +212,7 @@ class GuildsModelCharacters extends JModel {
                 $this->character->user_id = JFactory::getUser()->id;
                 $this->character->id = NULL;
                 $this->character->name = NULL;
+                $this->character->handle = NULL;
                 $this->character->invite = NULL;
                 $this->character->checked = NULL;
                 $this->character->published = NULL;
@@ -311,7 +312,7 @@ class GuildsModelCharacters extends JModel {
         $fields['checked'] = $this->getState('checked');
         $fields['published'] = $this->getState('published');
         $fields['unpublisheddate'] = $this->getState('unpublisheddate');
-        
+        dump($fields,'Fields');
         $categories = $this->getState('categories');
         if(is_array($categories)) {
             foreach($categories as $name => $value) {
@@ -339,7 +340,7 @@ class GuildsModelCharacters extends JModel {
         $sql  = " UPDATE #__guilds_characters SET ";
         $sql .= implode(", ", $values);
         $sql .= " WHERE id = " . $id;
-
+        dump($sql,'SQL');
         $db->setQuery($sql);
         $result = $db->query();
         return $result;

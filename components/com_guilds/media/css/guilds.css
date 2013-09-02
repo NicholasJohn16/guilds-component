@@ -9,6 +9,8 @@
 .com-guilds-allegiance {width:115px;}
 .com-guilds-guild {width:140px;}*/
 
+.com-guilds-appdate, .com-guilds-checked, .com-guilds-pubdate { width:8.894% !important; }
+
 	/* Navbar & Subnav */
 .navbar select {
 	background-color:#626262;

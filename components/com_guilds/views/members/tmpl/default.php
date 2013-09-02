@@ -41,7 +41,7 @@
                         <a href="<?php echo JRoute::_('index.php?option=com_guilds&view=members&task=edit&id=' . $member->id); ?>">
                             <?php echo $member->username; ?>
                         </a>
-                        <button class="btn btn-mini action" data-toggle="collapse" data-target="#accordion-body-<?php echo $member->id; ?>" style="float:right;margin-left:2px;" title="Character(s)">
+                        <button class="btn btn-mini character-toggle" data-toggle="collapse" data-target="#accordion-body-<?php echo $member->id; ?>" style="float:right;margin-left:2px;" title="Character(s)">
                             <img style="height:16px;width:16px;" src="components/com_guilds/media/img/contacts.png"/>	
                         </button>
                         <a class="btn btn-mini" style="float:right;height:16px;width:16px;" target="_blank" title="Profile" href="index.php?option=com_community&view=profile&userid=<?php echo $member->id; ?>">
@@ -63,8 +63,8 @@
                                 <a class="btn add-character" title="Add Character" href="#" data-user="<?php echo $member->id; ?>" data-username="<?php echo $member->username; ?>">
                                     <i class="icon-plus"></i>
                                 </a>
-                                <button class="btn action" title="Delete Character(s)"><i class="icon-remove"></i></button>
-                                <button class="btn action" title="Refresh Characters"><i class="icon-refresh"></i></button>
+                                <button class="btn delete" title="Delete Character(s)"><i class="icon-remove"></i></button>
+                                <button class="btn refresh" title="Refresh Characters"><i class="icon-refresh"></i></button>
                             </div>	
                         </div>
                     </div>
