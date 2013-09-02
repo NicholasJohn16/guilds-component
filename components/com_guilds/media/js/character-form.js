@@ -77,9 +77,10 @@ $(document).ready(function() {
     
     //When character modal is activated,
     //Have username field grab focs
-    $('#character-form-modal').on('shown', function(){
-        $('#character-form-user_id').select2('open');
-    });
+    //Removed because it may be interfering with data serliazation
+//    $('#character-form-modal').on('shown', function(){
+//        $('#character-form-user_id').select2('open');
+//    });
     
     // Activate date picker for date field in Character form
     $('#character-form-checked').datepicker({
