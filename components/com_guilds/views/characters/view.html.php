@@ -69,7 +69,7 @@ class GuildsViewCharacters extends JView {
         JHTML::script('jquery.js', 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/');
         JHTML::script('bootstrap.js', 'components/com_guilds/media/js/', false);
         JHTML::script('bootstrap-editable.js', 'components/com_guilds/media/js/', false);
-        JHTML::script('characters.jquery.js', 'components/com_guilds/media/js/', false);
+        JHTML::script('characters.js', 'components/com_guilds/media/js/', false);
 
         $characters = & $this->get('CharactersByUserId');
         $types = & $this->get('Types', 'types');
@@ -92,7 +92,7 @@ class GuildsViewCharacters extends JView {
         JHTML::script('bootstrap.js', 'components/com_guilds/media/js/', false);
         JHTML::script('bootstrap-editable.js', 'components/com_guilds/media/js/', false);
         JHTML::script('bootstrap-datepicker.js', 'components/com_guilds/media/js/', false);
-        JHTML::script('characters.jquery.js', 'components/com_guilds/media/js/', false);
+        JHTML::script('characters.js', 'components/com_guilds/media/js/', false);
 
         // Get data from the model
         $characters = & $this->get('Characters');
@@ -127,7 +127,6 @@ class GuildsViewCharacters extends JView {
         JHTML::script('category-validation.js', 'components/com_guilds/media/js/', false);
 
         JHTML::script('bootstrap-datepicker.js', 'components/com_guilds/media/js/', false);
-        //JHTML::script('characters.jquery.js','components/com_guilds/media/js/',false);
 
         $character = $this->get('Character');
         $types = $this->get('Types', 'types');
@@ -150,7 +149,7 @@ class GuildsViewCharacters extends JView {
         JHTML::script('jquery.js', 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/');
         JHTML::script('bootstrap.js', 'components/com_guilds/media/js/', false);
         JHTML::script('bootstrap-editable.js', 'components/com_guilds/media/js/', false);
-        JHTML::script('characters.jquery.js', 'components/com_guilds/media/js/', false);
+        JHTML::script('characters.js', 'components/com_guilds/media/js/', false);
 
         $invites = $this->get('pendingInvites');
         $promotions = $this->get('pendingPromotions');

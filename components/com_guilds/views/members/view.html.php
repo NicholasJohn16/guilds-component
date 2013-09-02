@@ -37,7 +37,7 @@ class GuildsViewMembers extends JView {
         JHTML::script('bootstrap.js','components/com_guilds/media/js/',false);
         //JHTML::script('bootstrap-notify.js','components/com_guilds/media/js/',false);
         JHTML::script('bootstrap-editable.js','components/com_guilds/media/js/',false);
-        JHTML::script('members.jquery.js','components/com_guilds/media/js/',false);
+        JHTML::script('members.js','components/com_guilds/media/js/',false);
         
         $members = $this->get('Members');
         $pagination = $this->get('Pagination');
@@ -68,7 +68,6 @@ class GuildsViewMembers extends JView {
         JHTML::script('jquery.js','https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/');
         JHTML::script('bootstrap.js','components/com_guilds/media/js/',false);
         JHTML::script('bootstrap-datepicker.js','components/com_guilds/media/js/',false);
-        //JHTML::script('members.jquery.js','components/com_guilds/media/js/',false);
 
         $member = $this->get('Member');
         $ranks = $this->get('Ranks');
