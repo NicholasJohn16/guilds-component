@@ -95,5 +95,47 @@ $(document).ready(function() {
             }
         });
     });
+    
+    /*
+    * Deletes checked character(s) when delete character button is clicked
+    */
+    $('#delete-character').click(function(event) {
+        event.preventDefault();
+        // Search for all the checked characters
+        var checkboxes = $('#roster-form input[type="checkbox"]:checked');
+	   
+        // Make sure there are some characters selected
+        if(checkboxes.length == 0 ) {
+            alert("Oops, you don't have any characters selected.");
+            return false;
+        } else {
+            // Make sure they acutally want to delete the characters
+            var response = confirm("Are you sure?");
+            // if Cancelled, stop the function from proceeding
+            if(response == false) {
+                return false;
+            }
+        }
+	   
+        var characters = new Array();
+	   
+        checkboxes.each(function(index,element) {
+            characters.push($(element).val());
+        });
+        characters = characters.join(',');
+        
+        // Remove checks so they aren't still there when the page refreshes
+        checkboxes.removeAttr('checked');
+	   
+        $.ajax({
+            type:'POST',
+            url:'index.php?option=com_guilds&view=characters&task=delete&format=raw',
+            data:'ids='+characters,
+            success:function() {
+                location.reload();
+            }
+        });
+	   
+    });
 	
 });
