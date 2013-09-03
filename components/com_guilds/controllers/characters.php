@@ -30,7 +30,6 @@ class GuildsControllerCharacters extends JController {
     /* Task Functions */
 
     function ajaxSave() {
-        dump(JRequest::get('post'),'Post');
         $id = JRequest::getVar('id', null, '', 'int');
         $user_id = JRequest::getVar('user_id', null, '', 'int');
         $name = JRequest::getVar('name', null, '', 'string');
@@ -38,7 +37,7 @@ class GuildsControllerCharacters extends JController {
         $categories = JRequest::getVar('category', array(), '', 'array');
         $checked = JRequest::getVar('checked', null, '', 'string');
         $invite = JRequest::getVar('invite', null, '', 'int');
-        dump($categories,'Categories in Controller');
+        
         $model = $this->getModel('characters');
         $model->setState('id', $id);
         $model->setState('user_id', $user_id);
