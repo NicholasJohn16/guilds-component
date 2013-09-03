@@ -79,7 +79,7 @@ class Select {
         $html = "";
         
         if($this->inline) {
-            $html .= '<div class="control-group">';
+            $html .= '<div class="control-group validate">';
 
             $html .= '<label class="control-label" ';
             $html .= ' for="'.$this->id.'" >';
