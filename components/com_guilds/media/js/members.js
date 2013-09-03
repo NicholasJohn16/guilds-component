@@ -16,7 +16,6 @@ function getCharactersByUserId(id){
         },
         function(data){
             var html = $(data);
-		   
             $('#characters-'+id).removeClass('com-guilds-ajax');
             $('#characters-'+id).append(html);
         });
@@ -89,7 +88,7 @@ $(document).ready(function() {
             todayBtn:'linked',
             todayHighlight:true
         },
-        url:'index.php?option=com_guilds&view=members&task=update&format=ajax',
+        url:'index.php?option=com_guilds&view=members&task=ajaxSave&format=raw',
         send:'always'
     });
    
@@ -209,15 +208,15 @@ $(document).ready(function() {
     //When a "Check All" Input is clicked, all inputs in the list are checked.
     $('form').on('click','.checkall',function(event) {
         var checkboxes = $(this).parents('div[id^="characters"]').find('input[type="checkbox"]');
-	   
+	var bool;
         if($(this).attr('checked')== 'checked'){
-            var bool = true;
+            bool = true;
         } else {
-            var bool = false;
+            bool = false;
         }
         for(var i = 1;i<checkboxes.length;i++){
             checkboxes[i].checked = bool;
-        };
+        }
     });
    
    
