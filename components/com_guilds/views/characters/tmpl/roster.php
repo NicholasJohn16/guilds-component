@@ -32,20 +32,7 @@
         </div>
     </div>
     <div class="well" id="filters">
-        <?php foreach ($this->types as $type): ?>
-            <?php $filter_type = 'filter_' . $type->name; ?>
-            <select name="filter_type[<?php echo $type->name; ?>]">
-                <option value="">Select <?php echo ucwords($type->name); ?></option>
-                <?php foreach ($this->categories as $category): ?>
-                    <?php if ($category->type == $type->name): ?>
-                        <?php $selected = (@$this->filter_type[$type->name] == $category->id ? 'selected="selected"' : ""); ?>
-                        <option value="<?php echo $category->id; ?>"<?php echo $selected; ?>>
-                            <?php echo ucfirst($category->name); ?>
-                        </option>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            </select>
-        <?php endforeach; ?>
+    <?php echo categoriesHelper::display($this->types,$this->categories,array('inline'=>false,'filters'=>$this->filters)); ?>
     </div>
     <div class="com-guilds container-fluid">
         <div class="row-fluid header">

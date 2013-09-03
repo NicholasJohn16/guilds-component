@@ -56,7 +56,7 @@ class GuildsModelCharacters extends JModel {
         $order = $mainframe->getUserStateFromRequest($option . $view . $layout . 'order', 'order', null, 'cmd');
         $direction = $mainframe->getUserStateFromRequest($option . $view . $layout . "direction", 'direction', null, 'word');
         $search = $mainframe->getUserStateFromRequest($option . $view . $layout . 'search', 'search', '', 'string');
-        $filter_type = $mainframe->getUserStateFromRequest($option . $view . $layout . 'filter_type', 'filter_type', array(), 'array');
+        $filters = $mainframe->getUserStateFromRequest($option . $view . $layout . 'category', 'category', array(), 'array');
 
         // In case limit has been changed, adjust it
         //$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
@@ -66,7 +66,7 @@ class GuildsModelCharacters extends JModel {
         $this->setState('order', $order);
         $this->setState('direction', $direction);
         $this->setState('search', $search);
-        $this->setState('filter_type', $filter_type);
+        $this->setState('filters', $filters);
     }
 
     function buildQuery() {
@@ -106,7 +106,7 @@ class GuildsModelCharacters extends JModel {
     function buildWhere() {
         $user = $this->getState('user');
         $search = $this->getState('search');
-        $filter_type = $this->getState('filter_type');
+        $filters = $this->getState('filters');
 
         $where = " WHERE ";
         $conditions = array();
@@ -124,21 +124,21 @@ class GuildsModelCharacters extends JModel {
                 trim($term);
                 strtolower($term);
                 if (is_numeric($term)) {
-                    $conditions[] = array("OR", "a.user_id", "=", intval($term));
-                    $conditions[] = array("OR", "a.id", "=", intval($term));
+                    $conditions[] = array('OR', 'a.user_id', '=', intval($term));
+                    $conditions[] = array('OR', 'a.id', '=', intval($term));
                 } else {
-                    $conditions[] = array("OR", "LOWER(a.name)", "LIKE", '"%' . $term . '%"');
-                    $conditions[] = array("OR", "LOWER(b.username)", "LIKE", '"%' . $term . '%"');
+                    $conditions[] = array('OR', 'LOWER(a.name)', 'LIKE', '"%' . $term . '%"');
+                    $conditions[] = array('OR', 'LOWER(b.username)', 'LIKE', '"%' . $term . '%"');
                 }
             }
         }
         // Add all the type filters to the Where array
-        foreach ($filter_type as $type => $value) {
+        foreach ($filters as $type => $value) {
             if ($value != "") {
                 $conditions[] = array("AND", "a." . $type, "=", $value);
             }
         }
-
+        
         if (count($conditions) == 0) {
             $where = "";
         } elseif (count($conditions) == 1) {

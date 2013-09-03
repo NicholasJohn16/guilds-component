@@ -35,7 +35,7 @@ defined('_JEXEC') or die('Restricted access');
     </fieldset>
     <fieldset style="float:left;border:0 none;padding:0;margin:0;">
         <legend>Categories</legend>
-        <?php echo categoriesHelper::display($this->types, $this->categories,array('values'=>$this->character)); ?>
+        <?php echo categoriesHelper::display($this->types, $this->categories,array('character'=>$this->character)); ?>
     </fieldset>
     <div style="clear:both"></div>
     <div class="form-actions">

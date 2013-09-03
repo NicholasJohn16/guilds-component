@@ -14,6 +14,18 @@ class categoriesHelper extends JObject {
             $params['id_prefix'] = 'category-';
         }
         
+        if(!isset($params['inline'])) {
+            $params['inline'] = true;
+        }
+        
+        if(!isset($params['character'])) {
+            $params['character'] = false;
+        }
+        
+        if(!isset($params['filters'])) {
+            $params['filters'] = false;
+        }
+        
         $selects = array();
         $html = "";
         
@@ -60,19 +72,21 @@ class Select {
         $this->name = $select->name;
         $this->id = $params['id_prefix'] . $this->name;
         $this->tab = $params['tab'];
+        $this->inline = $params['inline'];
     }
     
     public function display() {
         $html = "";
         
-        $html .= '<div class="control-group">';
-        
-        $html .= '<label class="control-label" ';
-        $html .= ' for="'.$this->id.'" >';
-        $html .= ucfirst($this->name). '</label>';
-        
-        $html .= '<div class="controls">';
-        
+        if($this->inline) {
+            $html .= '<div class="control-group">';
+
+            $html .= '<label class="control-label" ';
+            $html .= ' for="'.$this->id.'" >';
+            $html .= ucfirst($this->name). '</label>';
+
+            $html .= '<div class="controls">';
+        }
         $html .= ' <select ';
         if($this->tab) {
             $html .= ' tabindex="'.$this->tab.'" ';
@@ -86,8 +100,10 @@ class Select {
         }
         
         $html .= '</select>';
-        $html .= '</div>'; // end control-group
-        $html .= '</div>'; // end controls
+        if($this->inline) {
+            $html .= '</div>'; // end control-group
+            $html .= '</div>'; // end controls
+        }
         
         return $html;
     }
@@ -113,11 +129,16 @@ class Option {
         $this->type = (isset($category->type)) ? $category->type : $this->type;
         $this->type_id = (isset($category->type_id)) ? $category->type_id : $this->type_id;
         
-        if(isset($params['values'])) {
-            $values = $params['values'];
+        if(($params['character'])) {
+            $values = $params['character'];
             $type_id = $this->type."_id";
             
             if($this->value === $values->$type_id ) {
+                $this->selected = true;
+            }
+        } elseif ($params['filters']) {
+            
+            if($params['filters'][$this->type] === $this->value ) {
                 $this->selected = true;
             }
         }

@@ -24,8 +24,8 @@ class GuildsViewCharacters extends JView {
         $this->order = $mainframe->getUserStateFromRequest($option . $layout . "order", 'order', null, 'cmd');
         $this->direction = $mainframe->getUserStateFromRequest($option . $layout . "direction", 'direction', null, 'word');
         $this->search = $mainframe->getUserStateFromRequest($option . $layout . "search", 'search', '', 'string');
-        $this->filter_type = $mainframe->getUserStateFromRequest($option . $layout . 'filter_type', 'filter_type', array(), 'array');
-
+        $this->filters = $mainframe->getUserStateFromRequest($option . $layout . 'category', 'category', array(), 'array');
+        
         parent::__construct();
     }
 
@@ -102,7 +102,7 @@ class GuildsViewCharacters extends JView {
 
         // Assign them references so they can be accessed in the tmpl
         $this->assignRef('search', $this->search);
-        $this->assignRef('filter_type', $this->filter_type);
+        $this->assignRef('filters', $this->filters);
         $this->assignRef('order', $this->order);
         $this->assignRef('direction', $this->direction);
         $this->assignRef('characters', $characters);
