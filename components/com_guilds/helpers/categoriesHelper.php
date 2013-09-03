@@ -3,7 +3,7 @@
 class categoriesHelper extends JObject {
     
     static function display($types,$categories,$params = NULL) {
-        
+        /* Set all the default values */
         if(!isset($params['tab'])) {
             $params['tab'] = false;
         }
