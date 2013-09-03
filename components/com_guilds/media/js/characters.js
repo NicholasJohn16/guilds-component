@@ -60,14 +60,15 @@ $(document).ready(function() {
 	
     $('#checkAll').click(function(event){
         var checkboxes = $('input[name="characters[]"]');
+        var bool;
         if($(this).attr('checked') == 'checked'){
-            var bool = true;
+            bool = true;
         } else {
-            var bool = false;
+            bool = false;
         }
         for(var i = 0;i<checkboxes.length;i++){
             checkboxes[i].checked = bool;
-        };
+        }
     });
 	        
     $('body').on('click','.publish',function(event) {
@@ -135,7 +136,7 @@ $(document).ready(function() {
                 location.reload();
             }
         });
-	   
+	return true;
     });
 	
 });
