@@ -47,6 +47,23 @@ $(document).ready(function() {
     //$.fn.editable.defaults.mode = 'inline';
     $.fn.editable.defaults.emptytext = '';
     $.fn.editable.defaults.emptyclass = '';
+    $.fn.editable.defaults.params = function(params) {
+            // Store the values so they won't be deleted
+            var field = params.name;
+            var value = params.value;
+            var id = params.pk;
+            
+            // Remove the params
+            delete params.name;
+            delete params.pk;
+            delete params.value;
+            
+            // Set the new params
+            params[field] = value;
+            params.id = id;
+            
+            return params 
+        };
    
     $('.editable.rank').editable({
         source:'index.php?option=com_guilds&view=members&task=getRanks&format=ajax',
@@ -58,9 +75,8 @@ $(document).ready(function() {
     });
    
     $('.editable.handle').editable({
-        title:'Enter @Handle',
-        name:'handle',
-        url:'index.php?option=com_guilds&view=members&task=update&format=ajax'
+        title:'Enter Handle',
+        url:'index.php?option=com_guilds&view=members&task=ajaxSave&format=raw'
     });
    
     $('.editable.intro').editable({

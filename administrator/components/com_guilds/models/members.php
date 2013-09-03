@@ -82,12 +82,12 @@ class GuildsModelMembers extends JModel {
 
     function buildSelect() {
 
-        $select = " SELECT a.id as id "
+        $select = " SELECT a.user_id as id "
                 // . ", a.username, b.appdate, b.status, b.tbd, "
                 // . " b.sto_handle, b.gw2_handle, b.tor_handle, c.status "
-                . " FROM jos_users AS a "
-                . " LEFT JOIN jos_guilds_members AS b ON a.id = b.user_id "
-                . " LEFT JOIN jos_guilds_ranks AS c ON b.status = c.id ";
+                //. " FROM jos_users AS a "
+                . " FROM #__guilds_members AS a "
+                . " LEFT JOIN #__guilds_ranks AS b ON a.status = b.id ";
 
         return $select;
     }
@@ -107,10 +107,10 @@ class GuildsModelMembers extends JModel {
                     $conditions[] = ' a.id = ' . intval($term);
                 } else {
                     $conditions[] = ' LOWER(a.username) LIKE "%' . $term . '%" ';
-                    $conditions[] = ' LOWER(b.sto_handle) LIKE "%' . $term . '%" ';
-                    $conditions[] = ' LOWER(b.tor_handle) LIKE "%' . $term . '%" ';
-                    $conditions[] = ' LOWER(b.gw2_handle) LIKE "%' . $term . '%" ';
-                    $conditions[] = ' LOWER(c.status) LIKE "%' . $term . '%" ';
+                    $conditions[] = ' LOWER(a.sto_handle) LIKE "%' . $term . '%" ';
+                    $conditions[] = ' LOWER(a.tor_handle) LIKE "%' . $term . '%" ';
+                    $conditions[] = ' LOWER(a.gw2_handle) LIKE "%' . $term . '%" ';
+                    $conditions[] = ' LOWER(b.status) LIKE "%' . $term . '%" ';
                 }
             }
         }
@@ -163,15 +163,15 @@ class GuildsModelMembers extends JModel {
         $db = JFactory::getDBO();
 
         if (empty($this->member)) {
-            $sql = ' SELECT a.id, user_id, d.username AS username, appdate, b.status AS status, '
-                    . ' notes, edit_id, c.username as editor, edit_time, '
-                    . ' sto_handle, gw2_handle, tor_handle '
+            $sql = ' SELECT a.id, a.user_id, a.username AS username, a.appdate, b.status AS status, '
+                    . ' a.notes, a.edit_id, c.username as editor, a.edit_time, '
+                    . ' a.sto_handle, a.gw2_handle, a.tor_handle '
                     . ' FROM `#__guilds_members` AS a '
                     . ' LEFT JOIN  `#__guilds_ranks` as b on a.status = b.id '
-                    . ' LEFT JOIN `#__users` AS c ON a.edit_id = c.id '
-                    . ' LEFT JOIN `#__users` AS d ON a.user_id = d.id '
-                    . ' WHERE user_id = ' . $id;
-
+                    . ' LEFT JOIN `#__guilds_members` AS c ON a.edit_id = c.user_id '
+                    //. ' LEFT JOIN `#__guilds_members` AS d ON a.user_id = d.user_id '
+                    . ' WHERE a.user_id = ' . $id;
+            dump($sql,'SQL');
             $db->setQuery($sql);
             $this->member = $db->loadObject();
         }
@@ -203,13 +203,12 @@ class GuildsModelMembers extends JModel {
         $db = JFactory::getDBO();
         $member_ids = $this->getState('member_ids');
 
-        $query = " SELECT a.id as id, "
-                . " a.username, b.appdate, b.status, b.tbd, "
-                . " b.sto_handle, b.gw2_handle, b.tor_handle, c.status "
-                . " FROM jos_users AS a "
-                . " LEFT JOIN jos_guilds_members AS b ON a.id = b.user_id "
-                . " LEFT JOIN jos_guilds_ranks AS c ON b.status = c.id ";
-        $query .= " WHERE a.id IN (" . implode(',', $member_ids) . ")";
+        $query = " SELECT a.user_id as id, "
+                . " a.username, a.appdate, a.status, a.tbd, "
+                . " a.sto_handle, a.gw2_handle, a.tor_handle, b.status "
+                . " FROM #__guilds_members AS a "
+                . " LEFT JOIN #__guilds_ranks AS b ON a.status = b.id ";
+        $query .= " WHERE a.user_id IN (" . implode(',', $member_ids) . ")";
 
         $db->setQuery($query);
         $members = $db->loadObjectList();
@@ -221,24 +220,24 @@ class GuildsModelMembers extends JModel {
         $name = trim($this->getState('name'));
 
         if (empty($this->handle_list)) {
-            $sql = ' ( SELECT id, username AS text ';
-            $sql .= '   FROM jos_users ';
+            $sql = ' ( SELECT user_id, username AS text ';
+            $sql .= '   FROM #__guilds_members ';
             $sql .= '   WHERE username LIKE "%' . $name . '%" ) ';
             $sql .= ' UNION ';
             $sql .= ' ( SELECT user_id AS id , sto_handle AS text ';
-            $sql .= '   FROM jos_guilds_members AS b ';
+            $sql .= '   FROM #__guilds_members AS b ';
             $sql .= '   WHERE sto_handle LIKE "%' . $name . '%"  ) ';
             $sql .= ' UNION ';
             $sql .= ' ( SELECT user_id AS id, tor_handle AS text ';
-            $sql .= '   FROM jos_guilds_members AS c ';
+            $sql .= '   FROM #__guilds_members AS c ';
             $sql .= '   WHERE tor_handle LIKE "%' . $name . '%"  ) ';
             $sql .= ' UNION ';
             $sql .= ' ( SELECT user_id AS id, gw2_handle AS text ';
-            $sql .= '   FROM jos_guilds_members AS d ';
+            $sql .= '   FROM #__guilds_members AS d ';
             $sql .= '   WHERE gw2_handle LIKE "%' . $name . '%" ) ';
             $sql .= ' UNION ';
             $sql .= '( SELECT user_id AS id, handle as text ';
-            $sql .= '  FROM jos_guilds_characters AS e ';
+            $sql .= '  FROM #__guilds_characters AS e ';
             $sql .= '  WHERE handle LIKE "%' . $name . '%"  ) ';
             $sql .= ' ORDER BY text asc ';
             $sql .= ' LIMIT 10 ';
@@ -288,15 +287,10 @@ class GuildsModelMembers extends JModel {
         return $members;
     }
 
-    function update($field, $id, $value) {
+    function dynamic_update($field, $id, $value) {
         $db = & JFactory::getDBO();
 
         switch ($field) {
-            case "forum_rank":
-                $query = " UPDATE " . $db->nameQuote('#__kunena_users')
-                        . " SET rank = " . $db->quote($value)
-                        . " WHERE userid  = " . $db->quote($id);
-                break;
             case "appdate":
                 $query = " UPDATE " . $db->nameQuote('#__guilds_members');
                 if ($value) {
@@ -313,22 +307,6 @@ class GuildsModelMembers extends JModel {
         }
         $db->setQuery($query);
         $db->query();
-    }
-
-    function getHandles() {
-        $users = $this->getState('member_ids');
-
-        if (empty($this->handles)) {
-            $db = JFactory::getDBO();
-            $query = " SELECT value "
-                    . " FROM #__community_fields_values "
-                    . " WHERE `field_id` =  29 "
-                    . " AND `user_id` IN (" . implode(",", $users) . ");";
-            $db->setQuery($query);
-            $this->handles = $this->loadObjectList();
-        }
-
-        return $this->handles;
     }
 
     function getForumRanks() {
@@ -358,25 +336,39 @@ class GuildsModelMembers extends JModel {
         return $this->ranks;
     }
 
-    function save() {
+    function update() {
         $id = $this->getState('id');
-        $sto_handle = $this->getState('sto_handle');
-        $tor_handle = $this->getState('tor_handle');
-        $gw2_handle = $this->getState('gw2_handle');
-        $appdate = $this->getState('appdate');
-        $notes = $this->getState('notes');
         $db = JFactory::getDBO();
-
-        $sql = ' UPDATE #__guilds_members SET ';
-        $sql .= ' `sto_handle` =  "' . $sto_handle . '",';
-        $sql .= ' `tor_handle` =  "' . $tor_handle . '",';
-        $sql .= ' `gw2_handle` =  "' . $gw2_handle . '",';
-        $sql .= ' `appdate` =  "' . $appdate . '",';
-        $sql .= ' `notes` =  "' . $notes . '"';
-        $sql .= ' WHERE `id` = ' . $id;
-
+        $values = array();
+        $fields = array();
+        $fields['sto_handle'] = $this->getState('sto_handle');
+        $fields['tor_handle'] = $this->getState('tor_handle');
+        $fields['gw2_handle'] = $this->getState('gw2_handle');
+        $fields['appdate'] = $this->getState('appdate');
+        $fields['notes'] = $this->getState('notes');
+        
+        foreach($fields as $name => $value) {
+            if($value === NULL) {
+                unset($fields[$name]);
+            }
+            if($value === "") {
+                $fields[$name] = 'NULL';
+            } elseif(is_string($value)) {
+                $fields[$name] = $db->quote($value);
+            }
+        }
+        
+        foreach($fields as $name => $value) {
+            $values[] = " `".$name."` = ".$value." ";
+        }
+        
+        $sql  = ' UPDATE #__guilds_members SET ';
+        $sql .= implode(", ", $values);
+        $sql .= ' WHERE `user_id` = ' . $id;
+        
         $db->setQuery($sql);
         $result = $db->query();
+        
         return $result;
     }
 
