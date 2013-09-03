@@ -102,7 +102,7 @@
              data-pk="<?php echo $promotion->id; ?>">
                  <?php echo $promotion->name; ?>
         </div>
-        <?php if($invite->handle === NULL): ?>
+        <?php if($promotion->handle === NULL): ?>
             <div class="span2 editable-click" 
                  data-title="Update Handle" 
                  data-name="sto_handle" 
