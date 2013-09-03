@@ -311,7 +311,7 @@ class GuildsModelCharacters extends JModel {
         $fields['checked'] = $this->getState('checked');
         $fields['published'] = $this->getState('published');
         $fields['unpublisheddate'] = $this->getState('unpublisheddate');
-        dump($fields,'Fields');
+        
         $categories = $this->getState('categories');
         if(is_array($categories)) {
             foreach($categories as $name => $value) {
@@ -343,7 +343,7 @@ class GuildsModelCharacters extends JModel {
         $sql  = " UPDATE #__guilds_characters SET ";
         $sql .= implode(", ", $values);
         $sql .= " WHERE id = " . $id;
-        dump($sql,'SQL');
+        
         $db->setQuery($sql);
         $result = $db->query();
         return $result;
@@ -404,7 +404,7 @@ class GuildsModelCharacters extends JModel {
         $where = $this->buildWhere();
         $query = " SELECT a.id";
         $query .= " FROM #__guilds_characters AS a ";
-        $query .= " LEFT JOIN #__users AS b ON a.user_id = b.id ";
+        //$query .= " LEFT JOIN #__users AS b ON a.user_id = b.id ";
         $query .= $where;
         //$query .= $orderby;
         return $query;
