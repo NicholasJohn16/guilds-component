@@ -19,31 +19,33 @@
     </div>
     <?php foreach($this->invites as $invite):?>
     <div class="row-fluid">
-        <div class="span2 editable-click" 
+        <div class="span2 editable" 
              data-title="Edit Character Name" 
              data-name="name" 
              data-pk="<?php echo $invite->id; ?>">
              <?php echo $invite->name; ?>
         </div>
         <?php if($invite->handle === NULL): ?>
-            <div class="span2 editable-click" 
+            <div class="span2 editable" 
                  data-title="Update Handle" 
                  data-name="sto_handle" 
-                 data-pk="<?php $invite->id; ?>">
+                 data-pk="<?php echo $invite->user_id; ?>"
+                 data-url="index.php?option=com_guilds&view=members&task=ajaxSave&format=raw">
                  <?php echo $invite->sto_handle; ?>
             </div>
         <?php else: ?>
-            <div class="span2 editable-click" 
-                 data-title="Update Handle" 
+            <div class="span2 editable" 
+                 data-title="Update Character Handle" 
                  data-name="handle" 
-                 data-pk="<?php $invite->id; ?>">
+                 data-pk="<?php echo $invite->id; ?>"
+                 data-url="index.php?option=com_guilds&view=characters&task=ajaxSave&format=raw">
                  <?php echo $invite->handle; ?>
             </div>
         <?php endif; ?>
         <?php foreach($this->types as $type):?>
             <?php $type_name = $type->name.'_name'; ?>
             <?php $type_id = $type->name.'_id'; ?>
-            <div class="span2 com-guilds-<?php echo $type->name;?> editable-click" 
+            <div class="span2 com-guilds-<?php echo $type->name;?> editable" 
                  data-title="Select Category" 
                  data-type="select" 
                  data-pk="<?php echo $invite->id; ?>" 
@@ -53,7 +55,7 @@
                  <?php echo $invite->$type_name; ?>
             </div>
         <?php endforeach;?>
-        <div class="editable-click span2 com-guilds-checked" 
+        <div class="editable span2 com-guilds-checked" 
              data-type="date" 
              data-name="checked" 
              data-placement="right" 
@@ -96,31 +98,33 @@
     </div>
     <?php foreach($this->promotions as $promotion):?>
     <div class="row-fluid">
-        <div class="span2 editable-click" 
+        <div class="span2 editable" 
              data-title="Edit Character Name" 
              data-name="name" 
              data-pk="<?php echo $promotion->id; ?>">
                  <?php echo $promotion->name; ?>
         </div>
         <?php if($promotion->handle === NULL): ?>
-            <div class="span2 editable-click" 
+            <div class="span2 editable" 
                  data-title="Update Handle" 
                  data-name="sto_handle" 
-                 data-pk="<?php $promotion->id; ?>">
+                 data-pk="<?php echo $promotion->user_id; ?>"
+                 data-url="index.php?option=com_guilds&view=members&task=ajaxSave&format=raw">
                  <?php echo $promotion->sto_handle; ?>
             </div>
         <?php else: ?>
-            <div class="span2 editable-click" 
+            <div class="span2 editable" 
                  data-title="Update Handle" 
                  data-name="handle" 
-                 data-pk="<?php $promotion->id; ?>">
+                 data-pk="<?php echo $promotion->id; ?>"
+                 data-url="index.php?option=com_guilds&view=characters&task=ajaxSave&format=raw">
                  <?php echo $promotion->handle; ?>
             </div>
         <?php endif; ?>
         <?php foreach($this->types as $type):?>
             <?php $type_name = $type->name.'_name'; ?>
             <?php $type_id = $type->name.'_id'; ?>
-            <div class="span2 com-guilds-<?php echo $type->name;?> editable-click" 
+            <div class="span2 com-guilds-<?php echo $type->name;?> editable" 
                  data-title="Select Category" 
                  data-type="select" 
                  data-pk="<?php echo $promotion->id; ?>" 
@@ -133,7 +137,7 @@
         <div class="span2 com-guilds-appdate">
             <?php echo $promotion->appdate; ?>
         </div>
-        <div class="editable-click span2 com-guilds-checked" 
+        <div class="editable span2 com-guilds-checked" 
              data-type="date" data-name="checked" 
              data-placement="right" 
              data-title="Update Date" 

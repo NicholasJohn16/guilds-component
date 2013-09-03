@@ -63,7 +63,7 @@ class GuildsControllerMembers extends JController {
         $sto_handle = JRequest::getVar('sto_handle', null, '', 'string');
         $tor_handle = JRequest::getVar('tor_handle', null, '', 'string');
         $gw2_handle = JRequest::getVar('gw2_handle', null, '', 'string');
-        $appdate = (JRequest::getVar('appdate', null, '', 'string') == "") ? NULL : JRequest::getVar('appdate', null, '', 'string');
+        $appdate = JRequest::getVar('appdate', null, '', 'string');
         $notes = JRequest::getVar('notes', null, '', 'string');
 
         $model = $this->getModel('members');
@@ -89,7 +89,7 @@ class GuildsControllerMembers extends JController {
         $sto_handle = JRequest::getVar('sto_handle', null, '', 'string');
         $tor_handle = JRequest::getVar('tor_handle', null, '', 'string');
         $gw2_handle = JRequest::getVar('gw2_handle', null, '', 'string');
-        $appdate = (JRequest::getVar('appdate', null, '', 'string') == "") ? NULL : JRequest::getVar('appdate', null, '', 'string');
+        $appdate = JRequest::getVar('appdate', null, '', 'string');
         $notes = JRequest::getVar('notes', null, '', 'string');
 
         $model = $this->getModel('members');
@@ -114,11 +114,9 @@ class GuildsControllerMembers extends JController {
 
     function handles() {
         JRequest::setVar('tmpl','component');
-        JRequest::setVar('format','raw');
         $name = JRequest::getVar('name',NULL,'','string');
         $model = $this->getModel('members');
         $model->setState('name',$name);
-        //$handles = new stdClass();
         $handles = $model->getHandleList();
         $json = json_encode($handles);
         echo $json;

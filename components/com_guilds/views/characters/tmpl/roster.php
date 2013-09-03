@@ -22,6 +22,11 @@
                             Add Character
                         </a>
                     </li>
+                    <li>
+                        <a id="delete-character" href="#" title="Delete Character(s)">
+                            Delete Character(s)
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -57,8 +62,8 @@
                     <?php echo $this->sortable(ucfirst($type->name)); ?>
                 </div>
             <?php endforeach; ?>
-            <div class="span2"><?php echo $this->sortable("Checked"); ?></div>
-            <div class="span1"><?php echo $this->sortable("Published"); ?></div>
+            <div class="span2 com-guilds-checked"><?php echo $this->sortable("Checked"); ?></div>
+            <div class="span2 com-guilds-pubdate"><?php echo $this->sortable("Published"); ?></div>
         </div>
         <?php $i = 0; ?>
         <?php foreach ($this->characters as $character): ?>
@@ -77,12 +82,19 @@
                          <?php echo $character->name; ?>
                 </div>
                 <?php if($character->handle === NULL) : ?>
-                    <div class="span2" 
-                         title="<?php echo $character->sto_handle; ?>">
+                    <div class="span2 editable"
+                         data-title="Edit Handle"
+                         data-name="sto_handle"
+                         data-pk="<?php echo $character->user_id; ?>"
+                         data-url="index.php?option=com_guilds&view=members&task=ajaxSave&format=raw">
                              <?php echo $character->sto_handle; ?>
                     </div>
                 <?php else: ?>
-                    <div class="span2" title="<?php echo $character->handle; ?>">
+                    <div class="span2 editable"
+                         data-title="Edit Character Handle"
+                         data-name="handle"
+                         data-pk="<?php echo $character->id;?>"
+                         data-url="index.php?option=com_guilds&view=characters&task=ajaxSave&format=raw">
                         <?php echo $character->handle; ?>
                     </div>
                 <?php endif; ?>
@@ -100,7 +112,7 @@
                              <?php echo $character->$type_name; ?>
                     </div>
                 <?php endforeach; ?>
-                <div class="span2 editable" 
+                <div class="span2 editable com-guilds-checked" 
                      data-type="date" 
                      data-placement="right" 
                      data-name="checked" 
