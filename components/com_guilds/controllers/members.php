@@ -73,7 +73,7 @@ class GuildsControllerMembers extends JController {
         $model->setState('gw2_handle', $gw2_handle);
         $model->setState('appdate', $appdate);
         $model->setState('notes', $notes);
-        $result = $model->save();
+        $result = $model->update();
 
         if ($result) {
             alertsHelper::alert(array('title' => 'Member edited.', 'msg' => 'The modifications were saved', 'class' => 'success'));
@@ -83,18 +83,27 @@ class GuildsControllerMembers extends JController {
 
         $this->setRedirect(JRoute::_('index.php?option=com_guilds&view=members',false));
     }
+    
+    function ajaxSave() {
+        $id = JRequest::getVar('id', null, '', 'int');
+        $sto_handle = JRequest::getVar('sto_handle', null, '', 'string');
+        $tor_handle = JRequest::getVar('tor_handle', null, '', 'string');
+        $gw2_handle = JRequest::getVar('gw2_handle', null, '', 'string');
+        $appdate = (JRequest::getVar('appdate', null, '', 'string') == "") ? NULL : JRequest::getVar('appdate', null, '', 'string');
+        $notes = JRequest::getVar('notes', null, '', 'string');
 
-    function update() {
-        $name = JRequest::getVar('name', NULL, '', 'string');
-        $id = JRequest::getVar('pk', NULL, '', 'int');
-        $value = JRequest::getVar('value', NULL, '', 'string');
-        $value = ($value == '') ? NULL : $value;
         $model = $this->getModel('members');
-        if ($name == NULL || $id == NULL) {
-            JError::raiseError('500', 'Invalid Request');
+        $model->setState('id', $id);
+        $model->setState('sto_handle', $sto_handle);
+        $model->setState('tor_handle', $tor_handle);
+        $model->setState('gw2_handle', $gw2_handle);
+        $model->setState('appdate', $appdate);
+        $model->setState('notes', $notes);
+        $result = $model->update();
+        
+        if(!$result) {
+            JError::raiseError(400,'Update Failed.');
         }
-
-        $model->update($name, $id, $value);
     }
 
     function getRanks() {
