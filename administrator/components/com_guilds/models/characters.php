@@ -402,19 +402,21 @@ class GuildsModelCharacters extends JModel {
     function buildQueryforTotal() {
         //$orderby = $this->_buildContentOrderBy();
         $where = $this->buildWhere();
-        $query = " SELECT a.id";
-        $query .= " FROM #__guilds_characters AS a ";
+        $sql = " SELECT a.id";
+        $sql .= " FROM #__guilds_characters AS a ";
+        $sql .= ' LEFT JOIN #__guilds_members AS b ON a.user_id = b.user_id';
         //$query .= " LEFT JOIN #__users AS b ON a.user_id = b.id ";
-        $query .= $where;
+        $sql .= $where;
         //$query .= $orderby;
-        return $query;
+        return $sql;
     }
 
     function getTotal() {
         // Load the content if it doesn't already exist
         if (empty($this->total)) {
-            $query = $this->buildQueryforTotal();
-            $this->total = $this->_getListCount($query);
+            $sql = $this->buildQueryforTotal();
+            dump($sql,'Total query');
+            $this->total = $this->_getListCount($sql);
         }
         return $this->total;
     }
