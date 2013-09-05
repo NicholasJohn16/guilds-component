@@ -93,6 +93,14 @@ class GuildsViewCharacters extends JView {
         JHTML::script('bootstrap-editable.js', 'components/com_guilds/media/js/', false);
         JHTML::script('bootstrap-datepicker.js', 'components/com_guilds/media/js/', false);
         JHTML::script('characters.js', 'components/com_guilds/media/js/', false);
+        
+        // Supress module positions so they don't take up room
+        $document =& JFactory::getDocument();
+        $positions = array('right','left','sidebar-a','sidebar-b');
+        foreach($positions as $position) {
+            $document->setBuffer(false, 'modules',$position);
+        }
+        
 
         // Get data from the model
         $characters = & $this->get('Characters');
@@ -150,6 +158,14 @@ class GuildsViewCharacters extends JView {
         JHTML::script('bootstrap.js', 'components/com_guilds/media/js/', false);
         JHTML::script('bootstrap-editable.js', 'components/com_guilds/media/js/', false);
         JHTML::script('characters.js', 'components/com_guilds/media/js/', false);
+        
+        // Supress module positions so they don't take up room
+        $document =& JFactory::getDocument();
+        $positions = array('right','left','sidebar-a','sidebar-b');
+        foreach($positions as $position) {
+            $document->setBuffer(false, 'modules',$position);
+        }
+        
 
         $invites = $this->get('pendingInvites');
         $promotions = $this->get('pendingPromotions');

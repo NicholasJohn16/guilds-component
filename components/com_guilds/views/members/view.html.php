@@ -39,6 +39,13 @@ class GuildsViewMembers extends JView {
         JHTML::script('bootstrap-editable.js','components/com_guilds/media/js/',false);
         JHTML::script('members.js','components/com_guilds/media/js/',false);
         
+        // Supress module positions so they don't take up room
+        $document =& JFactory::getDocument();
+        $positions = array('right','left','sidebar-a','sidebar-b');
+        foreach($positions as $position) {
+            $document->setBuffer(false, 'modules',$position);
+        }
+        
         $members = $this->get('Members');
         $pagination = $this->get('Pagination');
         $ranks = $this->get('Ranks');
@@ -49,10 +56,9 @@ class GuildsViewMembers extends JView {
         // Get the layout so it can be used to make request variable layout specific
         $layout	= $this->getLayout();
         
-        $this->order		= $mainframe->getUserStateFromRequest($option.$layout.'order','order',null,'cmd' );
-        $this->direction	= $mainframe->getUserStateFromRequest($option.$layout.'direction','direction',null,'word');
-        $this->search		= $mainframe->getUserStateFromRequest($option.$layout.'search','search','','string' );
-        $this->filter_type	= $mainframe->getUserStateFromRequest($option.$layout.'filter_type','filter_type',array(),'array');
+        $this->order		= $mainframe->getUserStateFromRequest($option.'member'.$layout.'order','order',null,'cmd' );
+        $this->direction	= $mainframe->getUserStateFromRequest($option.'member'.$layout.'direction','direction',null,'word');
+        $this->search		= $mainframe->getUserStateFromRequest($option.'member'.$layout.'search','search','','string' );
 
         $this->assignRef('members',$members);
         $this->assignRef('pagination', $pagination);
@@ -68,6 +74,14 @@ class GuildsViewMembers extends JView {
         JHTML::script('jquery.js','https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/');
         JHTML::script('bootstrap.js','components/com_guilds/media/js/',false);
         JHTML::script('bootstrap-datepicker.js','components/com_guilds/media/js/',false);
+        
+        // Supress module positions so they don't take up room
+        $document =& JFactory::getDocument();
+        $positions = array('right','left','sidebar-a','sidebar-b');
+        foreach($positions as $position) {
+            $document->setBuffer(false, 'modules',$position);
+        }
+        
 
         $member = $this->get('Member');
         $ranks = $this->get('Ranks');
