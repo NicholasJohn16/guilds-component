@@ -15,7 +15,7 @@ class GuildsViewTypes extends JView {
 
     function display($tpl = null) {
         JToolBarHelper::title(JText::_('Types'), 'generic.png');
-        JToolBarHelper::back();
+        JToolBarHelper::back('Back',JRoute::_('index.php?option=com_guilds'));
         parent::display($tpl);
     }
 
