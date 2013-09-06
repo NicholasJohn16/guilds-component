@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted Access');
 
 // Require the base controller and helper
 require_once(JPATH_COMPONENT . DS . 'controller.php');
-//require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
+require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
 //JHTML::_('stylesheet', 'com_charactermanager.css', 'administrator/components/com_charactermanager/media/css/');
 
 // Require specific controll if requested
