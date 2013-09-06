@@ -52,13 +52,13 @@ class GuildsModelMembers extends JModel {
         // Get pagination request variables
         $limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
         $limitstart = $mainframe->getUserStateFromRequest($option . 'limitstart', 'limitstart', 0);
-
+        
         // Get filter values for Roster view
         $order = $mainframe->getUserStateFromRequest($option . $view . $layout . 'order', 'order', null, 'cmd');
         $direction = $mainframe->getUserStateFromRequest($option . $view . $layout . 'direction', 'direction', null, 'word');
         $search = $mainframe->getUserStateFromRequest($option . $view . $layout . 'search', 'search', '', 'string');
         $filter_type = $mainframe->getUserStateFromRequest($option . $view . $layout . 'filter_type', 'filter_type', array(), 'array');
-
+        dump($search,'Search');
         // In case limit has been changed, adjust it
         //$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 
@@ -104,7 +104,7 @@ class GuildsModelMembers extends JModel {
             foreach ($terms as $term) {
                 strtolower(trim($term));
                 if (is_numeric($term)) {
-                    $conditions[] = ' a.id = ' . intval($term);
+                    $conditions[] = ' a.user_id = ' . intval($term);
                 } else {
                     $conditions[] = ' LOWER(a.username) LIKE "%' . $term . '%" ';
                     $conditions[] = ' LOWER(a.sto_handle) LIKE "%' . $term . '%" ';
@@ -181,17 +181,20 @@ class GuildsModelMembers extends JModel {
 
     function getMembers() {
         $db = JFactory::getDBO();
+        dump('getMembers called!');
         // Load the data
         if (empty($this->members)) {
             $query = $this->buildQuery();
+            dump($query,'Query');
             $db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
-            $member_ids = $db->loadResultArray();
+            $ids = $db->loadResultArray();
+            dump($ids);
             // Incase no matching members were found
             // return false
-            if (empty($member_ids)) {
+            if (empty($ids)) {
                 return false;
             }
-            $this->setState('member_ids', $member_ids);
+            $this->setState('ids', $ids);
             $members = $this->getMembersByIds();
             $this->setState('members', $members);
             $this->members = $this->updateStatus();
@@ -201,17 +204,18 @@ class GuildsModelMembers extends JModel {
 
     function getMembersByIds() {
         $db = JFactory::getDBO();
-        $member_ids = $this->getState('member_ids');
+        $ids = $this->getState('ids');
 
         $query = " SELECT a.user_id as id, "
                 . " a.username, a.appdate, a.status, a.tbd, "
                 . " a.sto_handle, a.gw2_handle, a.tor_handle, b.status "
                 . " FROM #__guilds_members AS a "
                 . " LEFT JOIN #__guilds_ranks AS b ON a.status = b.id ";
-        $query .= " WHERE a.user_id IN (" . implode(',', $member_ids) . ")";
-
+        $query .= " WHERE a.user_id IN (" . implode(',', $ids) . ")";
+        dump($query,'Members by Ids query');
         $db->setQuery($query);
         $members = $db->loadObjectList();
+        dump($members);
         return $members;
     }
 
@@ -285,28 +289,6 @@ class GuildsModelMembers extends JModel {
         }
 
         return $members;
-    }
-
-    function dynamic_update($field, $id, $value) {
-        $db = & JFactory::getDBO();
-
-        switch ($field) {
-            case "appdate":
-                $query = " UPDATE " . $db->nameQuote('#__guilds_members');
-                if ($value) {
-                    $query .= " SET appdate = " . $db->quote($value);
-                } else {
-                    $query .= " SET appdate = NULL ";
-                }
-                $query .= " WHERE " . $db->nameQuote('user_id') . " = " . $db->quote($id);
-                break;
-            default:
-                $query = " UPDATE " . $db->nameQuote('#__guilds_members')
-                        . " SET " . $db->nameQuote($field) . " = " . $db->quote($value)
-                        . " WHERE user_id  = " . $db->quote($id);
-        }
-        $db->setQuery($query);
-        $db->query();
     }
 
     function getForumRanks() {

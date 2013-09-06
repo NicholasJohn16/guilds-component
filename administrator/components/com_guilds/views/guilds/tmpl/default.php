@@ -16,19 +16,19 @@ defined('_JEXEC') or die('Restricted access');
         </a>
     </div>
     <div class="icon">
-        <a href="index.php?option=com_guilds&view=members">
+        <a href="index.php?option=com_guilds&view=characters">
 
             <span style="font-weight:bold">Characters</span>
         </a>
     </div>
     <div class="icon">
-        <a href="index.php?option=com_guilds&view=members">
+        <a href="index.php?option=com_guilds&view=categories">
 
             <span style="font-weight:bold">Categories</span>
         </a>
     </div>
     <div class="icon">
-        <a href="index.php?option=com_guilds&view=members">
+        <a href="index.php?option=com_guilds&view=types">
 
             <span style="font-weight:bold">Types</span>
         </a>
