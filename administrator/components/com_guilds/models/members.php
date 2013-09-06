@@ -58,7 +58,7 @@ class GuildsModelMembers extends JModel {
         $direction = $mainframe->getUserStateFromRequest($option . $view . $layout . 'direction', 'direction', null, 'word');
         $search = $mainframe->getUserStateFromRequest($option . $view . $layout . 'search', 'search', '', 'string');
         $filter_type = $mainframe->getUserStateFromRequest($option . $view . $layout . 'filter_type', 'filter_type', array(), 'array');
-        dump($search,'Search');
+        
         // In case limit has been changed, adjust it
         //$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 
@@ -140,17 +140,18 @@ class GuildsModelMembers extends JModel {
         $direction = $this->getState('direction');
 
         if ($order != null || $direction != null) {
-            switch ($order) {
-                case 'id':
-                case 'username':
+//            switch ($order) {
+//                case 'id':
+//                case 'username':
+//                case 'user_id':
                     $orderBy = ' ORDER BY a.' . $order . ' ' . $direction;
-                    break;
-                case 'status':
-                    $orderBy = ' ORDER BY b.status ' . $direction;
-                    break;
-                default:
-                    $orderBy = ' ORDER BY b.' . $order . ' ' . $direction;
-            }
+//                    break;
+//                case 'status':
+//                    $orderBy = ' ORDER BY b.status ' . $direction;
+//                    break;
+//                default:
+//                    $orderBy = ' ORDER BY b.' . $order . ' ' . $direction;
+//            }
         }
 
         if (isset($orderBy)) {
@@ -171,7 +172,6 @@ class GuildsModelMembers extends JModel {
                     . ' LEFT JOIN `#__guilds_members` AS c ON a.edit_id = c.user_id '
                     //. ' LEFT JOIN `#__guilds_members` AS d ON a.user_id = d.user_id '
                     . ' WHERE a.user_id = ' . $id;
-            dump($sql,'SQL');
             $db->setQuery($sql);
             $this->member = $db->loadObject();
         }
@@ -181,14 +181,14 @@ class GuildsModelMembers extends JModel {
 
     function getMembers() {
         $db = JFactory::getDBO();
-        dump('getMembers called!');
+        
         // Load the data
         if (empty($this->members)) {
             $query = $this->buildQuery();
             dump($query,'Query');
             $db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
             $ids = $db->loadResultArray();
-            dump($ids);
+            
             // Incase no matching members were found
             // return false
             if (empty($ids)) {
@@ -212,10 +212,10 @@ class GuildsModelMembers extends JModel {
                 . " FROM #__guilds_members AS a "
                 . " LEFT JOIN #__guilds_ranks AS b ON a.status = b.id ";
         $query .= " WHERE a.user_id IN (" . implode(',', $ids) . ")";
-        dump($query,'Members by Ids query');
+        $query .= $this->buildOrderBy();
         $db->setQuery($query);
         $members = $db->loadObjectList();
-        dump($members);
+        
         return $members;
     }
 
