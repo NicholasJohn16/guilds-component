@@ -23,7 +23,7 @@ $(document).ready(function() {
 	   
         // set them on the character form
         $('#character-form-user_id').select2('data',{id:user_id,text:username});
-        $('#character-form-user_id').select2('enable',false);
+        $('#character-form-user_id').select2('readonly',true);
         $('#character-form-modal').modal('show');
     });
     
@@ -128,7 +128,7 @@ $(document).ready(function() {
     // When the Character form is hidden
     $('#character-form-modal').on('hidden',function() {
         // Reset the form back
-        $('#character-form-user_id').select2('val','').removeAttr('disabled');
+        $('#character-form-user_id').select2('val','').select2('readonly',false);
         $('#character-form-character').select2('val','').attr('name','name');
         $('#character-form-handle').val('').hide();
         $('#character-form-handle-link').show();
