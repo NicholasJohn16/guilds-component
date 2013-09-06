@@ -29,7 +29,7 @@ class GuildsViewMembers extends JView {
     function displayList($tpl = null) {
         JToolBarHelper::title(JText::_('Members'), 'generic.png');
         JToolBarHelper::editList();
-        JToolBarHelper::back();
+        JToolBarHelper::back('Back',JRoute::_('index.php?option=com_guilds'));
         
         $model = $this->getModel('members');
         $members = $model->getMembers();
@@ -37,9 +37,9 @@ class GuildsViewMembers extends JView {
         
         $key = 'com_guilds'.'member'.'default';
         $mainframe = JFactory::getApplication();
-        $search = $mainframe->getUserStateFromRequest($key.'search','search','','string' );
-        $order = $mainframe->getUserStateFromRequest($key.'order','','string');
-        $direction = $mainframe->getUserStateFromRequest($key.'direction','','string');
+        $search = $mainframe->getUserStateFromRequest($key.'search','search',NULL,'string' );
+        $order = $mainframe->getUserStateFromRequest($key.'order','order',NULL,'cmd');
+        $direction = $mainframe->getUserStateFromRequest($key.'direction','direction',NULL,'word');
         
         $this->assignRef('members', $members);
         $this->assignRef('pagination', $pagination);

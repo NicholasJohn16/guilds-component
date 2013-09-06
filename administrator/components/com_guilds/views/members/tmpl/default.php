@@ -1,4 +1,15 @@
-<form name="adminForm" action="index.php">
+<?php 
+    $document = JFactory::getDocument();
+    $document->addScriptDeclaration('
+        function tableOrder( order, dir, task ) {
+            var form = document.adminForm;
+            form.order.value = order;
+            form.direction.value = dir;
+            submitform( task );
+        }
+    ');
+?>
+<form name="adminForm" action="index.php" method="post">
     <table>
         <tr>
             <td>
@@ -14,7 +25,7 @@
         </tr>
     </table>
     <?php if(!$this->members): ?>
-        No Characters found.  Revise search criteria.
+        No Members found.  Revise search criteria.
     <?php else: ?>
         <table class="adminlist">
             <thead>
@@ -23,25 +34,25 @@
                         <input type="checkbox" name="toggle" onclick="checkAll(<?php echo count($this->members); ?>);">
                     </th>
                     <th>
-                        <?php echo JHTML::_('grid.sort','ID','a.user_id',$this->order,$this->direction); ?>
+                        <?php echo GuildsHelper::sort('ID','user_id',$this->direction,$this->order); ?>
                     </th>
                     <th>
-                        Username
+                        <?php echo GuildsHelper::sort('Username','username',$this->direction,$this->order); ?>
                     </th>
                     <th>
-                        Intro Date
+                        <?php echo GuildsHelper::sort('Intro Date','appdate',$this->direction,$this->order); ?>
                     </th>
                     <th>
                         Status
                     </th>
                     <th>
-                        STO Handle
+                        <?php echo GuildsHelper::sort('STO Handle','sto_handle',$this->direction,$this->order); ?>
                     </th>
                     <th>
-                        TOR Handle
+                        <?php echo GuildsHelper::sort('TOR Handle','tor_handle',$this->direction,$this->order); ?>
                     </th>
                     <th>
-                        GW2 Handle
+                        <?php echo GuildsHelper::sort('GW2 Handle','gw2_handle',$this->direction,$this->order); ?>
                     </th>
                 </tr>
             </thead>
@@ -92,4 +103,6 @@
         <input type="hidden" name="view" value="members" />
         <input type="hidden" name="task" value="" />
         <input type="hidden" name="boxchecked" value="0" />
+        <input type="hidden" name="order" value="<?php echo $this->order ?>" />
+        <input type="hidden" name="direction" value="<?php echo $this->direction; ?>" />
 </form>
