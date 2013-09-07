@@ -18,7 +18,7 @@ class GuildsControllerMembers extends GuildsController {
         $id = JRequest::getVar('id',null,'','int');
         if($id === NULL) {
             $url = JRoute::_('index.php?option=com_guilds&view=members',false);
-            $msg = 'Can\'t edit a user when I don\'t which one!';
+            $msg = 'Can\'t edit a user when I don\'t know which one!';
             $this->setRedirect($url,$msg,'error');
         }
         
