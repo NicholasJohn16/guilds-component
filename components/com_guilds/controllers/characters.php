@@ -22,7 +22,7 @@ class GuildsControllerCharacters extends JController {
         $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR . DS . 'models');
         $user = & JFactory::getUser();
         if ($user->guest) {
-            $mainframe->redirect('index.php?option=com_user&view=login');
+            $this->setRedirect('index.php?option=com_user&view=login');
         }
         parent::__construct($config);
     }
