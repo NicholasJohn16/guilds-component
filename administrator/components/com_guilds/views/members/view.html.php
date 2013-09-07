@@ -31,11 +31,10 @@ class GuildsViewMembers extends JView {
         JToolBarHelper::editList();
         JToolBarHelper::back('Back',JRoute::_('index.php?option=com_guilds'));
         
-        $model = $this->getModel('members');
-        $members = $model->getMembers();
-        $pagination = $model->getPagination();
+        $members = $this->get('members');
+        $pagination = $this->get('pagination');
         
-        $key = 'com_guilds'.'member'.'default';
+        $key = 'com_guilds'.'members'.'default';
         $mainframe = JFactory::getApplication();
         $search = $mainframe->getUserStateFromRequest($key.'search','search',NULL,'string' );
         $order = $mainframe->getUserStateFromRequest($key.'order','order',NULL,'cmd');
