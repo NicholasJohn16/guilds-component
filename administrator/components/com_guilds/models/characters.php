@@ -415,7 +415,6 @@ class GuildsModelCharacters extends JModel {
         // Load the content if it doesn't already exist
         if (empty($this->total)) {
             $sql = $this->buildQueryforTotal();
-            dump($sql,'Total query');
             $this->total = $this->_getListCount($sql);
         }
         return $this->total;
