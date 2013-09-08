@@ -208,13 +208,14 @@ class GuildsModelCharacters extends JModel {
         if (empty($this->character)) {
             if ($id == NULL) {
                 $this->character = new stdClass();
-                $this->character->user_id = JFactory::getUser()->id;
+                $this->character->user_id = NULL;
                 $this->character->id = NULL;
                 $this->character->name = NULL;
                 $this->character->handle = NULL;
                 $this->character->invite = NULL;
                 $this->character->checked = NULL;
                 $this->character->published = NULL;
+                $this->character->unpublisheddate = NULL;
                 foreach ($types as $type) {
                     $type_id = $type->name . '_id';
                     $this->character->$type_id = NULL;
@@ -262,6 +263,9 @@ class GuildsModelCharacters extends JModel {
         $fields['invite'] = $this->getState('invite');
         $fields['checked'] = $this->getState('checked');
         $fields['published'] = $this->getState('published');
+        if($fields['user_id'] === NULL || $fields['user_id'] === '') {
+            $fields['user_id'] = JFactory::getUser()->id;
+        }
         
         $categories = $this->getState('categories');
         if(is_array($categories)){
@@ -311,6 +315,7 @@ class GuildsModelCharacters extends JModel {
         $fields['checked'] = $this->getState('checked');
         $fields['published'] = $this->getState('published');
         $fields['unpublisheddate'] = $this->getState('unpublisheddate');
+        $fields['invite'] = $this->getState('invite');
         
         $categories = $this->getState('categories');
         if(is_array($categories)) {
@@ -342,8 +347,8 @@ class GuildsModelCharacters extends JModel {
       
         $sql  = " UPDATE #__guilds_characters SET ";
         $sql .= implode(", ", $values);
-        $sql .= " WHERE id = " . $id;
-        
+        $sql .= " WHERE id IN (".implode(',',$id).')';
+        dump($sql,'Characters Update');
         $db->setQuery($sql);
         $result = $db->query();
         return $result;

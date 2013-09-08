@@ -5,18 +5,6 @@
             <table class="admintable" cellspacing="1">
                 <tr>
                     <td width="150" class="key">
-                        ID
-                    </td>
-                    <td>
-                        <input type="text"
-                               class="inputbox"
-                               size="40"
-                               value="<?php echo $this->character->id; ?>"
-                               disabled="disabled">
-                    </td>
-                </tr>
-                <tr>
-                    <td width="150" class="key">
                         User ID
                     </td>
                     <td>
@@ -64,8 +52,8 @@
                         Published
                     </td>
                     <td>
-                        <input <?php if($this->character->published == 1) {echo 'checked';}?> name="published" type="radio" value="1"/> Yes
-                        <input <?php if($this->character->published == 0) {echo 'checked';}?> name="published" type="radio" value="0"/> No
+                        <input <?php if($this->character->published === 1) {echo 'checked';}?> name="published" type="radio" value="1"/> Yes
+                        <input <?php if($this->character->published === 0) {echo 'checked';}?> name="published" type="radio" value="0"/> No
                     </td>
                 </tr>
                 <tr>
@@ -86,8 +74,8 @@
                         Invite
                     </td>
                     <td>
-                        <input <?php if($this->character->invite == 1) {echo 'checked';}?> name="invite" type="radio" value="1"/> Yes
-                        <input <?php if($this->character->invite == 0) {echo 'checked';}?> name="invite" type="radio" value="0"/> No
+                        <input <?php if($this->character->invite === 1) {echo 'checked';}?> name="invite" type="radio" value="1"/> Yes
+                        <input <?php if($this->character->invite === 0) {echo 'checked';}?> name="invite" type="radio" value="0"/> No
                     </td>
                 </tr>
             </table>
@@ -126,4 +114,5 @@
     <input type="hidden" name="option" value="com_guilds"/>
     <input type="hidden" name="view" value="characters" />
     <input type="hidden" name="task" value="save"/>
+    <input type="hidden" name="id" value="<?php echo $this->character->id; ?>" />
 </form>

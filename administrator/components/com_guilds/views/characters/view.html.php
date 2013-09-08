@@ -36,7 +36,7 @@ class GuildsViewCharacters extends JView {
         JToolBarHelper::publishList();
         JToolBarHelper::unpublishList();
         JToolBarHelper::customX('invited','send.png','','Invite');
-        JToolBarHelper::deleteList();
+        JToolBarHelper::deleteList('Are you sure?','delete');
         
         $characters = $this->get('characters');
         $types = $this->get('types','types');
@@ -68,7 +68,7 @@ class GuildsViewCharacters extends JView {
         
         $isNew = (JRequest::getVar('id',NULL,'') == NULL) ? true : false;
         
-        $title = $isNew ? 'Edit Member' : 'Add Member';
+        $title = $isNew ? 'Add Character' : 'Edit Character';
         
         JToolBarHelper::title($title,'generic.png');
         JToolBarHelper::save();
