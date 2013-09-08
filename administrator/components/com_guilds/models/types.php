@@ -24,15 +24,39 @@
      */
     class GuildsModelTypes extends JModel {
 
-        function getTypes(){
+        public function getTypes(){
             if(empty($this->types)){
-                $db =& JFactory::getDBO();
+                $db = JFactory::getDBO();
                 $query = " SELECT * FROM #__guilds_types WHERE published = 1 ORDER BY ordering ";
                 $db->setQuery($query);
                 $this->types = $db->loadObjectList();
             }
 
             return $this->types;
+        }
+        
+        public function update() {
+            $db = JFactory::getDBO();
+            $fields = $this->getState('fields');
+            
+        }
+        
+        public function saveorder() {
+            $db = JFactory::getDBO();
+            $ids = $this->getState('ids');
+            $order = $this->getState('order');
+            
+            $sql  = ' UPDATE #__guilds_types ';
+            $sql .= ' SET `ordering` = CASE `id` ';
+            for($i = 0;$i < count($ids);$i++) {
+                $sql .= ' WHEN '.$ids[$i].' THEN '.$order[$i].' ';
+            }
+            $sql .= ' END ';
+            $sql .= ' WHERE id IN ('.implode(',',$ids).') ';
+            
+            $db->setQuery($sql);
+            $result = $db->query();
+            return $result;
         }
 
     }
