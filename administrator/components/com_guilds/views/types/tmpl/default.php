@@ -18,6 +18,9 @@
                 <th width="70px">
                     Published
                 </th>
+                <th width="70px">
+                    Delete
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -42,7 +45,12 @@
                         <input type="text" name="order[]" size="5" value="<?php echo $type->ordering ?>" class="text_area" style="text-align:center" />
                     </td>
                     <td style="text-align:center;">
-                        <?php echo JHTML::_('grid.published',$type,$i); ?>
+                        <?php echo JHTML::_('grid.published',$type,$i,'publish_g.png','publish_r.png'); ?>
+                    </td>
+                    <td style="text-align:center;">
+                        <a href="#" onclick="if(confirm('Deleting a type will remove all associated data.\nAre you sure?')){return listItemTask('cb<?php echo $i;?>','delete')}">
+                            <img src="images/publish_x.png" title="Delete"/>
+                        </a>
                     </td>
                 </tr>
                 <?php $k = 1 - $k; // alternates $k between 0 and 1 for row class ?>

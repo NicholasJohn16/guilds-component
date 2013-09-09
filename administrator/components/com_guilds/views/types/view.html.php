@@ -34,7 +34,6 @@ class GuildsViewTypes extends JView {
         JToolBarHelper::editList();
         JToolBarHelper::publishList();
         JToolBarHelper::unpublishList();
-        JToolBarHelper::deleteList('Deleting a type will remove all assosicated data.  Are you sure?','delete');
         
         $types = $this->get('AllTypes');
         jimport('joomla.html.pagination');

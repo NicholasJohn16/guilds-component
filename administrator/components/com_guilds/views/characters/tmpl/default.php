@@ -120,7 +120,7 @@
                             </td>
                         <?php endforeach; ?>
                         <td width="25">
-                            <?php echo JHTML::_('grid.published',$character,$i); ?>
+                            <?php echo JHTML::_('grid.published',$character,$i,'publish_g.png','publish_r.png'); ?>
                         </td>
                         <td>
                             <?php echo $character->unpublisheddate; ?>
