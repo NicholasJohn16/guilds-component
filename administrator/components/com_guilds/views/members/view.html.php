@@ -28,8 +28,9 @@ class GuildsViewMembers extends JView {
 
     function displayList($tpl = null) {
         JToolBarHelper::title(JText::_('Members'), 'generic.png');
+        JToolBarHelper::back('Back',JRoute::_('index.php?option=com_guilds',false));
+        JToolBarHelper::divider();
         JToolBarHelper::editList();
-        JToolBarHelper::back('Back',JRoute::_('index.php?option=com_guilds'));
         
         $members = $this->get('members');
         $pagination = $this->get('pagination');

@@ -3,7 +3,7 @@
         <thead>
             <tr>
                 <th width="25px">
-                    
+                    <input type="checkbox" name="toggle" onclick="checkAll(<?php echo count($this->types);?>)">
                 </th>
                 <th width="20px">
                     ID

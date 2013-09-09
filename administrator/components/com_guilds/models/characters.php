@@ -348,7 +348,7 @@ class GuildsModelCharacters extends JModel {
         $sql  = " UPDATE #__guilds_characters SET ";
         $sql .= implode(", ", $values);
         $sql .= " WHERE id IN (".implode(',',$id).')';
-        dump($sql,'Characters Update');
+        
         $db->setQuery($sql);
         $result = $db->query();
         return $result;
