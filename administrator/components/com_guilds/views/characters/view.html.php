@@ -24,7 +24,7 @@ class GuildsViewCharacters extends JView {
                 $this->displayForm();
                 break;
         }
-        
+        parent::display();
     }
 
     function displayList() {
@@ -59,7 +59,6 @@ class GuildsViewCharacters extends JView {
         $this->assignRef('direction', $direction);
         $this->assignRef('filters',$filters);
         
-        parent::display();
     }
     
     function displayForm() {
@@ -83,7 +82,6 @@ class GuildsViewCharacters extends JView {
         $this->assignRef('categories',$categories);
         $this->assignRef('isNew',$isNew);
         
-        parent::display();
     }
     
     function invite( $invite )
