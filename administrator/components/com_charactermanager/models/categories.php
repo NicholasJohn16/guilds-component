@@ -70,10 +70,10 @@
 			$where = $this->_buildWhere();
 		
 			$query  = " SELECT * ";
-			$query .= " FROM jos_char_categories ";
-			$query .= $where;
-			$query .= $orderby;
-			
+			$query .= " FROM #__guilds_categories ";
+			//$query .= $where;
+			//$query .= $orderby;
+			dump($query);
 			return $query;
 		}
 		
@@ -86,7 +86,7 @@
 			$query = $this->_buildQuery();
 			$db->setQuery($query);
 			$rows = $db->loadObjectList();
-			
+			dump($rows,'Rows');
 			// Establish hierarchy
 			$children = array();
 			
@@ -101,9 +101,10 @@
 				array_push($list,$row);
 				$children[$pt] = $list;
 			}
+                        dump($children,'Children');
 			// Second pass: get an indent list of the items
 			$list = JHTML::_('menu.treerecurse',0,'',array(),$children, max(0,$levellimit-1));
-			
+			dump($list,'List');
 			jimport('joomla.html.pagination');
 			$total = count($list);
 			$limitstart = $this->getState('limitstart');

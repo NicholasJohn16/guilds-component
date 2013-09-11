@@ -14,12 +14,6 @@ jimport('joomla.application.component.controller');
 
 class GuildsControllerTypes extends GuildsController {
     
-    function __construct() {
-        dump(JRequest::get('Post'),'Post');
-        parent::__construct();
-    }
-    
-        
     public function add() {
         $this->form();
     }

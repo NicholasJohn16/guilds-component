@@ -12,11 +12,58 @@ defined('_JEXEC') or die();
 jimport('joomla.application.component.view');
 
 class GuildsViewCategories extends JView {
+    
+    public function display() {
+        $layout = $this->getLayout();
+        
+        switch($layout) {
+            case 'form':
+                $this->displayForm();
+                break;
+            default:
+                $this->displayList();
+                break;
+        }
+        
+        parent::display();
+    }
 
-    function display($tpl = null) {
+    function displayList() {
         JToolBarHelper::title(JText::_('Categories'), 'generic.png');
         JToolBarHelper::back('Back',JRoute::_('index.php?option=com_guilds'));
-        parent::display($tpl);
+        JToolBarHelper::divider();
+        JToolBarHelper::addNew();
+        JToolBarHelper::editList();
+        JToolBarHelper::publishList();
+        JToolBarHelper::unpublishList();
+        JToolBarHelper::deleteList('Are you sure?','delete');
+        
+        $categories = $this->get('AllCategories');
+        dump($categories,'Categories');
+        jimport('joomla.html.pagination');
+        $pagination = new JPagination(count($categories),0,count($categories));
+        
+        $this->assignRef('categories', $categories);
+        $this->assignRef('pagination', $pagination);
+    }
+    
+    public function displayForm() {
+        $id = JRequest::getVar('id',NULL,'');
+        // Incase its submitted as an array,
+        //check and return first value
+        $id = (is_array($id)) ? $id[0] : $id;
+        $isNew = ($id) ? true : false;
+        $title = $isNew ? 'Edit Character' : 'Add Character';
+        
+        JToolBarHelper::title($title,'generic.png');
+        JToolBarHelper::save();
+        JToolBarHelper::cancel();
+        
+        $model = $this->getModel('categories');
+        $model->setState('id',$id);
+        $category = $model->getCategory();
+        
+        $this->assignRef('category', $category);
     }
 
 }

@@ -27,13 +27,12 @@ class GuildsModelTypes extends JModel {
     public function getAllTypes() {
         if (empty($this->allTypes)) {
             $db = JFactory::getDBO();
-            $sql = ' SELECT * ';
+            $sql  = ' SELECT * ';
             $sql .= ' FROM #__guilds_types ';
             $sql .= ' ORDER BY ordering ';
             $db->setQuery($sql);
             $this->allTypes = $db->loadObjectList();
         }
-
         return $this->allTypes;
     }
 
@@ -114,7 +113,7 @@ class GuildsModelTypes extends JModel {
         $sql = ' UPDATE #__guilds_types SET ';
         $sql .= implode(',', $values);
         $sql .= ' WHERE id IN (' . implode(',', $id) . ')';
-        dump($sql);
+        
         $db->setQuery($sql);
         $result = $db->query();
         return $result;

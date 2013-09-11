@@ -40,8 +40,8 @@
                         </a>
                     </td>
                     <td class="order">
-                        <span><?php echo $this->pagination->orderUpIcon($i,true,'orderup','Move Up',$type->ordering);?></span>
-                        <span><?php echo $this->pagination->orderDownIcon($i,count($this->types),true,'orderdown','Move Down',$type->ordering);?></span>
+                        <span><?php echo $this->pagination->orderUpIcon($i);?></span>
+                        <span><?php echo $this->pagination->orderDownIcon($i,count($this->types));?></span>
                         <input type="text" name="order[]" size="5" value="<?php echo $type->ordering ?>" class="text_area" style="text-align:center" />
                     </td>
                     <td style="text-align:center;">
