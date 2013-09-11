@@ -52,8 +52,8 @@
                         Published
                     </td>
                     <td>
-                        <input <?php if($this->character->published === 1) {echo 'checked';}?> name="published" type="radio" value="1"/> Yes
-                        <input <?php if($this->character->published === 0) {echo 'checked';}?> name="published" type="radio" value="0"/> No
+                        <input <?php if($this->character->published == 1) {echo 'checked';}?> name="published" type="radio" value="1"/> Yes
+                        <input <?php if($this->character->published == 0) {echo 'checked';}?> name="published" type="radio" value="0"/> No
                     </td>
                 </tr>
                 <tr>
@@ -74,8 +74,8 @@
                         Invite
                     </td>
                     <td>
-                        <input <?php if($this->character->invite === 1) {echo 'checked';}?> name="invite" type="radio" value="1"/> Yes
-                        <input <?php if($this->character->invite === 0) {echo 'checked';}?> name="invite" type="radio" value="0"/> No
+                        <input <?php if($this->character->invite == 1) {echo 'checked';}?> name="invite" type="radio" value="1"/> Yes
+                        <input <?php if($this->character->invite == 0) {echo 'checked';}?> name="invite" type="radio" value="0"/> No
                     </td>
                 </tr>
             </table>
