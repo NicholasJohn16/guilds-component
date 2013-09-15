@@ -59,11 +59,20 @@ class GuildsViewCategories extends JView {
         JToolBarHelper::save();
         JToolBarHelper::cancel();
         
-        $model = $this->getModel('categories');
-        $model->setState('id',$id);
-        $category = $model->getCategory();
+        $category = $this->get('category');
+        $categories = $this->get('AllCategories','categories');
+        $types = $this->get('AllTypes','types');
         
-        $this->assignRef('category', $category);
+        dump($category,'Category');
+        dump($categories,'Categories');
+        dump($types,'Types');
+        
+        $sql = ' SELECT ordering AS value, name AS text FROM #__guilds_categories ORDER BY ordering asc ';
+        
+        $this->assignRef('category',$category);
+        $this->assignRef('categories',$categories);
+        $this->assignRef('types',$types);
+        $this->assignRef('sql',$sql);
     }
 
 }

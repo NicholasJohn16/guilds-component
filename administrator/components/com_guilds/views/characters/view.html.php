@@ -80,7 +80,6 @@ class GuildsViewCharacters extends JView {
         $this->assignRef('character', $character);
         $this->assignRef('types', $types);
         $this->assignRef('categories',$categories);
-        $this->assignRef('isNew',$isNew);
         
     }
     

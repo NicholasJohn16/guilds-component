@@ -73,32 +73,35 @@ class GuildsModelCharacters extends JModel {
         $select = $this->buildSelect();
         $where = $this->buildWhere();
         $order = $this->buildOrderBy();
-        return $select . $where . $order;
+        $query = $select . $where . $order;
+        dump($query,'Characters Query');
+        return $query;
     }
 
     function buildSelect() {
         $types_model = $this->getInstance('types', 'GuildsModel');
         $types = $types_model->getTypes();
-
-        //$types = $this->getTypes();
-        $i = 99;
-        $n = 99;
+        $category_fields = array();
+        $category_joins = array();
+        dump($types);
+        for($i = 0,$c = 99;$i < count($types);$i++,$c++) {
+            $category_fields[] = 'a.'.$types[$i]->name.' AS '.$types[$i]->name.'_id';
+            $category_fields[] = chr($c).'.name AS '.$types[$i]->name.'_name';
+        }
+        
+        for($i = 0,$c = 99;$i < count($types);$i++,$c++) {
+            $category_joins[] = ' LEFT JOIN #__guilds_categories AS '.chr($c).' ON '.chr($c).'.id = a.'.$types[$i]->name;
+        }
+        
         $query = ' SELECT a.id, a.user_id, a.name, a.checked, '
                 . ' a.unpublisheddate, a.invite, a.name as name, '
                 . ' a.id AS id, a.published AS published, '
                 . ' b.sto_handle, b.tor_handle, b.gw2_handle, a.handle, '
-                . ' b.appdate, b.status ';
-        foreach ($types AS $type) {
-            $query .= ", a." . $type->name . " AS " . $type->name . "_id";
-            $query .= ", " . chr($i) . ".name AS " . $type->name . "_name";
-            $i++;
-        }
+                . ' b.appdate, b.status, ';
+        $query .= implode(', ',$category_fields);
         $query .= " FROM #__guilds_characters AS a ";
         $query .= " LEFT JOIN #__guilds_members AS b ON a.user_id = b.user_id ";
-        foreach ($types AS $type) {
-            $query .= " LEFT JOIN #__guilds_categories AS " . chr($n) . " ON " . chr($n) . ".id = a." . $type->name . " ";
-            $n++;
-        }
+        $query .= implode(' ',$category_joins);
 
         return $query;
     }

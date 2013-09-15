@@ -61,7 +61,7 @@ class GuildsViewTypes extends JView {
         
         // Bleh, I don't like sql in the view,
         // but ordering helper requires it
-        $sql = ' SELECT ordering AS value, name AS text FROM #__guilds_types ORDER by ordering asc ';
+        $sql = ' SELECT ordering AS value, name AS text FROM #__guilds_types ORDER BY ordering asc ';
         
         $this->assignRef('type', $type);
         $this->assignRef('sql',$sql);

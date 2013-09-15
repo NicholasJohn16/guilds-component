@@ -24,9 +24,12 @@ class GuildsModelCategories extends JModel {
         $db = JFactory::getDBO();
         $children = array();
 
-        $sql = ' SELECT * ';
-        $sql .= ' FROM #__guilds_categories ';
-        $sql .= ' ORDER by ordering ';
+        $sql  = ' SELECT a.id, a.name, b.name AS type, b.id AS type_id, ';
+        $sql .= ' a.ordering, a.published, a.parent ';
+        $sql .= ' FROM #__guilds_categories AS a ';
+        $sql .= ' LEFT JOIN #__guilds_types AS b ON a.type = b.id ';
+        $sql .= ' ORDER by a.ordering ';
+        
         $db->setQuery($sql);
         $categories = $db->loadObjectList();
 
@@ -47,12 +50,15 @@ class GuildsModelCategories extends JModel {
     function getCategories() {
         if (empty($this->categories)) {
             $db = JFactory::getDBO();
-            $sql = ' SELECT * FROM #__guilds_categories '
-                    . ' LEFT JOIN ( '
-                    . ' SELECT parent as id2, group_concat(id) as children '
-                    . ' FROM #__guilds_categories GROUP BY parent '
-                    . ') a ON (#__guilds_categories.id = a.id2) '
-                    . ' WHERE published = 1 ORDER BY ordering ';
+            $sql = ' SELECT a.id, a.name, a.parent, a.type, a.ordering, '
+                 . ' a.published, b.children, c.name as type, c.id as type_id '
+                 . ' FROM #__guilds_categories AS a '
+                 . ' LEFT JOIN ( '
+                 . ' SELECT parent as id2, group_concat(id) as children '
+                 . ' FROM #__guilds_categories GROUP BY parent '
+                 . ') AS b ON ( a.id = b.id2 ) '
+                 . ' LEFT JOIN #__guilds_types AS c ON a.type = c.id ' 
+                 . ' WHERE a.published = 1 ORDER BY a.ordering ';
             $db->setQuery($sql);
             $this->categories = $db->loadObjectList();
         }
@@ -81,7 +87,8 @@ class GuildsModelCategories extends JModel {
         if (empty($this->categoriesByType)) {
             $db = JFactory::getDBO();
             $sql = ' SELECT *, id AS value, name AS text '
-                    . ' FROM #__guilds_categories '
+                    . ' FROM #__guilds_categories AS a '
+                    . ' LEFT JOIN #__guilds_types AS b ON a.type = b.id '
                     . ' WHERE published = 1 '
                     . ' AND type LIKE ' . $db->quote($type)
                     . ' ORDER BY ordering ';
@@ -105,9 +112,11 @@ class GuildsModelCategories extends JModel {
             $category->type = NULL;
             $category->type_id = NULL;
         } else {
-            $sql = ' SELECT * ';
-            $sql .= ' FROM #__guilds_categories ';
-            $sql .= ' WHERE id = ' . $id;
+            $sql  = ' SELECT a.id, a.name, b.name AS type, b.id AS type_id, ';
+            $sql .= ' a.ordering, a.published, a.parent ';
+            $sql .= ' FROM #__guilds_categories AS a ';
+            $sql .= ' LEFT JOIN #__guilds_types AS b ON a.type = b.id  ';
+            $sql .= ' WHERE a.id = ' . $id;
             $db->setQuery($sql);
             $category = $db->loadObject();
         }
@@ -119,8 +128,8 @@ class GuildsModelCategories extends JModel {
         $ids = $this->getState('ids');
         $order = $this->getState('order');
 
-        dump($ids, 'ids');
-        dump($order, 'order');
+        //dump($ids, 'ids');
+        //dump($order, 'order');
 
         $sql = ' UPDATE #__guilds_categories ';
         $sql .= ' SET `ordering` = CASE `id` ';
@@ -132,6 +141,47 @@ class GuildsModelCategories extends JModel {
 
         $db->setQuery($sql);
         $result = $db->query();
+        return $result;
+    }
+    
+    public function save() {
+        $id = $this->getState('id');
+
+        if ($id[0] < 1) {
+            return $this->insert();
+        } else {
+            return $this->update();
+        }
+    }
+    
+    public function insert() {
+        $db = JFactory::getDBO();
+        $fields = $this->getState('fields');
+
+        // Filter out fields that aren't being updated
+        foreach ($fields as $name => $value) {
+            //if the value is null or an empty string
+            if ($value === NULL) {
+                // remove it from the fields
+                unset($fields[$name]);
+            }
+            // if a value is an empty string, change it to NULL
+            if ($value === "") {
+                $fields[$name] = "NULL";
+            } elseif (is_string($value)) {
+                // if its a string, go ahead and quote it
+                $fields[$name] = $db->quote($value);
+            }
+        }
+        // Build the query
+        $sql = " INSERT INTO #__guilds_categories ";
+        $sql .= " ( `" . implode("`, `", array_keys($fields)) . "` )";
+        $sql .= " VALUES ( " . implode(", ", $fields) . ") ";
+        // set the query in the db object
+        $db->setQuery($sql);
+        // execute it
+        $result = $db->query();
+
         return $result;
     }
 

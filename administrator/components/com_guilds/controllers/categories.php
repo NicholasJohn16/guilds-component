@@ -24,10 +24,44 @@ class GuildsControllerCategories extends GuildsController {
     }
     
     public function form() {
-        JRequest::setVar('hidemainmenu',1);
-        JRequest::setVar('layout','form');
+        $id = JRequest::getVar('id',NULL,'');
+        $id = (is_array($id)) ? $id[0] : $id;
         
-        parent::display();
+        JRequest::setVar('hidemainmenu',1);
+        
+        $model = $this->getModel('categories');
+        $model->setState('id',$id);
+        
+        $view = $this->getView('categories','html');
+        $view->setLayout('form');
+        $view->setModel($model,true);
+        $view->setModel($this->getModel('types'));
+        
+        $view->display();
+    }
+    
+    public function save() {
+        $id = JRequest::getVar('id',NULL,'','array');
+        $fields['name'] = JRequest::getVar('name',NULL,'','string');
+        $fields['type'] = JRequest::getVar('type',NULL,'','int');
+        $fields['ordering'] = JRequest::getVar('ordering',99999,'','int');
+        $fields['published'] = JRequest::getVar('published',NULL,'','int');
+        
+        $model = $this->getModel('categories');
+        $model->setState('id',$id);
+        $model->setState('fields',$fields);
+        $result = $model->save();
+        
+        if($result) {
+            $msg = 'Category saved.';
+            $type = 'message';
+        } else {
+            $msg = 'Save failed';
+            $type = 'error';
+        }
+        $url = JRoute::_('index.php?option=com_guilds&view=categories',false);
+        $this->setRedirect($url,$msg,$type);
+        
     }
     
     public function cancel() {
