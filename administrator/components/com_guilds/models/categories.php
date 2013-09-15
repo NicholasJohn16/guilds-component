@@ -65,23 +65,6 @@ class GuildsModelCategories extends JModel {
         return $this->categories;
     }
 
-    function getCategoricalInfoByType($type) {
-        if (empty($this->categoriesByType)) {
-            $db = JFactory::getDBO();
-            $sql = ' SELECT * FROM #__guilds_categories '
-                    . '  LEFT JOIN ( '
-                    . ' SELECT parent as id2, group_concat(id) as children '
-                    . ' FROM #__guilds_categories GROUP BY parent '
-                    . ' ) a ON (#__guilds_categories.id = a.id2) '
-                    . ' WHERE published = 1 '
-                    . ' AND type LIKE ' . $db->quote($type)
-                    . ' ORDER BY ordering ';
-            $db->setQuery($sql);
-            $this->categoriesByType = $db->loadObjectList();
-        }
-        return $this->categoriesByType;
-    }
-
     function getCategoriesByType() {
         $type = $this->getState('type');
         if (empty($this->categoriesByType)) {
