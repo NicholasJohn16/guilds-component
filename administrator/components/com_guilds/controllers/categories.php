@@ -46,6 +46,7 @@ class GuildsControllerCategories extends GuildsController {
         $fields['type'] = JRequest::getVar('type',NULL,'','int');
         $fields['ordering'] = JRequest::getVar('ordering',99999,'','int');
         $fields['published'] = JRequest::getVar('published',NULL,'','int');
+        $fields['parent'] = JRequest::getVar('parent',NULL,'','int');
         
         $model = $this->getModel('categories');
         $model->setState('id',$id);

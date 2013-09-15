@@ -15,15 +15,15 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.model');
 
 class GuildsModelCategories extends JModel {
+    
     /*
      *  Gets all Categories from Database
      *  Regardles of state 
      */
-
     public function getAllCategories() {
         $db = JFactory::getDBO();
         $children = array();
-
+        
         $sql  = ' SELECT a.id, a.name, b.name AS type, b.id AS type_id, ';
         $sql .= ' a.ordering, a.published, a.parent ';
         $sql .= ' FROM #__guilds_categories AS a ';
@@ -32,7 +32,7 @@ class GuildsModelCategories extends JModel {
         
         $db->setQuery($sql);
         $categories = $db->loadObjectList();
-
+        
         // Establish hierarchy
         // First pass: collect children
         foreach ($categories as $category) {

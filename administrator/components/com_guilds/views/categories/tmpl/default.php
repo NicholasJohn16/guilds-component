@@ -45,7 +45,7 @@
                     <td class="order">
                         <span><?php echo $this->pagination->orderUpIcon($i);?></span>
                         <span><?php echo $this->pagination->orderDownIcon($i,count($this->categories));?></span>
-                        <input type="text" name="order[]" size="5" value="<?php echo $category->ordering ?>" class="text_area" style="text-align:center" />
+                        <input tabindex="<?php echo $i + 1; ?>" type="text" name="order[]" size="5" value="<?php echo $category->ordering ?>" class="text_area" style="text-align:center" />
                     </td>
                     <td style="text-align:center;">
                         <?php echo JHTML::_('grid.published',$category,$i,'publish_g.png','publish_r.png'); ?>

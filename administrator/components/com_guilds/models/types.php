@@ -187,23 +187,9 @@ class GuildsModelTypes extends JModel {
         if($result) {
             $this->setState('fields',array('name'=>$type->name));
             // then drop the column from the characters table
-            $result = $this->dropFromCharacters();
-
-            if($result) {
-                return true; // Both were deleted
-            } else {
-                // recreate the type 
-                // add it back into the table
-                $fields['name'] = $type->name;
-                $fields['ordering'] = $type->ordering;
-                $fields['published'] = $type->published;
-                $this->setState('fields',$fields);
-                $result = $this->insert();
-                return false;
-            }
-        } else {
-            return false; //because the type wasn't deleted
+            $result = $this->dropFromCharacters();            
         }
+        return $result;
     }
 
     public function saveorder() {
