@@ -185,7 +185,7 @@ class GuildsModelMembers extends JModel {
         // Load the data
         if (empty($this->members)) {
             $query = $this->buildQuery();
-            dump($query,'Query');
+            
             $db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
             $ids = $db->loadResultArray();
             

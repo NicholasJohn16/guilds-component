@@ -111,9 +111,6 @@ class GuildsModelCategories extends JModel {
         $ids = $this->getState('ids');
         $order = $this->getState('order');
 
-        //dump($ids, 'ids');
-        //dump($order, 'order');
-
         $sql = ' UPDATE #__guilds_categories ';
         $sql .= ' SET `ordering` = CASE `id` ';
         for ($i = 0; $i < count($ids); $i++) {

@@ -39,7 +39,7 @@ class GuildsViewCategories extends JView {
         JToolBarHelper::deleteList('Are you sure?','delete');
         
         $categories = $this->get('AllCategories');
-        dump($categories,'Categories');
+        
         jimport('joomla.html.pagination');
         $pagination = new JPagination(count($categories),0,count($categories));
         
@@ -62,10 +62,6 @@ class GuildsViewCategories extends JView {
         $category = $this->get('category');
         $categories = $this->get('AllCategories','categories');
         $types = $this->get('AllTypes','types');
-        
-        dump($category,'Category');
-        dump($categories,'Categories');
-        dump($types,'Types');
         
         $sql = ' SELECT ordering AS value, name AS text FROM #__guilds_categories ORDER BY ordering asc ';
         

@@ -74,7 +74,7 @@ class GuildsModelCharacters extends JModel {
         $where = $this->buildWhere();
         $order = $this->buildOrderBy();
         $query = $select . $where . $order;
-        dump($query,'Characters Query');
+        
         return $query;
     }
 
@@ -83,7 +83,7 @@ class GuildsModelCharacters extends JModel {
         $types = $types_model->getTypes();
         $category_fields = array();
         $category_joins = array();
-        dump($types);
+        
         for($i = 0,$c = 99;$i < count($types);$i++,$c++) {
             $category_fields[] = 'a.'.$types[$i]->name.' AS '.$types[$i]->name.'_id';
             $category_fields[] = chr($c).'.name AS '.$types[$i]->name.'_name';
