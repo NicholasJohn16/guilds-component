@@ -30,14 +30,14 @@ class GuildsControllerCharacters extends JController {
     /* Task Functions */
 
     function ajaxSave() {
-        $id = JRequest::getVar('id', null, '', 'int');
+        $id = JRequest::getVar('id', null, '', 'array');
         $user_id = JRequest::getVar('user_id', null, '', 'int');
         $name = JRequest::getVar('name', null, '', 'string');
         $handle = JRequest::getVar('handle',null,'','string');
         $categories = JRequest::getVar('category', array(), '', 'array');
         $checked = JRequest::getVar('checked', null, '', 'string');
         $invite = JRequest::getVar('invite', null, '', 'int');
-        
+        dump($id,'Id from controller');
         $model = $this->getModel('characters');
         $model->setState('id', $id);
         $model->setState('user_id', $user_id);
@@ -54,7 +54,7 @@ class GuildsControllerCharacters extends JController {
     }
 
     function save() {
-        $id = JRequest::getVar('id', null, '', 'int');
+        $id = JRequest::getVar('id', null, '', 'array');
         $user_id = JRequest::getVar('user_id', null, '', 'int');
         $name = JRequest::getVar('name', null, '', 'string');
         $categories = JRequest::getVar('category', array(), '', 'array');
@@ -215,7 +215,7 @@ class GuildsControllerCharacters extends JController {
     }
 
     function publish() {
-        $id = JRequest::getVar('id',NULL,'','int');
+        $id = JRequest::getVar('id',NULL,'','array');
         
         if($id == "") {
             JError::raiseError('500',"Charcter ID missing from request!");
@@ -232,7 +232,7 @@ class GuildsControllerCharacters extends JController {
     }
 
     function unpublish() {
-        $id = JRequest::getVar('id', NULL, '', 'int');
+        $id = JRequest::getVar('id', NULL, '', 'array');
 
         if ($id == "") {
             JError::raiseError('400', 'Character ID missing from request!');
@@ -249,7 +249,7 @@ class GuildsControllerCharacters extends JController {
     }
 
     function invite() {
-        $id = JRequest::getVar('id', NULL, '', 'int');
+        $id = JRequest::getVar('id', NULL, '', 'array');
         $model = $this->getModel('characters');
         $model->setState('id', $id);
         $model->setState('invite',1);
@@ -265,7 +265,7 @@ class GuildsControllerCharacters extends JController {
     }
 
     function invited() {
-        $id = JRequest::getVar('id', NULL, '', 'int');
+        $id = JRequest::getVar('id', NULL, '', 'array');
         $model = $this->getModel('characters');
         $model->setState('id', $id);
         $model->setState('invite',0);
@@ -279,7 +279,7 @@ class GuildsControllerCharacters extends JController {
     }
     
     function promoted() {
-        $id = JRequest::getVar('id',NULL,'','int');
+        $id = JRequest::getVar('id',NULL,'','array');
         $model = $this->getModel('characters');
         $model->setState('id',$id);
         $model->setState('checked',date('Y-m-d'));

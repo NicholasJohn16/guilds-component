@@ -74,7 +74,7 @@ class GuildsModelCharacters extends JModel {
         $where = $this->buildWhere();
         $order = $this->buildOrderBy();
         $query = $select . $where . $order;
-        
+        dump($query,'Query');
         return $query;
     }
 
@@ -84,12 +84,12 @@ class GuildsModelCharacters extends JModel {
         $category_fields = array();
         $category_joins = array();
         
-        for($i = 0,$c = 99;$i < count($types);$i++,$c++) {
+        for($i = 0,$c = 100;$i < count($types);$i++,$c++) {
             $category_fields[] = 'a.'.$types[$i]->name.' AS '.$types[$i]->name.'_id';
             $category_fields[] = chr($c).'.name AS '.$types[$i]->name.'_name';
         }
         
-        for($i = 0,$c = 99;$i < count($types);$i++,$c++) {
+        for($i = 0,$c = 100;$i < count($types);$i++,$c++) {
             $category_joins[] = ' LEFT JOIN #__guilds_categories AS '.chr($c).' ON '.chr($c).'.id = a.'.$types[$i]->name;
         }
         
@@ -97,10 +97,11 @@ class GuildsModelCharacters extends JModel {
                 . ' a.unpublisheddate, a.invite, a.name as name, '
                 . ' a.id AS id, a.published AS published, '
                 . ' b.sto_handle, b.tor_handle, b.gw2_handle, a.handle, '
-                . ' b.appdate, b.status, ';
+                . ' b.appdate, c.status as status, ';
         $query .= implode(', ',$category_fields);
-        $query .= " FROM #__guilds_characters AS a ";
-        $query .= " LEFT JOIN #__guilds_members AS b ON a.user_id = b.user_id ";
+        $query .= ' FROM #__guilds_characters AS a ';
+        $query .= ' LEFT JOIN #__guilds_members AS b ON a.user_id = b.user_id ';
+        $query .= ' LEFT JOIN #__guilds_ranks AS c ON b.status = c.id ';
         $query .= implode(' ',$category_joins);
 
         return $query;
@@ -179,22 +180,22 @@ class GuildsModelCharacters extends JModel {
             $query = $this->buildQuery();
             $characters = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 
-            foreach ($characters as $character) {
-                // Default all statuses to Recruit
-                $character->status = "Recruit";
-                // If they have provided an in-game handle
-                if (!empty($character->sto_handle) || !empty($character->tor_handle) || !empty($character->gw2_handle)) {
-                    // Set their status to Cadet
-                    $character->status = "Cadet";
-                    // Calculate the number of days between now and their application
-                    $seconds_ago = $today - strtotime($character->appdate);
-                    $days_ago = floor($seconds_ago / (60 * 60 * 24));
-                    // If it's great than 14, then promote them to Member
-                    if (!empty($character->appdate) && $days_ago > 14) {
-                        $character->status = "Member";
-                    }
-                }
-            }
+//            foreach ($characters as $character) {
+//                // Default all statuses to Recruit
+//                $character->status = "Recruit";
+//                // If they have provided an in-game handle
+//                if (!empty($character->sto_handle) || !empty($character->tor_handle) || !empty($character->gw2_handle)) {
+//                    // Set their status to Cadet
+//                    $character->status = "Cadet";
+//                    // Calculate the number of days between now and their application
+//                    $seconds_ago = $today - strtotime($character->appdate);
+//                    $days_ago = floor($seconds_ago / (60 * 60 * 24));
+//                    // If it's great than 14, then promote them to Member
+//                    if (!empty($character->appdate) && $days_ago > 14) {
+//                        $character->status = "Member";
+//                    }
+//                }
+//            }
 
             $this->characters = $characters;
         }
@@ -256,7 +257,7 @@ class GuildsModelCharacters extends JModel {
 
     /* Task functions */
 
-    function add() {
+    function insert() {
         // Get the database object and all necessary states
         $db = $this->getDBO();
         $fields = array();
@@ -351,7 +352,7 @@ class GuildsModelCharacters extends JModel {
         $sql  = " UPDATE #__guilds_characters SET ";
         $sql .= implode(", ", $values);
         $sql .= " WHERE id IN (".implode(',',$id).')';
-        
+        dump($sql,'Query');
         $db->setQuery($sql);
         $result = $db->query();
         return $result;
@@ -361,8 +362,10 @@ class GuildsModelCharacters extends JModel {
         $id = $this->getState('id');
 
         if ($id < 1) {
-            return $this->add();
+            dump('Add!');
+            return $this->insert();
         } else {
+            dump('Update!');
             return $this->update();
         }
     }

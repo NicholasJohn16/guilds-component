@@ -9,6 +9,7 @@
     <div class="row-fluid header">
         <div class="span2">Name</div>
         <div class="span2">Handle</div>
+        <div class="span2">Status</div>
         <?php foreach($this->types as $type):?>
             <div class="span2 com-guilds-<?php echo $type->name; ?>">
                 <?php echo ucwords($type->name); ?>
@@ -42,6 +43,9 @@
                  <?php echo $invite->handle; ?>
             </div>
         <?php endif; ?>
+        <div class="span2">
+            <?php echo $invite->status; ?>
+        </div>
         <?php foreach($this->types as $type):?>
             <?php $type_name = $type->name.'_name'; ?>
             <?php $type_id = $type->name.'_id'; ?>
@@ -77,6 +81,7 @@
 <?php endif; ?>
 </div>
 <h2>Pending Promotions</h2>
+<?php dump($this->promotions); ?>
 <?php if(count($this->promotions) == 0): ?>
     <div class="alert alert-block alert-info">
         <h4 class="alert-heading">No Pending Promotions!</h4>
@@ -87,6 +92,7 @@
     <div class="row-fluid header">
         <div class="span2">Name</div>
         <div class="span2">Handle</div>
+        <div class="span2">Status</div>
         <?php foreach($this->types as $type):?>
             <div class="span2 com-guilds-<?php echo $type->name; ?>">
                 <?php echo ucwords($type->name); ?>
@@ -134,6 +140,9 @@
                  <?php echo $promotion->$type_name; ?>
             </div>
         <?php endforeach;?>
+        <div class="span2">
+            <?php echo $promotion->status; ?>
+        </div>
         <div class="span2 com-guilds-appdate">
             <?php echo $promotion->appdate; ?>
         </div>

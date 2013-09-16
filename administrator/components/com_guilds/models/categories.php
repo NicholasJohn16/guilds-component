@@ -69,12 +69,13 @@ class GuildsModelCategories extends JModel {
         $type = $this->getState('type');
         if (empty($this->categoriesByType)) {
             $db = JFactory::getDBO();
-            $sql = ' SELECT *, id AS value, name AS text '
+            $sql = ' SELECT *, a.id AS value, a.name AS text '
                     . ' FROM #__guilds_categories AS a '
                     . ' LEFT JOIN #__guilds_types AS b ON a.type = b.id '
-                    . ' WHERE published = 1 '
-                    . ' AND type LIKE ' . $db->quote($type)
-                    . ' ORDER BY ordering ';
+                    . ' WHERE a.published = 1 '
+                    . ' AND b.name LIKE ' . $db->quote($type)
+                    . ' ORDER BY a.ordering ';
+            dump($sql,'Query');
             $db->setQuery($sql);
             $this->categoriesByType = $db->loadObjectList();
         }
