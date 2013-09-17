@@ -9,14 +9,14 @@
     <div class="row-fluid header">
         <div class="span2">Name</div>
         <div class="span2">Handle</div>
-        <div class="span2">Status</div>
+        <div class="span1">Status</div>
         <?php foreach($this->types as $type):?>
             <div class="span2 com-guilds-<?php echo $type->name; ?>">
                 <?php echo ucwords($type->name); ?>
             </div>
         <?php endforeach;?>
         <div class="span2 com-guilds-checked">Checked</div>
-        <div class="span2">Actions</div>
+        <div class="span1">Actions</div>
     </div>
     <?php foreach($this->invites as $invite):?>
     <div class="row-fluid">
@@ -43,7 +43,7 @@
                  <?php echo $invite->handle; ?>
             </div>
         <?php endif; ?>
-        <div class="span2">
+        <div class="span1">
             <?php echo $invite->status; ?>
         </div>
         <?php foreach($this->types as $type):?>
@@ -53,7 +53,7 @@
                  data-title="Select Category" 
                  data-type="select" 
                  data-pk="<?php echo $invite->id; ?>" 
-                 data-name="<?php echo $type->name; ?>" 
+                 data-name="category[<?php echo $type->name; ?>]" 
                  data-source="index.php?option=com_guilds&view=categories&format=json&type=<?php echo $type->name; ?>" 
                  data-value="<?php echo $invite->$type_id; ?>">
                  <?php echo $invite->$type_name; ?>
@@ -67,7 +67,7 @@
              data-pk="<?php echo $invite->id; ?>">
              <?php echo $invite->checked; ?>
         </div>
-        <div class="span2">
+        <div class="span1">
             <a class="btn btn-mini" 
                title="Invite Sent!" 
                href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task=invited&id='.$invite->id); ?>">
@@ -92,7 +92,7 @@
     <div class="row-fluid header">
         <div class="span2">Name</div>
         <div class="span2">Handle</div>
-        <div class="span2">Status</div>
+        <div class="span1">Status</div>
         <?php foreach($this->types as $type):?>
             <div class="span2 com-guilds-<?php echo $type->name; ?>">
                 <?php echo ucwords($type->name); ?>
@@ -127,6 +127,9 @@
                  <?php echo $promotion->handle; ?>
             </div>
         <?php endif; ?>
+        <div class="span1">
+            <?php echo $promotion->status; ?>
+        </div>
         <?php foreach($this->types as $type):?>
             <?php $type_name = $type->name.'_name'; ?>
             <?php $type_id = $type->name.'_id'; ?>
@@ -134,15 +137,12 @@
                  data-title="Select Category" 
                  data-type="select" 
                  data-pk="<?php echo $promotion->id; ?>" 
-                 data-name="<?php echo $type->name; ?>" 
+                 data-name="category[<?php echo $type->name; ?>]" 
                  data-source="index.php?option=com_guilds&view=categories&format=json&type=<?php echo $type->name; ?>" 
                  data-value="<?php echo $promotion->$type_id; ?>">
                  <?php echo $promotion->$type_name; ?>
             </div>
         <?php endforeach;?>
-        <div class="span2">
-            <?php echo $promotion->status; ?>
-        </div>
         <div class="span2 com-guilds-appdate">
             <?php echo $promotion->appdate; ?>
         </div>

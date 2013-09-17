@@ -199,7 +199,7 @@ class GuildsControllerCharacters extends JController {
     function update() {
         JRequest::setVar('template', 'component');
         $name = JRequest::getVar('name',NULL, '', 'string');
-        $id = JRequest::getVar('pk', NULL, '', 'int');
+        $id = JRequest::getVar('pk', NULL, '', 'array');
         $value = JRequest::getVar('value', NULL, '', 'string');
         $model = $this->getModel('characters');
         $model->setState('id',$id);
