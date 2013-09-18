@@ -1,192 +1,125 @@
+<?php 
+    $fleets = $this->fleets;
+    $holdings = $this->holdings;
+    $tiers = $this->tiers;
+?>
 <div class="container-fluid">
     <div class="tabbable">
         <ul class="nav nav-tabs">
-            <li style="margin-left:125px;" class="active">
-                <a href="#swf" data-toggle="tab">
-                    Stonewall Fleet
-                </a>
-            </li>
-            <li>
-                <a href="#dss" data-toggle="tab">
-                    Deep Space Stonewall
-                </a>
-            </li>
-            <li>
-                <a href="#hnr" data-toggle="tab">
-                    House of Nagh reD
-                </a>
-            </li>
-            <li>
-                <a href="#swl" data-toggle="tab">
-                    Stonewall Legion
-                </a>
-            </li>
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    Other
-                    <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a href="#cc" data-toggle="tab">
-                            Crafting Corp
+            <?php $first = true; ?>
+            <?php foreach($fleets as $code => $fleet): ?>
+                <?php if(!is_array($fleet)): ?>
+                    <li <?php if($first) echo 'class="active" style="margin-left:125px;"'; ?>>
+                        <a href="#<?php echo $code;?>" data-toggle="tab">
+                            <?php echo $fleet; ?>
                         </a>
                     </li>
-                    <li>
-                        <a href="#swv" data-toggle="tab">
-                            Stonewall Vault
+                <?php else: ?>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Other
+                            <b class="caret"></b>
                         </a>
+                        <ul class="dropdown-menu">
+                            <?php foreach($fleet as $other_code => $other_name): ?>
+                                <li>
+                                    <a href="#<?php echo $other_code; ?>" data-toggle="tab">
+                                        <?php echo $other_name; ?>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
                     </li>
-                </ul>
-            </li>
+                <?php endif; ?>
+                <?php $first = false; ?>
+            <?php endforeach;?>
         </ul>
         <div class="tab-content">
-            <div class="tab-pane active" id="swf">
-                <div class="tabbable tabs-left">
-                    <ul class="nav nav-tabs">
-                        <li class="active">
-                            <a href="#swf-starbase" data-toggle="tab">
-                                Starbase Diversity
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#swf-embassy" data-toggle="tab">
-                                Embassy
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#swf-mine" data-toggle="tab">
-                                Dilithium Mine
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="swf-starbase">
-                            <h2>Starbase</h2>
-                            <div class="progress">
-                                <div class="bar bar-success" style="width:100%;"></div>
+            <?php $first = true; ?>
+            <?php foreach($fleets as $code => $name): ?>
+                <?php if(!is_array($name)): ?>
+                    <div class="tab-pane <?php if($first) echo 'active' ?>" id="<?php echo $code;?>">
+                        <div class="tabbable tabs-left">
+                            <ul class="nav nav-tabs" style="width:125px;">
+                                <?php $first = true; ?>
+                                <?php foreach($holdings[$code] as $short => $holding): ?>
+                                    <li <?php if($first) echo 'class="active"';?>>
+                                        <a href="#<?php echo $code.'-'.$short; ?>" data-toggle="tab">
+                                            <?php echo $holding; ?>
+                                        </a>
+                                    </li>
+                                    <?php $first = false; ?>
+                                <?php endforeach; ?>
+                            </ul>
+                            <div class="tab-content">
+                                <?php $first = true; ?>
+                                <?php foreach($holdings[$code] as $short => $holding):?>
+                                    <div class="tab-pane <?php if($first) echo 'active'; ?>" id="<?php echo $code.'-'.$short; ?>">
+                                        <div class="row-fluid">
+                                            <div class="span6">
+                                                <img src="http://placehold.it/295x295">
+                                            </div>
+                                            <div class="span6">
+                                                <?php $first = true; ?>
+                                                <?php foreach($tiers[$short] as $tier_name => $tier_count): ?>
+                                                    <h2 <?php if(!$first) echo 'style="display:inline;margin-left:50px;"'?>>
+                                                        <?php echo ucfirst($tier_name); ?>
+                                                    </h2>
+                                                    <div class="row-fluid">
+                                                        <?php for($i = 0;$i < $tier_count;$i++): ?>
+                                                        <div class="span2" <?php if(!$first && $i == 0) echo 'style="margin-left:50px;"'; ?>>
+                                                            <div class="progress">
+                                                                <div class="bar" style="width:100%;"></div>
+                                                            </div>
+                                                        </div>
+                                                        <?php endfor; ?>
+                                                    </div>
+                                                    <?php $first = false; ?>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php $first = false; ?>
+                                <?php endforeach; ?>
+                                
                             </div>
-                            <div style="margin-left:100px;">
-                                <h2>Military</h2>
-                                <div class="progress progress-danger">
-                                    <div class="bar" style="width:100%;">
-                                    </div>
-                                </div>
-                                <h2>Engineering</h2>
-                                <div class="progress progress-warning">
-                                    <div class="bar" style="width:100%;">
-                                    </div>
-                                </div>
-                                <h2>Science</h2>
-                                <div class="progress progress-info">
-                                    <div class="bar" style="width:100%;">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="swf-embassy">
-
-                        </div>
-                        <div class="tab-pane" id="swf-mine">
-
                         </div>
                     </div>
+                <?php endif; ?>
+                <?php $first = false; ?>
+            <?php endforeach; ?>
+            <div class="tab-pane" id="cc">
+                <div class="alert alert-block alert-info">
+                    <h4>Crafting Corp</h4>
+                    <p>This fleet is not open to general membership.  
+                        Instead, it's utilized as storage for the 
+                        Fleet's crafting materials.  These items are used by the
+                        Crafting Corp to craft items for the general membership. If 
+                        you're interested in joining the Crafting Corp 
+                        and volunteering your services, please contact 
+                        the Chief of Fleet Resources.            
+                    </p>
                 </div>
+                <div class="alert alert-info">
+                    <p>
+                        The holdings in this fleet are not currently being developed.
+                    </p>
+                </div>        
             </div>
-            <div class="tab-pane" id="dss">
-                <div class="tabbable tabs-left">
-                    <ul class="nav nav-tabs">
-                        <li class="active">
-                            <a href="#dss-starbase" data-toggle="tab">
-                                Starbase Equality
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#dss-embassy" data-toggle="tab">
-                                Embassy
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#dss-mine" data-toggle="tab">
-                                Dilithium Mine
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="dss-starbase">
-
-                        </div>
-                        <div class="tab-pane" id="dss-embassy">
-
-                        </div>
-                        <div class="tab-pane" id="dss-mine">
-
-                        </div>
-                    </div>
+            <div class="tab-pane" id="swv">
+                <div class="alert alert-block alert-info">
+                    <h4>Stonewall Vault</h4>
+                    <p>
+                        This fleet is not open to general membership.  Instead, it's
+                        utilized as storage for items donated to fleet as prizes for 
+                        future events.  Currently, only Admirals and some Fleet Captains
+                        have access to this fleet.
+                    </p>
                 </div>
-            </div>
-            <div class="tab-pane" id="hnr">
-                <div class="tabbable tabs-left">
-                    <ul class="nav nav-tabs">
-                        <li class="active">
-                            <a href="#hnr-starbase" data-toggle="tab">
-                                Starbase Strength
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#hnr-embassy" data-toggle="tab">
-                                Embassy
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#hnr-mine" data-toggle="tab">
-                                Dilithium Mine
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="hnr-starbase">
-
-                        </div>
-                        <div class="tab-pane" id="hnr-embassy">
-
-                        </div>
-                        <div class="tab-pane" id="hnr-mine">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane" id="swl">
-                <div class="tabbable tabs-left">
-                    <ul class="nav nav-tabs">
-                        <li class="active">
-                            <a href="#swl-starbase" data-toggle="tab">
-                                Starbase
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#swl-embassy" data-toggle="tab">
-                                Embassy
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#swl-mine" data-toggle="tab">
-                                Dilithium Mine
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="swl-starbase">
-
-                        </div>
-                        <div class="tab-pane" id="swl-embassy">
-
-                        </div>
-                        <div class="tab-pane" id="swl-mine">
-
-                        </div>
-                    </div>
+                <div class="alert alert-info">
+                    <p>
+                        The holdings in this fleet are not currently being developed.
+                    </p>
                 </div>
             </div>
         </div>
