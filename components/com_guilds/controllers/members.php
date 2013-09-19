@@ -26,6 +26,9 @@ class GuildsControllerMembers extends JController {
         if ($user->guest) {
             $mainframe->redirect('index.php?option=com_user&view=login');
         }
+        
+        $params = JComponentHelper::getParams('com_guilds');
+        dump($params->get('admin_groups'));
 
         parent::__construct();
     }

@@ -16,6 +16,7 @@ class GuildsViewGuilds extends JView {
 
     function display($tpl = null) {
         JToolBarHelper::title(JText::_('Guilds Manager'), 'generic.png');
+        JToolBarHelper::preferences('com_guilds');
         parent::display($tpl);
     }
 
