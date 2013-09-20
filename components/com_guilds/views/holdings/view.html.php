@@ -51,11 +51,6 @@ class GuildsViewHoldings extends JView {
                 'starbase'=>'Starbase',
                 'embassy'=>'Embassy',
                 'mine'=>'Dilithium Mine'
-            ),
-            'other'=>array(
-                'starbase'=>'Starbase',
-                'embassy'=>'Embassy',
-                'mine'=>'Dilihtium Mine'
             )
         );
         
