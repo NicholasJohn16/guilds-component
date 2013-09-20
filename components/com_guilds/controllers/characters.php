@@ -17,16 +17,27 @@ jimport('joomla.application.component.controller');
 class GuildsControllerCharacters extends JController {
 
     function __construct($config = array()) {
-        // When the drop task is called, use the unpublish function
-        //$this->registerTask('drop','unpublish');
+        // Add admin models folder as model path
         $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR . DS . 'models');
+                
         $user = & JFactory::getUser();
+        $params = JComponentHelper::getParams('com_guilds');
+        $admin_groups = $params->get('admin_groups');
+        $layout = JRequest::getCmd('layout');
+        
         if ($user->guest) {
-            $this->setRedirect('index.php?option=com_user&view=login');
+            $url = JRoute::_('index.php?option=com_user&view=login',false);
+            $this->setRedirect($url);
+        } else {
+            if(in_array($layout,array('roster','pending','admin-form')) 
+                    && !in_array($user->gid,$admin_groups)) {
+                JError::raiseError(403,'Only Admins may access this page.');
+            }
         }
+        
         parent::__construct($config);
     }
-
+    
     /* Task Functions */
 
     function ajaxSave() {

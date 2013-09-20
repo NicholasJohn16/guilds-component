@@ -20,16 +20,26 @@ jimport('joomla.application.component.controller');
 class GuildsControllerMembers extends JController {
 
     function __construct() {
-        global $mainframe;
+        // Add the admin models folder as a model path
         $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models');
-        $user = & JFactory::getUser();
+        
+        $user = JFactory::getUser();
+        $params = JComponentHelper::getParams('com_guilds');
+        $admin_groups = $params->get('admin_groups');
+        $layout = JRequest::getCmd('layout');
+        
+        dump($user,'User');
+        dump($admin_groups,'Groups');
+        
         if ($user->guest) {
-            $mainframe->redirect('index.php?option=com_user&view=login');
+            $url = JRoute::_('index.php?option=com_user&view=login',false);
+            $this->setRedirect($url,$msg,$type);
+        } else {
+            if(in_array($layout,array('default','form')) && !in_array($user->gid,$admin_groups)) {
+               JError::raiseError(403,'Only Admins may access this page.');
+            }
         }
         
-        $params = JComponentHelper::getParams('com_guilds');
-        dump($params->get('admin_groups'));
-
         parent::__construct();
     }
 
