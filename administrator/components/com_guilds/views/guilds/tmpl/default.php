@@ -34,3 +34,7 @@ defined('_JEXEC') or die('Restricted access');
         </a>
     </div>
 </div>
+<form name="adminForm" action="index.php" method="post">
+    <input type="hidden" name="option" value="com_guilds"/>
+    <input type="hidden" name="task" value=""/>
+</form>

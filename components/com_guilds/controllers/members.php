@@ -28,9 +28,6 @@ class GuildsControllerMembers extends JController {
         $admin_groups = $params->get('admin_groups');
         $layout = JRequest::getCmd('layout');
         
-        dump($user,'User');
-        dump($admin_groups,'Groups');
-        
         if ($user->guest) {
             $url = JRoute::_('index.php?option=com_user&view=login',false);
             $this->setRedirect($url,$msg,$type);

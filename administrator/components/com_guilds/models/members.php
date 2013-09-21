@@ -52,13 +52,13 @@ class GuildsModelMembers extends JModel {
         // Get pagination request variables
         $limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
         $limitstart = $mainframe->getUserStateFromRequest($option . 'limitstart', 'limitstart', 0);
-        
+
         // Get filter values for Roster view
         $order = $mainframe->getUserStateFromRequest($option . $view . $layout . 'order', 'order', null, 'cmd');
         $direction = $mainframe->getUserStateFromRequest($option . $view . $layout . 'direction', 'direction', null, 'word');
         $search = $mainframe->getUserStateFromRequest($option . $view . $layout . 'search', 'search', '', 'string');
         $filter_type = $mainframe->getUserStateFromRequest($option . $view . $layout . 'filter_type', 'filter_type', array(), 'array');
-        
+
         // In case limit has been changed, adjust it
         //$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 
@@ -81,15 +81,17 @@ class GuildsModelMembers extends JModel {
     }
 
     function buildSelect() {
-
-        $select = " SELECT a.user_id as id "
-                // . ", a.username, b.appdate, b.status, b.tbd, "
-                // . " b.sto_handle, b.gw2_handle, b.tor_handle, c.status "
-                //. " FROM jos_users AS a "
-                . " FROM #__guilds_members AS a "
-                . " LEFT JOIN #__guilds_ranks AS b ON a.status = b.id ";
-
+        $select = ' SELECT a.user_id as id, a.username AS username, a.appdate, b.status AS status, '
+                . ' a.notes, a.edit_id, c.username as editor, a.edit_time, '
+                . ' a.sto_handle, a.gw2_handle, a.tor_handle ';
         return $select;
+    }
+    
+    function buildFrom() {
+        $from = ' FROM `#__guilds_members` AS a '
+              . ' LEFT JOIN  `#__guilds_ranks` as b on a.status = b.id '
+              . ' LEFT JOIN `#__guilds_members` AS c ON a.edit_id = c.user_id ';
+        return $from;
     }
 
     function buildWhere() {
@@ -110,25 +112,13 @@ class GuildsModelMembers extends JModel {
                     $conditions[] = ' LOWER(a.sto_handle) LIKE "%' . $term . '%" ';
                     $conditions[] = ' LOWER(a.tor_handle) LIKE "%' . $term . '%" ';
                     $conditions[] = ' LOWER(a.gw2_handle) LIKE "%' . $term . '%" ';
-                    $conditions[] = ' LOWER(b.status) LIKE "%' . $term . '%" ';
+                    // Removed because searching by status doesn't work
+                    //$conditions[] = ' LOWER(b.status) LIKE "%' . $term . '%" ';
                 }
             }
         }
 
         $where = implode(" OR ", $conditions);
-
-//                if($users != null) {
-//                    $conditions[] = array("AND","a.id","IN",'('.implode(',',$users).')');
-//                }
-//	    	if(count($conditions) == 1 ) {
-//	    		$where .= " ".$conditions[0][0]." ".$conditions[0][1]." ".$conditions[0][2]." ".$conditions[0][3]." ";
-//	    	} elseif(count($conditions) > 1) {
-//	    		$where .= " AND ( ";
-//				foreach($conditions as $condition) {
-//					$where .= " ".$condition[0]." ".$condition[1]." ".$condition[2]." ".$condition[3]." ";	
-//				}
-//				$where .= " ) ";
-//	    	}
 
         if ($where != "") {
             return " WHERE " . $where;
@@ -140,18 +130,7 @@ class GuildsModelMembers extends JModel {
         $direction = $this->getState('direction');
 
         if ($order != null || $direction != null) {
-//            switch ($order) {
-//                case 'id':
-//                case 'username':
-//                case 'user_id':
-                    $orderBy = ' ORDER BY a.' . $order . ' ' . $direction;
-//                    break;
-//                case 'status':
-//                    $orderBy = ' ORDER BY b.status ' . $direction;
-//                    break;
-//                default:
-//                    $orderBy = ' ORDER BY b.' . $order . ' ' . $direction;
-//            }
+            $orderBy = ' ORDER BY a.' . $order . ' ' . $direction;
         }
 
         if (isset($orderBy)) {
@@ -164,14 +143,12 @@ class GuildsModelMembers extends JModel {
         $db = JFactory::getDBO();
 
         if (empty($this->member)) {
-            $sql = ' SELECT a.id, a.user_id, a.username AS username, a.appdate, b.status AS status, '
-                    . ' a.notes, a.edit_id, c.username as editor, a.edit_time, '
-                    . ' a.sto_handle, a.gw2_handle, a.tor_handle '
-                    . ' FROM `#__guilds_members` AS a '
-                    . ' LEFT JOIN  `#__guilds_ranks` as b on a.status = b.id '
-                    . ' LEFT JOIN `#__guilds_members` AS c ON a.edit_id = c.user_id '
-                    //. ' LEFT JOIN `#__guilds_members` AS d ON a.user_id = d.user_id '
-                    . ' WHERE a.user_id = ' . $id;
+            
+            $sql = $this->buildSelect();
+            $sql .= $this->buildFrom();
+            $sql .= ' WHERE a.user_id = ' . $id;
+            $sql .= ' LIMIT 1 ';
+            
             $db->setQuery($sql);
             $this->member = $db->loadObject();
         }
@@ -181,42 +158,93 @@ class GuildsModelMembers extends JModel {
 
     function getMembers() {
         $db = JFactory::getDBO();
-        
+
         // Load the data
         if (empty($this->members)) {
-            $query = $this->buildQuery();
-            
-            $db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
-            $ids = $db->loadResultArray();
-            
-            // Incase no matching members were found
-            // return false
-            if (empty($ids)) {
-                return false;
+            $ids = $this->getMemberIDs();
+            // If no ids were found, return false
+            if(empty($ids)) {
+                return false; 
+            } else {
+                $this->setState('ids',$ids);
+                $members = $this->getMembersByIds();
+                dump($members,'Members');
+                
+                $this->setState('members',$members);
+                $this->updateStatus();
+                
+                $this->members = $this->getMembersByIds();
             }
-            $this->setState('ids', $ids);
-            $members = $this->getMembersByIds();
-            $this->setState('members', $members);
-            $this->members = $this->updateStatus();
+            
         }
         return $this->members;
+    }
+    
+    function getMemberIDs() {
+        $db = JFactory::getDBO();
+        
+        if(empty($this->ids)) {
+            $sql = ' SELECT a.user_id ';
+            $sql .= $this->buildFrom();
+            $sql .= $this->buildWhere();
+            $sql .= $this->buildOrderBy();
+            
+            $db->setQuery($sql,$this->getState('limitstart'),$this->getState('limit'));
+            $this->ids = $db->loadResultArray();
+        }
+        
+        return $this->ids;
     }
 
     function getMembersByIds() {
         $db = JFactory::getDBO();
         $ids = $this->getState('ids');
 
-        $query = " SELECT a.user_id as id, "
-                . " a.username, a.appdate, a.status, a.tbd, "
-                . " a.sto_handle, a.gw2_handle, a.tor_handle, b.status "
-                . " FROM #__guilds_members AS a "
-                . " LEFT JOIN #__guilds_ranks AS b ON a.status = b.id ";
-        $query .= " WHERE a.user_id IN (" . implode(',', $ids) . ")";
-        $query .= $this->buildOrderBy();
-        $db->setQuery($query);
+        $sql  = $this->buildSelect();
+        $sql .= $this->buildFrom();
+        $sql .= ' WHERE a.user_id IN ('.implode(',',$ids).');';
+        $sql .= $this->buildOrderBy();
+        $db->setQuery($sql);
         $members = $db->loadObjectList();
-        
+
         return $members;
+    }
+    
+    function updateStatus() {
+        $members = $this->getState('members');
+        $db = JFactory::getDBO();
+        $today = time();
+        $fields = array();
+        $ids = array();
+
+        foreach ($members as $member) {
+            $member->status = 4;  // Recruit
+            if (!empty($member->sto_handle) || !empty($member->tor_handle) || !empty($member->gw2_handle)) {
+                $member->status = 5; // Cadet
+
+                $seconds_ago = $today - strtotime($member->appdate);
+                $days_ago = floor($seconds_ago / (60 * 60 * 24));
+                if (!empty($member->appdate) && $days_ago > 14) {
+                    $member->status = 6; // Member
+                }
+            }
+        }
+        
+        foreach($members as $member) {
+            $fields[] = ' WHEN '.$member->id.' THEN '.$member->status;
+            $ids[] = $member->id;
+        }
+        
+        $sql  = ' UPDATE #__guilds_members ';
+        $sql .= ' SET `status` = CASE `user_id` ';
+        $sql .= implode(' ',$fields);
+        $sql .= ' END ';
+        $sql .= ' WHERE `user_id` IN ('.implode(',',$ids).') ';
+        dump($sql,'Query');
+        $db->setQuery($sql);
+        $result = $db->query();
+
+        return $result;
     }
 
     function getHandleList() {
@@ -256,8 +284,12 @@ class GuildsModelMembers extends JModel {
     function getTotal() {
         // Load the content if it doesn't already exist
         if (empty($this->total)) {
-            $query = $this->buildQuery();
-            $this->total = $this->_getListCount($query);
+            
+            $sql = ' SELECT a.id ';
+            $sql .= $this->buildFrom();
+            $sql .= $this->buildWhere();
+            
+            $this->total = $this->_getListCount($sql);
         }
         return $this->total;
     }
@@ -270,54 +302,7 @@ class GuildsModelMembers extends JModel {
         }
         return $this->pagination;
     }
-
-    function updateStatus() {
-        $members = $this->getState('members');
-        $today = time();
-
-        foreach ($members as $member) {
-            $member->status = "Recruit";
-            if (!empty($member->sto_handle) || !empty($member->tor_handle) || !empty($member->gw2_handle)) {
-                $member->status = "Cadet";
-
-                $seconds_ago = $today - strtotime($member->appdate);
-                $days_ago = floor($seconds_ago / (60 * 60 * 24));
-                if (!empty($member->appdate) && $days_ago > 14) {
-                    $member->status = "Member";
-                }
-            }
-        }
-
-        return $members;
-    }
-
-    function getForumRanks() {
-        $users = $this->getState('member_ids');
-
-        if (empty($this->forumRanks)) {
-            $db = JFactory::getDBO();
-            $query = " SELECT `userid`, `rank`, `rank_title` "
-                    . " FROM `jos_kunena_users` AS a "
-                    . " LEFT JOIN `jos_kunena_ranks` AS b ON a.rank = b.rank_id"
-                    . " AND `user_id` IN (" . implode(",", $users) . ");";
-            $db->setQuery($query);
-            $this->forumRanks = $this->loadObjectList();
-        }
-
-        return $this->handles;
-    }
-
-    function getRanks() {
-        if (empty($this->ranks)) {
-            $db = & JFactory::getDBO();
-            $query = " SELECT " . $db->nameQuote('rank_id') . " AS value, " . $db->nameQuote('rank_title') . " AS text";
-            $query .= " FROM " . $db->nameQuote('#__kunena_ranks');
-            $db->setQuery($query);
-            $this->ranks = $db->loadObjectList();
-        }
-        return $this->ranks;
-    }
-
+    
     function update() {
         $id = $this->getState('id');
         $db = JFactory::getDBO();
@@ -328,29 +313,31 @@ class GuildsModelMembers extends JModel {
         $fields['gw2_handle'] = $this->getState('gw2_handle');
         $fields['appdate'] = $this->getState('appdate');
         $fields['notes'] = $this->getState('notes');
-        
-        foreach($fields as $name => $value) {
-            if($value === NULL) {
+        $fields['edit_id'] = JFactory::getUser()->id;
+        $fields['edit_time'] = date('Y-m-d H:i:s');
+
+        foreach ($fields as $name => $value) {
+            if ($value === NULL) {
                 unset($fields[$name]);
             }
-            if($value === "") {
+            if ($value === "") {
                 $fields[$name] = 'NULL';
-            } elseif(is_string($value)) {
+            } elseif (is_string($value)) {
                 $fields[$name] = $db->quote($value);
             }
         }
-        
-        foreach($fields as $name => $value) {
-            $values[] = " `".$name."` = ".$value." ";
+
+        foreach ($fields as $name => $value) {
+            $values[] = " `" . $name . "` = " . $value . " ";
         }
-        
-        $sql  = ' UPDATE #__guilds_members SET ';
+
+        $sql = ' UPDATE #__guilds_members SET ';
         $sql .= implode(", ", $values);
         $sql .= ' WHERE `user_id` = ' . $id;
-        
+        dump($sql, 'Query');
         $db->setQuery($sql);
         $result = $db->query();
-        
+
         return $result;
     }
 

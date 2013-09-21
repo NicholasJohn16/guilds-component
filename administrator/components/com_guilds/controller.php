@@ -18,5 +18,20 @@ class GuildsController extends JController {
     function display() {
         parent::display();
     }
+    
+    public function rebuildTables() {
+        $model = $this->getModel('guilds');
+        $result = $model->rebuildTables();
+                
+        if($result) {
+            $msg = 'Tables were rebuilt.';
+            $type = 'message';
+        } else {
+            $msg = 'Rebuilding failed.';
+            $type = 'error';
+        }
+        $url = JRoute::_('index.php?option=com_guilds',false);
+        $this->setRedirect($url,$msg,$type);
+    }
 
 }
