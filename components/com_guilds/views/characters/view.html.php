@@ -101,7 +101,12 @@ class GuildsViewCharacters extends JView {
             $document->setBuffer(false, 'modules',$position);
         }
         
-
+        // Get the menu item params
+        $itemId = JRequest::getInt('Itemid');
+        $menu = JSite::getMenu();
+        $params = $menu->getParams($itemId);
+        $game_handle = $params->get('game_handle');
+        
         // Get data from the model
         $characters = & $this->get('Characters');
         $pagination = & $this->get('Pagination');
@@ -117,6 +122,7 @@ class GuildsViewCharacters extends JView {
         $this->assignRef('types', $types);
         $this->assignRef('categories', $categories);
         $this->assignRef('pagination', $pagination);
+        $this->assignRef('game_handle',$game_handle);
 
         parent::display();
     }
@@ -165,6 +171,11 @@ class GuildsViewCharacters extends JView {
         foreach($positions as $position) {
             $document->setBuffer(false, 'modules',$position);
         }
+        // Get menu item params
+        $itemId = JRequest::getInt('Itemid');
+        $menu = JSite::getMenu();
+        $params = $menu->getParams($itemId);
+        $game_handle = $params->get('game_handle');
         
 
         $invites = $this->get('pendingInvites');
@@ -174,6 +185,7 @@ class GuildsViewCharacters extends JView {
         $this->assignRef('invites', $invites);
         $this->assignRef('promotions', $promotions);
         $this->assignRef('types', $types);
+        $this->assignRef('game_handle',$game_handle);
 
         parent::display();
     }

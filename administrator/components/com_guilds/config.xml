@@ -1,33 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<install type="component" version="1.5.0">
-    <name>Guilds Manager</name>
-    <creationDate>2011-05-23</creationDate>
-    <author>Stonewall Gaming Network</author>
-    <authorEmail>us@stonewallgaming.net</authorEmail>
-    <authorUrl>http://stonewallgaming.net</authorUrl>
-    <copyright>2013</copyright>
-    <version>1.0</version>
-    <description>A tool for managing the Stonewall Gaming Network</description>
-    
-    <files folder="site">
-        <filename>index.html</filename>
-    </files>
-    
-    <administration>
-        <menu>Guilds Manager</menu>
-        <submenu>
-            <menu view="members">Members</menu>
-            <menu view="characters">Characters</menu>
-            <menu view="categories">Categories</menu>
-            <menu view="types">Types</menu>
-        </submenu>
-        <files folder="admin">
-            <filename>index.html</filename>
-        </files>    
-    </administration>
-    
+<root>
     <params>
         <param name="admin_groups" type="usergroup" default="24|25" label="Select Admin groups" multiple="yes" />
     </params>
-    
-</install>
+</root>

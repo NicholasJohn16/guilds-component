@@ -1,4 +1,5 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php $game_handle = $this->game_handle; ?>
 <form id="members-form" class="fluid-container" action="<?php echo JRoute::_('index.php?option=com_guilds&view=members'); ?>" method="post">
     <div class="navbar">
         <div class="navbar-inner">
@@ -19,7 +20,7 @@
         <ul class="nav nav-pills">
             <li class="span1"><?php echo $this->sortable("#", "id"); ?></li>
             <li class="span3"><?php echo $this->sortable("Username"); ?></li>
-            <li class="span2"><?php echo $this->sortable("@Handle", "sto_handle"); ?></li>
+            <li class="span2"><?php echo $this->sortable("Handle",$game_handle); ?></li>
             <li class="span2"><?php echo $this->sortable("Introduction", "appdate"); ?></li>
             <li class="span2"><?php echo $this->sortable("Status"); ?></li>
             <li class="span3">Forum Rank</li>
@@ -48,7 +49,7 @@
                             <img src="components/com_guilds/media/img/contact.png"/>
                         </a>
                     </div>
-                    <div class="editable handle span2" data-name="sto_handle" data-pk="<?php echo $member->id; ?>"><?php echo $member->sto_handle; ?></div>
+                    <div class="editable handle span2" data-name="<?php echo $game_handle; ?>" data-pk="<?php echo $member->id; ?>"><?php echo $member->$game_handle; ?></div>
                     <div class="editable intro span2" data-pk="<?php echo $member->id; ?>"><?php echo $member->appdate; ?></div>
                     <div class="span2"><?php echo $member->status; ?></div>
                     <div class="editable rank span3" data-pk="<?php echo $member->id; ?>" data-value="<?php //echo $member->rank_id;  ?>"><?php //echo $member->rank_title; ?></div>

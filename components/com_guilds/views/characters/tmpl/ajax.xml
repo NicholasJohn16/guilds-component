@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="Ajax" hidden="true">
+        <message>
+            Loads of a list of characters for a user using Ajax.
+        </message>
+    </layout>
+</metadata>

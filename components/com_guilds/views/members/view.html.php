@@ -46,6 +46,11 @@ class GuildsViewMembers extends JView {
             $document->setBuffer(false, 'modules',$position);
         }
         
+        $itemId = JRequest::getInt('Itemid');
+        $menu = JSite::getMenu();
+        $params = $menu->getParams($itemId);
+        $game_handle = $params->get('game_handle');
+        
         $members = $this->get('Members');
         $pagination = $this->get('Pagination');
         $ranks = $this->get('Ranks');
@@ -65,6 +70,7 @@ class GuildsViewMembers extends JView {
         $this->assignRef('ranks',$ranks);
         $this->assignRef('types',$types);
         $this->assignRef('categories', $categories);
+        $this->assignRef('game_handle',$game_handle);
     }
     
     function displayForm() {

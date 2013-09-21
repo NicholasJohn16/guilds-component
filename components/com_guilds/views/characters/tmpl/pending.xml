@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="Pending">
+        <message>
+            Displays a list of characters that need to be promoted or invited.
+        </message>
+    </layout>
+    <state>
+        <name>Pending Layout</name>
+        <description>Displays a list of characters that currently need promoting or inviting.</description>
+        
+        <params>
+            <param name="game_handle" type="list" default="sto_handle" label="Game Handle">
+                <option value="sto_handle">Cryptic @Handle (STO)</option>
+                <option value="tor_handle">TOR Forum Name (TOR)</option>
+                <option value="gw2_handle">Guild Wars 2 Username (GW2)</option>
+            </param>
+            <param name="game" type="sql" label="Filter by Game" key_field="id" value_field="name" query="SELECT a.id, a.name FROM #__guilds_categories AS a LEFT JOIN #__guilds_types AS b ON a.type = b.id WHERE b.name = 'game' " />
+        </params>
+        <advanced>
+
+        </advanced>
+    </state>
+</metadata>

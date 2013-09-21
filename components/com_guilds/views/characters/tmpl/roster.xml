@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-    <layout title="Members">
+    <layout title="Roster">
         <message>
-            Displays a list of users currently registered on Stonewall Gaming Network sites.
+            Displayes a lost of all characters in all Stonewall Gaming Network guilds.
         </message>
     </layout>
     <state>
-        <name>Members Layout</name>
-        <description>Displays a list of users currently registered on Stonewall Gaming Network sites.</description>
+        <name>Roster Layout</name>
+        <description>Displays a list of all characters in all Stonewall Gaming Network guilds.</description>
         
         <params>
             <param name="game_handle" type="list" default="sto_handle" lable="Game Handle">

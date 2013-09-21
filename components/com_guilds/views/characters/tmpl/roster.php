@@ -1,3 +1,4 @@
+<?php $game_handle = $this->game_handle; ?>
 <form action="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&layout=roster'); ?>" method="post" id="roster-form">
     <div class="navbar">
         <div class="navbar-inner">
@@ -72,10 +73,10 @@
                 <?php if($character->handle === NULL) : ?>
                     <div class="span2 editable"
                          data-title="Edit Handle"
-                         data-name="sto_handle"
+                         data-name="<?php echo $game_handle; ?>"
                          data-pk="<?php echo $character->user_id; ?>"
                          data-url="index.php?option=com_guilds&view=members&task=ajaxSave&format=raw">
-                             <?php echo $character->sto_handle; ?>
+                             <?php echo $character->$game_handle; ?>
                     </div>
                 <?php else: ?>
                     <div class="span2 editable"

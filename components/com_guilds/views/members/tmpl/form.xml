@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="Form" hidden="true">
+        <message>
+            Form to edit a user.
+        </message>
+    </layout>
+</metadata>

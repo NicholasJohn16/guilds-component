@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="Admin-form" hidden="true">
+        <message>
+            Form for admins to add characters for any user.  Only loaded in modals.
+        </message>
+    </layout>
+</metadata>

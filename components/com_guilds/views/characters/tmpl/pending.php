@@ -1,3 +1,4 @@
+<?php $game_handle = $this->game_handle; ?>
 <h2>Pending Invites</h2>
 <?php if(count($this->invites) == 0): ?>
     <div class="alert alert-block alert-info">
@@ -29,10 +30,10 @@
         <?php if($invite->handle === NULL): ?>
             <div class="span2 editable" 
                  data-title="Update Handle" 
-                 data-name="sto_handle" 
+                 data-name="<?php echo $game_handle; ?>" 
                  data-pk="<?php echo $invite->user_id; ?>"
                  data-url="index.php?option=com_guilds&view=members&task=ajaxSave&format=raw">
-                 <?php echo $invite->sto_handle; ?>
+                 <?php echo $invite->$game_handle; ?>
             </div>
         <?php else: ?>
             <div class="span2 editable" 
@@ -113,10 +114,10 @@
         <?php if($promotion->handle === NULL): ?>
             <div class="span2 editable" 
                  data-title="Update Handle" 
-                 data-name="sto_handle" 
+                 data-name="<?php echo $game_handle; ?>" 
                  data-pk="<?php echo $promotion->user_id; ?>"
                  data-url="index.php?option=com_guilds&view=members&task=ajaxSave&format=raw">
-                 <?php echo $promotion->sto_handle; ?>
+                 <?php echo $promotion->$game_handle; ?>
             </div>
         <?php else: ?>
             <div class="span2 editable" 

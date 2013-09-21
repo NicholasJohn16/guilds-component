@@ -16,9 +16,7 @@ class GuildsViewGuilds extends JView {
 
     function display($tpl = null) {
         JToolBarHelper::title(JText::_('Guilds Manager'), 'generic.png');
-        // Path should be 'administrator'.DS.'components'.DS.'com_guilds'.DS.'installation.xml'
-        // or try seperating config and install xmls
-        JToolBarHelper::preferences('com_guilds');
+        JToolBarHelper::preferences('com_guilds',350);
         parent::display($tpl);
     }
 
