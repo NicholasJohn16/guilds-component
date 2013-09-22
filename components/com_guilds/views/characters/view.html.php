@@ -244,7 +244,7 @@ class GuildsViewCharacters extends JView {
         }
         $html .= '</a>';
 
-        return $html;
+        echo $html;
     }
 
 }

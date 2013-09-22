@@ -37,32 +37,36 @@
     </div>
     <div class="com-guilds container-fluid">
         <div class="row-fluid header">
-            <div class="span1">
+            <div class="span1" style="width:30px;">
                 <input type="checkbox" name="toggle" value="" id="checkAll" />
+            </div>
+            <div class="span1">
                 <?php echo $this->sortable("ID"); ?>
             </div>
-            <div class="span1"><?php echo $this->sortable("Name"); ?></div>
-            <div class="span2"><?php echo $this->sortable("Handle"); ?></div>
-            <div class="span1"><?php echo 'Status'; ?></div>
+            <div class="span1"><?php $this->sortable("Name"); ?></div>
+            <div class="span2"><?php $this->sortable("Handle"); ?></div>
+            <div class="span1">Status</div>
             <?php foreach ($this->types as $type): ?>
                 <?php $type_name = $type->name . '_name'; ?>
                 <div class="span2 com-guilds-<?php echo $type->name; ?>">
-                    <?php echo $this->sortable(ucfirst($type->name)); ?>
+                    <?php $this->sortable(ucfirst($type->name)); ?>
                 </div>
             <?php endforeach; ?>
-            <div class="span2 com-guilds-checked"><?php echo $this->sortable("Checked"); ?></div>
-            <div class="span2 com-guilds-pubdate"><?php echo $this->sortable("Published"); ?></div>
+            <div class="span2 com-guilds-checked"><?php $this->sortable("Checked"); ?></div>
+            <div class="span2 com-guilds-pubdate"><?php $this->sortable("Published"); ?></div>
         </div>
         <?php $i = 0; ?>
         <?php dump($this->characters,'Characters'); ?>
         <?php foreach ($this->characters as $character): ?>
             <div class="row-fluid">
-                <div class="span1">
+                <div class="span1" style="width:30px;">
                     <input id="cb<?php echo $i ?>" 
                            type="checkbox" 
                            value="<?php echo $character->id; ?>" 
                            name="characters[]"/>
-                     <?php echo $character->id; ?>
+                </div>
+                <div class="span1">
+                     <?php echo $character->id." | ".$character->user_id; ?>
                 </div>
                 <div class="span1 editable" 
                      data-name="name" 
@@ -113,13 +117,14 @@
                     'icon'=>array('eye-close icon-white','eye-open'),
                     'task'=>array('publish','unpublish'),
                     'class'=>array('btn-inverse','')); ?>
-                <div class="span1">
+                <div class="span1 com-guilds-pubdate">
                     <button title="<?php echo $pub['title'][$character->published] . " Character"; ?>" 
                             class="btn btn-mini publish <?php echo $pub['class'][$character->published]; ?>" 
                             data-task="<?php echo $pub['task'][$character->published]; ?>" 
                             data-id="<?php echo $character->id; ?>">
                         <i class="icon-<?php echo $pub['icon'][$character->published]; ?>"></i>
                     </button>
+                    <?php echo $character->unpublisheddate; ?>
                 </div>
             </div>
             <?php $i++; ?>
