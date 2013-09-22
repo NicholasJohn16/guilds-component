@@ -174,29 +174,17 @@ class GuildsModelCharacters extends JModel {
 
     // Gets multiple characters
     function getCharacters() {
-        $today = time();
 
         if (empty($this->characters)) {
             $query = $this->buildQuery();
             $characters = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-
-//            foreach ($characters as $character) {
-//                // Default all statuses to Recruit
-//                $character->status = "Recruit";
-//                // If they have provided an in-game handle
-//                if (!empty($character->sto_handle) || !empty($character->tor_handle) || !empty($character->gw2_handle)) {
-//                    // Set their status to Cadet
-//                    $character->status = "Cadet";
-//                    // Calculate the number of days between now and their application
-//                    $seconds_ago = $today - strtotime($character->appdate);
-//                    $days_ago = floor($seconds_ago / (60 * 60 * 24));
-//                    // If it's great than 14, then promote them to Member
-//                    if (!empty($character->appdate) && $days_ago > 14) {
-//                        $character->status = "Member";
-//                    }
-//                }
-//            }
-
+            
+            $ranks = $this->getInstance('ranks','GuildsModel');
+            $ranks->setState('members',$characters);
+            $ranks->updateStatus();
+            
+            $characters = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+            
             $this->characters = $characters;
         }
         return $this->characters;
@@ -206,6 +194,7 @@ class GuildsModelCharacters extends JModel {
     //If id is not supplied, returns empty object
     function getCharacter() {
         $id = $this->getState('id');
+        $id = (is_array($id)) ? $id[0] : $id;
         $types_model = $this->getInstance('types', 'GuildsModel');
         $types = $types_model->getTypes();
         
@@ -226,10 +215,16 @@ class GuildsModelCharacters extends JModel {
                 }
             } else {
                 $db = & JFactory::getDBO();
-                $query = $this->buildSelect();
-                $id = $this->getState('id');
-                $query .= " WHERE a.id = " . $id;
-                $db->setQuery($query);
+                $sql = $this->buildSelect();
+                $sql .= " WHERE a.id = " . $id;
+                $db->setQuery($sql);
+                $character = $db->loadObject();
+                
+                $ranks = $this->getInstance('ranks','GuildsModel');
+                $ranks->setState('members',$character);
+                $ranks->updateStatus();
+                
+                $db->setQuery($sql);
                 $this->character = $db->loadObject();
             }
         }
@@ -383,31 +378,57 @@ class GuildsModelCharacters extends JModel {
 
     function getPendingInvites() {
         $db = JFactory::getDBO();
+        // Get menu item params
+        $itemId = JRequest::getInt('Itemid');
+        $menu = JSite::getMenu();
+        $params = $menu->getParams($itemId);
+        $game = $params->get('game');
 
-        if (empty($this->pendingInvites)) {
-            $query = $this->buildSelect();
-            $query .= " WHERE invite = 1 ";
-            $db->setQuery($query);
-            $this->pendingInvites = $db->loadObjectList();
+        if (empty($this->invites)) {
+            $sql = $this->buildSelect();
+            $sql .= " WHERE invite = 1 ";
+            $sql .= ' AND `game` = '.$game;
+            $db->setQuery($sql);
+            $invites = $db->loadObjectList();
+            
+            $ranks = $this->getInstance('ranks','GuildsModel');
+            $ranks->setState('members',$invites);
+            $ranks->updateStatus();
+            
+            $db->setQuery($sql);
+            $this->invites = $db->loadObjectList();
         }
 
-        return $this->pendingInvites;
+        return $this->invites;
     }
 
     function getPendingPromotions() {
         $db = JFactory::getDBO();
         $today = date('Y-m-d');
+        // Get menu item params
+        $itemId = JRequest::getInt('Itemid');
+        $menu = JSite::getMenu();
+        $params = $menu->getParams($itemId);
+        $game = $params->get('game');
         
-        if (empty($this->pendingPromotions)) {
+        if (empty($this->promotions)) {
             $sql = $this->buildSelect();
-            $sql .= ' WHERE (date_add(appdate,INTERVAL 14 DAY) <= "'.$today.'"'
+            $sql .= ' WHERE ((date_add(appdate,INTERVAL 14 DAY) <= "'.$today.'"'
                  . ' AND date( checked ) < date_add(appdate,INTERVAL 14 DAY) )'
-                 . ' OR ( checked IS NULL AND appdate IS NOT NULL ) ';
+                 . ' OR ( checked IS NULL AND appdate IS NOT NULL )) '
+                 . ' AND game = '.$game;
             $db->setQuery($sql);
             
-            $this->pendingPromotions = $db->loadObjectList();
+            $promotions = $db->loadObjectList();
+            
+            $ranks = $this->getInstance('ranks','GuildsModel');
+            $ranks->setState('members',$promotions);
+            $ranks->updateStatus();
+            
+            $db->setQuery($sql);
+            $this->promotions = $db->loadObjectList();
         }
-        return $this->pendingPromotions;
+        return $this->promotions;
     }
 
     function buildQueryforTotal() {

@@ -59,7 +59,10 @@ class GuildsControllerCharacters extends JController {
         $model->setState('invite', $invite);
         $result = $model->save();
 
-        if (!$result) {
+        if ($result) {
+            $character = $model->getCharacter();
+            echo json_encode($character);
+        } else {
             JError::raiseError(400,'Unable to save character.');
         }
     }

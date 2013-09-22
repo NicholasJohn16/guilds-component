@@ -23,6 +23,10 @@ $(document).ready(function() {
             params.id = id;
             
             return params 
+        }, 
+        success:function(response) {
+            var character = $.parseJSON(response);
+            $('.status-'+character.user_id).html(character.status);
         }
     });
         

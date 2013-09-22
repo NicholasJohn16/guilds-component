@@ -75,6 +75,20 @@ class GuildsViewHoldings extends JView {
             )
         );
         
+        $params = JComponentHelper::getParams('com_guilds');
+        $xp = array();
+        
+        foreach($fleets as $code => $fleet) {
+            if(!is_array($fleet)) {
+                $xp[$code] = array();
+                foreach($tiers as $holding) {
+                    foreach($holding as $tier => $count) {
+                        $xp[$code][$tier] = $params->get($code.'_'.$tier);
+                    }
+                }
+            }
+        }
+        dump($xp,'XP');
         $this->assignRef('fleets',$fleets);
         $this->assignRef('holdings',$holdings);
         $this->assignRef('tiers',$tiers);

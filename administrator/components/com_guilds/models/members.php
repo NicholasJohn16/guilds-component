@@ -81,7 +81,7 @@ class GuildsModelMembers extends JModel {
     }
 
     function buildSelect() {
-        $select = ' SELECT a.user_id as id, a.username AS username, a.appdate, b.status AS status, '
+        $select = ' SELECT a.user_id as id, a.user_id, a.username AS username, a.appdate, b.status AS status, '
                 . ' a.notes, a.edit_id, c.username as editor, a.edit_time, '
                 . ' a.sto_handle, a.gw2_handle, a.tor_handle ';
         return $select;
@@ -141,23 +141,31 @@ class GuildsModelMembers extends JModel {
     function getMember() {
         $id = $this->getState('id');
         $db = JFactory::getDBO();
+        $ranks = $this->getInstance('ranks','GuildsModel');
 
-        if (empty($this->member)) {
-            
-            $sql = $this->buildSelect();
-            $sql .= $this->buildFrom();
-            $sql .= ' WHERE a.user_id = ' . $id;
-            $sql .= ' LIMIT 1 ';
-            
+        $sql  = $this->buildSelect();
+        $sql .= $this->buildFrom();
+        $sql .= ' WHERE a.user_id = '.$id;
+        $sql .= ' LIMIT 1 ';
+
+        $db->setQuery($sql);
+        $member = $db->loadObject();
+        
+        // set it as an array cause that's what updateStatus expects
+        $ranks->setState('members',$member);
+        $result = $ranks->updateStatus();
+        
+        if(!$result) {
+            return false;
+        } else {
             $db->setQuery($sql);
-            $this->member = $db->loadObject();
+            $member = $db->loadObject();
+            return $member;
         }
-
-        return $this->member;
     }
 
     function getMembers() {
-        $db = JFactory::getDBO();
+        $ranks = $this->getInstance('ranks','GuildsModel');
 
         // Load the data
         if (empty($this->members)) {
@@ -168,10 +176,9 @@ class GuildsModelMembers extends JModel {
             } else {
                 $this->setState('ids',$ids);
                 $members = $this->getMembersByIds();
-                dump($members,'Members');
                 
-                $this->setState('members',$members);
-                $this->updateStatus();
+                $ranks->setState('members',$members);
+                $ranks->updateStatus();
                 
                 $this->members = $this->getMembersByIds();
             }
@@ -208,43 +215,6 @@ class GuildsModelMembers extends JModel {
         $members = $db->loadObjectList();
 
         return $members;
-    }
-    
-    function updateStatus() {
-        $members = $this->getState('members');
-        $db = JFactory::getDBO();
-        $today = time();
-        $fields = array();
-        $ids = array();
-
-        foreach ($members as $member) {
-            $member->status = 4;  // Recruit
-            if (!empty($member->sto_handle) || !empty($member->tor_handle) || !empty($member->gw2_handle)) {
-                $member->status = 5; // Cadet
-
-                $seconds_ago = $today - strtotime($member->appdate);
-                $days_ago = floor($seconds_ago / (60 * 60 * 24));
-                if (!empty($member->appdate) && $days_ago > 14) {
-                    $member->status = 6; // Member
-                }
-            }
-        }
-        
-        foreach($members as $member) {
-            $fields[] = ' WHEN '.$member->id.' THEN '.$member->status;
-            $ids[] = $member->id;
-        }
-        
-        $sql  = ' UPDATE #__guilds_members ';
-        $sql .= ' SET `status` = CASE `user_id` ';
-        $sql .= implode(' ',$fields);
-        $sql .= ' END ';
-        $sql .= ' WHERE `user_id` IN ('.implode(',',$ids).') ';
-        dump($sql,'Query');
-        $db->setQuery($sql);
-        $result = $db->query();
-
-        return $result;
     }
 
     function getHandleList() {

@@ -111,7 +111,10 @@ class GuildsControllerMembers extends JController {
         $model->setState('notes', $notes);
         $result = $model->update();
         
-        if(!$result) {
+        if($result) {
+            $member = $model->getMember();
+            echo json_encode($member);
+        } else {
             JError::raiseError(400,'Update Failed.');
         }
     }

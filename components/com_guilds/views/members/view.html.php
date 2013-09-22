@@ -146,7 +146,7 @@ class GuildsViewMembers extends JView {
         }
         $html .= '</a>';
 
-        return $html;
+        echo $html;
     }
 
 }

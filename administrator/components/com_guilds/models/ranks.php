@@ -25,10 +25,44 @@ jimport('joomla.application.component.model');
 class GuildsModelRanks extends JModel {
     
     public function updateStatus() {
-        $ids = $this->getState('id');
+        $members = $this->getState('members');
+        $db = JFactory::getDBO();
+        $today = time();
+        $fields = array();
+        $ids = array();
         
+        if(!is_array($members)) {
+            $members = array($members);
+        }
         
+        foreach ($members as $member) {
+            $member->status = 4;  // Recruit
+            if (!empty($member->sto_handle) || !empty($member->tor_handle) || !empty($member->gw2_handle)) {
+                $member->status = 5; // Cadet
+
+                $seconds_ago = $today - strtotime($member->appdate);
+                $days_ago = floor($seconds_ago / (60 * 60 * 24));
+                if (!empty($member->appdate) && $days_ago > 14) {
+                    $member->status = 6; // Member
+                }
+            }
+        }
+        
+        foreach($members as $member) {
+            $fields[] = ' WHEN '.$member->id.' THEN '.$member->status;
+            $ids[] = $member->id;
+        }
+        
+        $sql  = ' UPDATE #__guilds_members ';
+        $sql .= ' SET `status` = CASE `user_id` ';
+        $sql .= implode(' ',$fields);
+        $sql .= ' END ';
+        $sql .= ' WHERE `user_id` IN ('.implode(',',$ids).') ';
+        
+        $db->setQuery($sql);
+        $result = $db->query();
+
+        return $result;
     }
     
-
 }

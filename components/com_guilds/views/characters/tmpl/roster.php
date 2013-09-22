@@ -87,7 +87,7 @@
                         <?php echo $character->handle; ?>
                     </div>
                 <?php endif; ?>
-                <div class="span1"><?php echo $character->status; ?></div>
+                <div class="span1 status-<?php echo $character->user_id ?>"><?php echo $character->status; ?></div>
                 <?php foreach ($this->types as $type): ?>
                     <?php $type_name = $type->name . '_name'; ?>
                     <?php $type_id = $type->name . '_id'; ?>

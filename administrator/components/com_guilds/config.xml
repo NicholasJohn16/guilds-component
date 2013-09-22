@@ -2,5 +2,49 @@
 <root>
     <params>
         <param name="admin_groups" type="usergroup" default="24|25" label="Select Admin groups" multiple="yes" />
+        <param type="spacer" default="Stonewall Fleet Holdings"/>
+        <param type="text" name="swf_starbase" label="Starbase XP" size="10" />
+        <param type="text" name="swf_military" label="Military XP" size="10" />
+        <param type="text" name="swf_engineering" label="Engineering XP" size="10" />
+        <param type="text" name="swf_science" label="Science XP" size="10" />
+        <param type="text" name="swf_embassy" label="Embassy XP" size="10" />
+        <param type="text" name="swf_diplomacy" label="Diplomacy XP" size="10" />
+        <param type="text" name="swf_recruitment" label="Recruitment XP" size="10" />
+        <param type="text" name="swf_mine" label="Mine XP" size="10" />
+        <param type="text" name="swf_trade" label="Trade XP" size="10" />
+        <param type="text" name="swf_development" label="Development XP" size="10" />
+        <param type="spacer" default="Deep Space Stonewall Holdings"/>
+        <param type="text" name="dss_starbase" label="Starbase XP" size="10" />
+        <param type="text" name="dss_military" label="Military XP" size="10" />
+        <param type="text" name="dss_engineering" label="Engineering XP" size="10" />
+        <param type="text" name="dss_science" label="Science XP" size="10" />
+        <param type="text" name="dss_embassy" label="Embassy XP" size="10" />
+        <param type="text" name="dss_diplomacy" label="Diplomacy XP" size="10" />
+        <param type="text" name="dss_recruitment" label="Recruitment XP" size="10" />
+        <param type="text" name="dss_mine" label="Mine XP" size="10" />
+        <param type="text" name="dss_trade" label="Trade XP" size="10" />
+        <param type="text" name="dss_development" label="Development XP" size="10" />
+        <param type="spacer" default="House of Nagh reD Holdings"/>
+        <param type="text" name="hnr_starbase" label="Starbase XP" size="10" />
+        <param type="text" name="hnr_military" label="Military XP" size="10" />
+        <param type="text" name="hnr_engineering" label="Engineering XP" size="10" />
+        <param type="text" name="hnr_science" label="Science XP" size="10" />
+        <param type="text" name="hnr_embassy" label="Embassy XP" size="10" />
+        <param type="text" name="hnr_diplomacy" label="Diplomacy XP" size="10" />
+        <param type="text" name="hnr_recruitment" label="Recruitment XP" size="10" />
+        <param type="text" name="hnr_mine" label="Mine XP" size="10" />
+        <param type="text" name="hnr_trade" label="Trade XP" size="10" />
+        <param type="text" name="hnr_development" label="Development XP" size="10" />
+        <param type="spacer" default="Stonewall Legion Holdings"/>
+        <param type="text" name="swl_starbase" label="Starbase XP" size="10" />
+        <param type="text" name="swl_military" label="Military XP" size="10" />
+        <param type="text" name="swl_engineering" label="Engineering XP" size="10" />
+        <param type="text" name="swl_science" label="Science XP" size="10" />
+        <param type="text" name="swl_embassy" label="Embassy XP" size="10" />
+        <param type="text" name="swl_diplomacy" label="Diplomacy XP" size="10" />
+        <param type="text" name="swl_recruitment" label="Recruitment XP" size="10" />
+        <param type="text" name="swl_mine" label="Mine XP" size="10" />
+        <param type="text" name="swl_trade" label="Trade XP" size="10" />
+        <param type="text" name="swl_development" label="Development XP" size="10" />
     </params>
 </root>

@@ -20,19 +20,6 @@ function getCharactersByUserId(id){
             $('#characters-'+id).append(html);
         });
     };
-    
-//function updateStatusforUserId(id){
-//    $.get('index.php',{
-//        option:'com_guilds',
-//        view:'members',
-//        task:'getStatus',
-//        id:id
-//    },
-//    function(data) {
-//        var
-//    }
-//)
-//};
 
 $(document).ready(function() {
 
@@ -64,18 +51,22 @@ $(document).ready(function() {
             return params 
         };
    
-    $('.editable.rank').editable({
-        source:'index.php?option=com_guilds&view=members&task=getRanks&format=ajax',
-        name:'forum_rank',
-        type:'select',
-        title:'Select Rank',
-        showbuttons:false,
-        url:'index.php?option=com_guilds&view=members&task=update&format=ajax'
-    });
+//    $('.editable.rank').editable({
+//        source:'index.php?option=com_guilds&view=members&task=getRanks&format=ajax',
+//        name:'forum_rank',
+//        type:'select',
+//        title:'Select Rank',
+//        showbuttons:false,
+//        url:'index.php?option=com_guilds&view=members&task=update&format=ajax'
+//    });
    
     $('.editable.handle').editable({
         title:'Enter Handle',
-        url:'index.php?option=com_guilds&view=members&task=ajaxSave&format=raw'
+        url:'index.php?option=com_guilds&view=members&task=ajaxSave&format=raw',
+        success:function(response) {
+            var member = $.parseJSON(response);
+            $('.status-'+member.user_id).html(member.status);
+        }
     });
    
     $('.editable.intro').editable({
@@ -89,7 +80,11 @@ $(document).ready(function() {
             todayHighlight:true
         },
         url:'index.php?option=com_guilds&view=members&task=ajaxSave&format=raw',
-        send:'always'
+        //send:'always'
+        success:function(response) {
+            var member = $.parseJSON(response);
+            $('.status-'+member.user_id).html(member.status);
+        }
     });
    
     $('.accordion').editable({

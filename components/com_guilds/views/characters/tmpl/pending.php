@@ -44,7 +44,7 @@
                  <?php echo $invite->handle; ?>
             </div>
         <?php endif; ?>
-        <div class="span1">
+        <div class="span1 status-<?php echo $invite->user_id; ?>">
             <?php echo $invite->status; ?>
         </div>
         <?php foreach($this->types as $type):?>
@@ -99,7 +99,6 @@
                 <?php echo ucwords($type->name); ?>
             </div>
         <?php endforeach;?>
-        <div class="span2 com-guilds-appdate">Intro Date</div>
         <div class="span2 com-guilds-checked">Checked</div>
         <div class="span1">Actions</div>
     </div>
@@ -128,7 +127,7 @@
                  <?php echo $promotion->handle; ?>
             </div>
         <?php endif; ?>
-        <div class="span1">
+        <div class="span1 status-<?php echo $promotion->user_id; ?>">
             <?php echo $promotion->status; ?>
         </div>
         <?php foreach($this->types as $type):?>
@@ -144,9 +143,6 @@
                  <?php echo $promotion->$type_name; ?>
             </div>
         <?php endforeach;?>
-        <div class="span2 com-guilds-appdate">
-            <?php echo $promotion->appdate; ?>
-        </div>
         <div class="editable span2 com-guilds-checked" 
              data-type="date" data-name="checked" 
              data-placement="right" 

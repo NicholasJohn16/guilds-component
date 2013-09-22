@@ -18,11 +18,11 @@
     </div>
     <div class="subnav" style="margin-bottom:5px;">
         <ul class="nav nav-pills">
-            <li class="span1"><?php echo $this->sortable("#", "id"); ?></li>
-            <li class="span3"><?php echo $this->sortable("Username"); ?></li>
-            <li class="span2"><?php echo $this->sortable("Handle",$game_handle); ?></li>
-            <li class="span2"><?php echo $this->sortable("Introduction", "appdate"); ?></li>
-            <li class="span2"><?php echo $this->sortable("Status"); ?></li>
+            <li class="span1"><?php $this->sortable("#", "id"); ?></li>
+            <li class="span3"><?php $this->sortable("Username"); ?></li>
+            <li class="span2"><?php $this->sortable("Handle",$game_handle); ?></li>
+            <li class="span2"><?php $this->sortable("Introduction", "appdate"); ?></li>
+            <li class="span2">Status</li>
             <li class="span3">Forum Rank</li>
         </ul>
     </div>
@@ -51,7 +51,7 @@
                     </div>
                     <div class="editable handle span2" data-name="<?php echo $game_handle; ?>" data-pk="<?php echo $member->id; ?>"><?php echo $member->$game_handle; ?></div>
                     <div class="editable intro span2" data-pk="<?php echo $member->id; ?>"><?php echo $member->appdate; ?></div>
-                    <div class="span2"><?php echo $member->status; ?></div>
+                    <div class="span2 status-<?php echo $member->id;?>"><?php echo $member->status; ?></div>
                     <div class="editable rank span3" data-pk="<?php echo $member->id; ?>" data-value="<?php //echo $member->rank_id;  ?>"><?php //echo $member->rank_title; ?></div>
                 </div>
                 <div style="clear:both;"></div>
