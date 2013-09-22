@@ -108,17 +108,11 @@ class GuildsModelCharacters extends JModel {
     }
 
     function buildWhere() {
-        $user = $this->getState('user');
         $search = $this->getState('search');
         $filters = $this->getState('filters');
 
-        $where = " WHERE ";
-        $conditions = array();
-
-        //Check to see if the user is set and if it is add it to the where array
-        if ($user != null || $user != 0) {
-            $conditions[] = array("AND", "a.user_id", "=", $user);
-        }
+        $and = array();
+        $or = array();
 
         if ($search != "" || !empty($search)) {
             // Split the search string into an array
@@ -128,34 +122,32 @@ class GuildsModelCharacters extends JModel {
                 trim($term);
                 strtolower($term);
                 if (is_numeric($term)) {
-                    $conditions[] = array('OR', 'a.user_id', '=', intval($term));
-                    $conditions[] = array('OR', 'a.id', '=', intval($term));
+                    $or[] = '`a.user_id` = '.intval($term);
+                    $or[] = '`a.id` = '.intval($term);
                 } else {
-                    $conditions[] = array('OR', 'LOWER(a.name)', 'LIKE', '"%' . $term . '%"');
-                    $conditions[] = array('OR', 'LOWER(b.username)', 'LIKE', '"%' . $term . '%"');
+                    $or[] = 'LOWER(a.name) LIKE "%'.$term.'%"';
+                    $or[] = 'LOWER(b.username) LIKE "%'.$term.'%"';
+                    $or[] = 'LOWER(a.handle) LIKE "%'.$term.'%"';
                 }
             }
         }
         // Add all the type filters to the Where array
         foreach ($filters as $type => $value) {
             if ($value != "") {
-                $conditions[] = array("AND", "a." . $type, "=", $value);
+                $and[] = "a.".$type.' = '.$value;
             }
         }
         
-        if (count($conditions) == 0) {
-            $where = "";
-        } elseif (count($conditions) == 1) {
-            $where.= " " . $conditions[0][1] . " " . $conditions[0][2] . " " . $conditions[0][3] . " ";
+        if(!empty($and) && !empty($or)) {
+            $where = ' WHERE ('.implode(') AND (',$and).') AND ('.implode(') OR (',$or).') ';
+        } elseif(!empty($and)) {
+            $where = ' WHERE '.implode(' AND ',$and);
+        } elseif(!empty($or)) {
+            $where = ' WHERE '.implode(' OR ',$or);
         } else {
-            $count = count($conditions);
-            $where .= $conditions[0][1] . " " . $conditions[0][2] . " " . $conditions[0][3];
-
-            for ($i = 1; $i < $count; $i++) {
-                $where .= " " . $conditions[$i][0] . " " . $conditions[$i][1] . " " . $conditions[$i][2] . " " . $conditions[$i][3] . " ";
-            }
+            $where = false;
         }
-
+        
         return $where;
     }
 
