@@ -20,7 +20,7 @@
             <div class="span2 com-guilds-<?php echo $type->name; ?>"><?php echo ucwords($type->name); ?></div>
         <?php endforeach;?>
         <div class="span2">Checked</div>
-        <div class="span2">Actions</div>
+        <div class="span3">Actions</div>
     </div>
     <?php foreach($this->characters as $character):?>
     <div class="row-fluid" data-character="<?php echo $character->id; ?>">
@@ -31,10 +31,10 @@
             <div class="span2 com-guilds-<?php echo $type->name;?> editable-click category" data-title="Select Category" data-type="select" data-pk="<?php echo $character->id; ?>" data-name="category[<?php echo $type->name; ?>]" data-source="index.php?option=com_guilds&view=categories&format=json&type=<?php echo $type->name; ?>" data-value="<?php echo $character->$type_id; ?>"><?php echo $character->$type_name; ?></div>
         <?php endforeach;?>
         <div class="span2" data-type="date" data-name="checked" data-placement="right" data-title="Update Date" data-pk="<?php echo $character->id; ?>"><?php echo $character->checked; ?></div>
-        <div class="span2">
-            <a class="btn btn-mini <?php if($character->invite) {echo "disabled"; } ?>" title="<?php if(!$character->invite) {echo "Request an Invite"; } else { echo "Invite Pending"; } ?>" href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task=invite&id='.$character->id); ?>"><i class="icon-share"></i></a>
-            <a class="btn btn-mini" title="Edit Character" href="<?php echo JRoute::_('index.php?com_guilds&view=characters&task=edit&id='.$character->id); ?>"><i class="icon-edit"></i></a>
-            <a class="btn btn-mini btn-danger" title="Delete Character"  href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task=drop&id='.$character->id); ?>"><i class="icon-remove icon-white"></i></a>
+        <div class="span3">
+            <a class="btn btn-small <?php if($character->invite) {echo "disabled"; } ?>" title="<?php if(!$character->invite) {echo "Request an Invite"; } else { echo "Invite Pending"; } ?>" href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task=invite&id='.$character->id); ?>"><i class="icon-share"></i></a>
+            <a class="btn btn-small" title="Edit Character" href="<?php echo JRoute::_('index.php?com_guilds&view=characters&task=edit&id='.$character->id); ?>"><i class="icon-edit"></i></a>
+            <a class="btn btn-small btn-danger" title="Delete Character"  href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task=drop&id='.$character->id); ?>"><i class="icon-remove icon-white"></i></a>
         </div>
     </div>
     <?php endforeach; ?>

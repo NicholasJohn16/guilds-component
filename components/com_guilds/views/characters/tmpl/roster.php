@@ -1,6 +1,6 @@
 <?php $game_handle = $this->game_handle; ?>
 <form action="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&layout=roster'); ?>" method="post" id="roster-form">
-    <div class="navbar">
+    <div class="navbar navbar-inverse">
         <div class="navbar-inner">
             <div style="width:100%;" class="container">
                 <a class="brand" href="#">Roster</a>
@@ -119,7 +119,7 @@
                     'class'=>array('btn-inverse','')); ?>
                 <div class="span1 com-guilds-pubdate">
                     <button title="<?php echo $pub['title'][$character->published] . " Character"; ?>" 
-                            class="btn btn-mini publish <?php echo $pub['class'][$character->published]; ?>" 
+                            class="btn btn-small publish <?php echo $pub['class'][$character->published]; ?>" 
                             data-task="<?php echo $pub['task'][$character->published]; ?>" 
                             data-id="<?php echo $character->id; ?>">
                         <i class="icon-<?php echo $pub['icon'][$character->published]; ?>"></i>
