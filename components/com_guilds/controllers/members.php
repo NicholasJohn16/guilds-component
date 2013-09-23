@@ -25,15 +25,19 @@ class GuildsControllerMembers extends JController {
         
         $user = JFactory::getUser();
         $params = JComponentHelper::getParams('com_guilds');
-        $admin_groups = $params->get('admin_groups');
+        $officer_gids = $params->get('officers');
+        $senior_member_gids = $params->get('senior_members');
+        $admin_groups = array_merge((array)$officer_gids,(array)$senior_member_gids);
         $layout = JRequest::getCmd('layout');
         
         if ($user->guest) {
             $url = JRoute::_('index.php?option=com_user&view=login',false);
             $this->setRedirect($url,$msg,$type);
         } else {
-            if(in_array($layout,array('default','form')) && !in_array($user->gid,$admin_groups)) {
+            if($layout == 'default' && !in_array($user->gid,$admin_groups)) {
                JError::raiseError(403,'Only Admins may access this page.');
+            } else if($layout == 'form' && !in_array($user->gid,$officer_gids)) {
+                JError::raiseError(403,'Only Officers may access this page.');
             }
         }
         

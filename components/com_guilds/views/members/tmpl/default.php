@@ -1,7 +1,7 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php $game_handle = $this->game_handle; ?>
 <form id="members-form" class="fluid-container" action="<?php echo JRoute::_('index.php?option=com_guilds&view=members'); ?>" method="post">
-    <div class="navbar">
+    <div class="navbar navbar-inverse">
         <div class="navbar-inner">
             <div class="container" style="width:100%">
                 <a class="brand" href="#">Members</a>
@@ -37,16 +37,20 @@
         <?php foreach ($this->members AS $member): ?>
             <div class="accordion-group fluid-row" data-user="<?php echo $member->id; ?>">
                 <div class="accordion-heading">
-                    <div class="span1"><span class="badge badge-inverse"><?php echo $member->id; ?></span></div>
+                    <div class="span1"><span class="badge"><?php echo $member->id; ?></span></div>
                     <div class="span3">
-                        <a href="<?php echo JRoute::_('index.php?option=com_guilds&view=members&task=edit&id=' . $member->id); ?>">
+                        <?php if($this->isOfficer): ?>
+                            <a href="<?php echo JRoute::_('index.php?option=com_guilds&view=members&task=edit&id='.$member->id); ?>">
+                                <?php echo $member->username; ?>
+                            </a>
+                        <?php else: ?>
                             <?php echo $member->username; ?>
-                        </a>
-                        <button class="btn btn-mini character-toggle" data-toggle="collapse" data-target="#accordion-body-<?php echo $member->id; ?>" style="float:right;margin-left:2px;" title="Character(s)">
-                            <img style="height:16px;width:16px;" src="components/com_guilds/media/img/contacts.png"/>	
+                        <?php endif; ?>
+                        <button class="btn btn-mini pull-right character-toggle" data-toggle="collapse" data-target="#accordion-body-<?php echo $member->id; ?>" style="float:right;margin-left:2px;" title="Character(s)">
+                            <i class="icon-characters"></i>
                         </button>
-                        <a class="btn btn-mini" style="float:right;height:16px;width:16px;" target="_blank" title="Profile" href="index.php?option=com_community&view=profile&userid=<?php echo $member->id; ?>">
-                            <img src="components/com_guilds/media/img/contact.png"/>
+                        <a class="btn btn-mini pull-right" target="_blank" title="Profile" href="index.php?option=com_community&view=profile&userid=<?php echo $member->id; ?>">
+                            <i class="icon-profile"></i>
                         </a>
                     </div>
                     <div class="editable handle span2" data-name="<?php echo $game_handle; ?>" data-pk="<?php echo $member->id; ?>"><?php echo $member->$game_handle; ?></div>
@@ -77,10 +81,10 @@
         endif;
     ?>   
     </div>
-    <!--<span style="float:left"><?php echo $this->pagination->getPagesCounter(); ?></span> -->
+    <div class="row-fluid">
+        <div class="span5 offset4"><?php echo $this->pagination(); ?></div>
+    </div>
     <div style="clear:both"></div>
-    <?php echo $this->pagination(); ?>
-    <!--<span style="float:right"><?php echo $this->pagination->getLimitBox(); ?></span> -->
     <input type="hidden" name="limitstart" value="<?php echo $this->pagination->limitstart; ?>"/>
     <input type="hidden" id="order" name="order" value="<?php echo $this->order; ?>" />
     <input type="hidden" id="direction" name="direction" value="<?php echo $this->direction; ?>" />

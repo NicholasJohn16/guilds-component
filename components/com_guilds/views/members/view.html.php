@@ -28,8 +28,8 @@ class GuildsViewMembers extends JView {
     }
 
     function displayList() {
-        JHTML::stylesheet('guilds.css', 'components/com_guilds/media/css/');
         JHTML::stylesheet('bootstrap.min.css', 'components/com_guilds/media/css/');
+        JHTML::stylesheet('guilds.css', 'components/com_guilds/media/css/');
         JHTML::stylesheet('bootstrap-editable.css', 'components/com_guilds/media/css/');
         JHTML::stylesheet('bootstrap-datepicker.css', 'components/com_guilds/media/css/');
         //JHTML::stylesheet('bootstrap-notify.css','components/com_guilds/media/css/');
@@ -50,6 +50,11 @@ class GuildsViewMembers extends JView {
         $menu = JSite::getMenu();
         $params = $menu->getParams($itemId);
         $game_handle = $params->get('game_handle');
+        
+        $gid = JFactory::getUser()->gid;
+        $params = $params = JComponentHelper::getParams('com_guilds');
+        $officer_gids = $params->get('officers');
+        $isOfficer = (in_array($gid,$officer_gids));
 
         $members = $this->get('Members');
         $pagination = $this->get('Pagination');
@@ -71,6 +76,7 @@ class GuildsViewMembers extends JView {
         $this->assignRef('types', $types);
         $this->assignRef('categories', $categories);
         $this->assignRef('game_handle', $game_handle);
+        $this->assignRef('isOfficer',$isOfficer);
     }
 
     function displayForm() {
@@ -118,7 +124,7 @@ class GuildsViewMembers extends JView {
             for ($x = $current_range[0]; $x <= $current_range[1]; ++$x) {
                 $pages[] = '<li ' . ($x == $cur_page ? 'class="active"' : null) . '><a href="' . $link . ($x - 1) * $limit . '">' . $x . '</a></li>';
             }
-            return '<div class="com-guilds-pagination"><ul>' . $first_page . $previous_page . implode($pages) . $next_page . $last_page . '</ul></div>';
+            return '<div class="pagination"><ul>' . $first_page . $previous_page . implode($pages) . $next_page . $last_page . '</ul></div>';
         } else {
             return false;
         }

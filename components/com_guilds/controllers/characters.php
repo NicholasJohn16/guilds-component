@@ -22,7 +22,9 @@ class GuildsControllerCharacters extends JController {
                 
         $user = & JFactory::getUser();
         $params = JComponentHelper::getParams('com_guilds');
-        $admin_groups = $params->get('admin_groups');
+        $officer_gids = $params->get('officers');
+        $senior_member_gids = $params->get('senior_members');
+        $admin_groups = array_merge((array)$officer_gids,(array)$senior_member_gids);
         $layout = JRequest::getCmd('layout');
         
         if ($user->guest) {
