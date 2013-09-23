@@ -3,6 +3,15 @@
     $holdings = $this->holdings;
     $tiers = $this->tiers;
 ?>
+<?php 
+    $document = JFactory::getDocument();
+    $document->addStyleDeclaration('
+        .bar {
+            text-align:center !important;
+            padding:2px 0;
+        }
+    ');
+?>
 <div class="container-fluid">
     <div class="tabbable">
         <ul class="nav nav-tabs">
@@ -65,13 +74,21 @@
                                                     <h2 <?php if(!$first) echo 'style="display:inline;margin-left:50px;"'?>>
                                                         <?php echo ucfirst($tier_name); ?>
                                                     </h2>
-                                                    <div class="row-fluid">
-                                                        <?php for($i = 0;$i < $tier_count;$i++): ?>
-                                                        <div class="span2" <?php if(!$first && $i == 0) echo 'style="margin-left:50px;"'; ?>>
-                                                            <div class="progress">
-                                                                <div class="bar" style="width:100%;"></div>
+                                                    <div class="progress">
+                                                        <?php for($i = 0;$i < $tier_count;$i++): ?>    
+                                                            <div class="bar" style="width:20%;">
+                                                                <?php if($i == 0): ?>
+                                                                    I
+                                                                <?php elseif($i == 1): ?>
+                                                                    II
+                                                                <?php elseif($i == 2): ?>
+                                                                    III
+                                                                <?php elseif($i == 3): ?>
+                                                                    IV
+                                                                <?php else: ?>
+                                                                    V
+                                                                <?php endif; ?>
                                                             </div>
-                                                        </div>
                                                         <?php endfor; ?>
                                                     </div>
                                                     <?php $first = false; ?>
