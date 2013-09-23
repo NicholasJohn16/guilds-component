@@ -137,10 +137,6 @@ $(document).ready(function() {
         $('select[id^="character-form-category"]').val('');
     });
     
-    $('#character-form-user').bind('typeahead:selected typeahead:autocompleted', function(event, item){
-        $('#character-form-user_id').val(item.id);
-    });
-    
     $('#character-form-handle-link').bind('click keypress',function(event){
         event.preventDefault();
         // make sure its the spacebar that triggered the event
@@ -151,7 +147,7 @@ $(document).ready(function() {
         }
     });
     
-    $('#character-form-handle-cancel').click(function(){
+    $('#character-form-handle-cancel').click(function(event){
         event.preventDefault();
        $('#character-form-handle-cancel').hide();
        $('#character-form-handle').hide();
