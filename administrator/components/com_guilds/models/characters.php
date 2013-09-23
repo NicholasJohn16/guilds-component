@@ -155,7 +155,7 @@ class GuildsModelCharacters extends JModel {
         $order = $this->getState("order");
         $direction = $this->getState("direction");
 
-        $orderBy = "ORDER BY a." . $order . " " . $direction;
+        $orderBy = " ORDER BY a." . $order . " " . $direction;
 
         if ($order == null || $direction == null) {
             $orderBy = "";
@@ -339,7 +339,7 @@ class GuildsModelCharacters extends JModel {
         $sql  = " UPDATE #__guilds_characters SET ";
         $sql .= implode(", ", $values);
         $sql .= " WHERE id IN (".implode(',',$id).')';
-        dump($sql,'Query');
+        
         $db->setQuery($sql);
         $result = $db->query();
         return $result;
@@ -349,10 +349,8 @@ class GuildsModelCharacters extends JModel {
         $id = $this->getState('id');
 
         if ($id < 1) {
-            dump('Add!');
             return $this->insert();
         } else {
-            dump('Update!');
             return $this->update();
         }
     }

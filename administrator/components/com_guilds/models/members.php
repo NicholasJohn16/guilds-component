@@ -147,7 +147,7 @@ class GuildsModelMembers extends JModel {
         $sql .= $this->buildFrom();
         $sql .= ' WHERE a.user_id = '.$id;
         $sql .= ' LIMIT 1 ';
-
+        
         $db->setQuery($sql);
         $member = $db->loadObject();
         
@@ -170,6 +170,7 @@ class GuildsModelMembers extends JModel {
         // Load the data
         if (empty($this->members)) {
             $ids = $this->getMemberIDs();
+            
             // If no ids were found, return false
             if(empty($ids)) {
                 return false; 
@@ -206,10 +207,10 @@ class GuildsModelMembers extends JModel {
     function getMembersByIds() {
         $db = JFactory::getDBO();
         $ids = $this->getState('ids');
-
+        
         $sql  = $this->buildSelect();
         $sql .= $this->buildFrom();
-        $sql .= ' WHERE a.user_id IN ('.implode(',',$ids).');';
+        $sql .= ' WHERE a.user_id IN ('.implode(',',$ids).')';
         $sql .= $this->buildOrderBy();
         $db->setQuery($sql);
         $members = $db->loadObjectList();
@@ -222,7 +223,7 @@ class GuildsModelMembers extends JModel {
         $name = trim($this->getState('name'));
 
         if (empty($this->handle_list)) {
-            $sql = ' ( SELECT user_id, username AS text ';
+            $sql = ' ( SELECT user_id AS id, username AS text ';
             $sql .= '   FROM #__guilds_members ';
             $sql .= '   WHERE username LIKE "%' . $name . '%" ) ';
             $sql .= ' UNION ';
