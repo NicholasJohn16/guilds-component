@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <install type="component" version="1.5.0">
-    <name>Guilds Manager</name>
+    <name>Guilds</name>
     <creationDate>2011-05-23</creationDate>
     <author>Stonewall Gaming Network</author>
     <authorEmail>us@stonewallgaming.net</authorEmail>
@@ -9,7 +9,7 @@
     <version>1.0</version>
     <description>A tool for managing the Stonewall Gaming Network</description>
     
-    <install>
+    <install folder="admin">
         <sql>
             <file driver="mysql" charset="utf8">install.sql</file>
         </sql>
@@ -42,6 +42,7 @@
             <filename>controller.php</filename>
             <filename>guilds.php</filename>
             <filename>index.html</filename>
+            <filename>install.sql</filename>
         </files>    
     </administration>
     
