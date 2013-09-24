@@ -19,9 +19,9 @@ class GuildsController extends JController {
         parent::display();
     }
     
-    public function rebuildTables() {
+    public function buildTables() {
         $model = $this->getModel('guilds');
-        $result = $model->rebuildTables();
+        $result = $model->buildTables();
                 
         if($result) {
             $msg = 'Tables were rebuilt.';
