@@ -305,7 +305,7 @@ class GuildsModelMembers extends JModel {
         $sql = ' UPDATE #__guilds_members SET ';
         $sql .= implode(", ", $values);
         $sql .= ' WHERE `user_id` = ' . $id;
-        dump($sql, 'Query');
+        
         $db->setQuery($sql);
         $result = $db->query();
 

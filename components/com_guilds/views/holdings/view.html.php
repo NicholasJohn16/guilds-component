@@ -88,7 +88,7 @@ class GuildsViewHoldings extends JView {
                 }
             }
         }
-        dump($xp,'XP');
+        //dump($xp,'XP');
         $this->assignRef('fleets',$fleets);
         $this->assignRef('holdings',$holdings);
         $this->assignRef('tiers',$tiers);

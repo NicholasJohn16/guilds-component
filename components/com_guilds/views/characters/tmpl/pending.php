@@ -82,7 +82,6 @@
 <?php endif; ?>
 </div>
 <h2>Pending Promotions</h2>
-<?php dump($this->promotions); ?>
 <?php if(count($this->promotions) == 0): ?>
     <div class="alert alert-block alert-info">
         <h4 class="alert-heading">No Pending Promotions!</h4>

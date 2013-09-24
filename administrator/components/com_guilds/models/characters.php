@@ -74,7 +74,7 @@ class GuildsModelCharacters extends JModel {
         $where = $this->buildWhere();
         $order = $this->buildOrderBy();
         $query = $select . $where . $order;
-        dump($query,'Query');
+        
         return $query;
     }
 
@@ -169,7 +169,7 @@ class GuildsModelCharacters extends JModel {
 
         if (empty($this->characters)) {
             $query = $this->buildQuery();
-            dump($query,'Query');
+            
             $characters = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
             
             $ranks = $this->getInstance('ranks','GuildsModel');

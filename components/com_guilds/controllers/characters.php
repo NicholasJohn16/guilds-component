@@ -50,7 +50,7 @@ class GuildsControllerCharacters extends JController {
         $categories = JRequest::getVar('category', array(), '', 'array');
         $checked = JRequest::getVar('checked', null, '', 'string');
         $invite = JRequest::getVar('invite', null, '', 'int');
-        dump($id,'Id from controller');
+        
         $model = $this->getModel('characters');
         $model->setState('id', $id);
         $model->setState('user_id', $user_id);

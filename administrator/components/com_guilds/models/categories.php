@@ -75,7 +75,7 @@ class GuildsModelCategories extends JModel {
                     . ' WHERE a.published = 1 '
                     . ' AND b.name LIKE ' . $db->quote($type)
                     . ' ORDER BY a.ordering ';
-            dump($sql,'Query');
+            
             $db->setQuery($sql);
             $this->categoriesByType = $db->loadObjectList();
         }

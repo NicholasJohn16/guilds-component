@@ -56,7 +56,6 @@
             <div class="span2 com-guilds-pubdate"><?php $this->sortable("Published"); ?></div>
         </div>
         <?php $i = 0; ?>
-        <?php dump($this->characters,'Characters'); ?>
         <?php foreach ($this->characters as $character): ?>
             <div class="row-fluid">
                 <div class="span1" style="width:30px;">
