@@ -123,7 +123,7 @@
                             <?php echo JHTML::_('grid.published',$character,$i,'publish_g.png','publish_r.png'); ?>
                         </td>
                         <td>
-                            <?php echo $character->unpublisheddate; ?>
+                            <?php echo $character->unpublished_date; ?>
                         </td>
                         <td>
                             <?php echo $this->invite($character->invite); ?>

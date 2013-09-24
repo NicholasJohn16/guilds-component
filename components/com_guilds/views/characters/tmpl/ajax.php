@@ -66,7 +66,7 @@
                 <i class="icon-<?php echo $pub['icon'][$character->published]; ?>"></i>
             </button>
         </div>
-        <div class="span2 com-guilds-pubdate"><?php echo $character->unpublisheddate; ?></div>
+        <div class="span2 com-guilds-pubdate"><?php echo $character->unpublished_date; ?></div>
     </div>
     <?php endforeach; ?>
 </div>

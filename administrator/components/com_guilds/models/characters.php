@@ -94,7 +94,7 @@ class GuildsModelCharacters extends JModel {
         }
         
         $query = ' SELECT a.id, a.user_id, a.name, a.checked, '
-                . ' a.unpublisheddate, a.invite, a.name as name, '
+                . ' a.unpublished_date, a.invite, a.name as name, '
                 . ' a.id AS id, a.published AS published, '
                 . ' b.sto_handle, b.tor_handle, b.gw2_handle, a.handle, '
                 . ' b.appdate, c.status as status, ';
@@ -169,6 +169,7 @@ class GuildsModelCharacters extends JModel {
 
         if (empty($this->characters)) {
             $query = $this->buildQuery();
+            dump($query,'Query');
             $characters = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
             
             $ranks = $this->getInstance('ranks','GuildsModel');
@@ -200,7 +201,7 @@ class GuildsModelCharacters extends JModel {
                 $this->character->invite = NULL;
                 $this->character->checked = NULL;
                 $this->character->published = NULL;
-                $this->character->unpublisheddate = NULL;
+                $this->character->unpublished_date = NULL;
                 foreach ($types as $type) {
                     $type_id = $type->name . '_id';
                     $this->character->$type_id = NULL;
@@ -248,6 +249,8 @@ class GuildsModelCharacters extends JModel {
         // Get the database object and all necessary states
         $db = $this->getDBO();
         $fields = array();
+        $user = JFactory::getUser();
+        
         $fields['user_id'] = $this->getState('user_id');
         $fields['name'] = $this->getState('name');
         $fields['handle'] = $this->getState('handle');
@@ -255,8 +258,10 @@ class GuildsModelCharacters extends JModel {
         $fields['checked'] = $this->getState('checked');
         $fields['published'] = $this->getState('published');
         if($fields['user_id'] === NULL || $fields['user_id'] === '') {
-            $fields['user_id'] = JFactory::getUser()->id;
+            $fields['user_id'] = $user->id;
         }
+        $fields['created_by'] = $user->id;
+        $fields['created_on'] = date('Y-m-d H:i:s');
         
         $categories = $this->getState('categories');
         if(is_array($categories)){
@@ -305,7 +310,7 @@ class GuildsModelCharacters extends JModel {
         $fields['invite'] = $this->getState('invite');
         $fields['checked'] = $this->getState('checked');
         $fields['published'] = $this->getState('published');
-        $fields['unpublisheddate'] = $this->getState('unpublisheddate');
+        $fields['unpublished_date'] = $this->getState('unpublished_date');
         $fields['invite'] = $this->getState('invite');
         
         $categories = $this->getState('categories');

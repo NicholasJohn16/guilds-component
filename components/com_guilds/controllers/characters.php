@@ -157,7 +157,7 @@ class GuildsControllerCharacters extends JController {
         $model = $this->getModel('characters');
         $model->setState('id',$id);
         $model->setState('published',0);
-        $model->setState('unpublisheddate',date('Y-m-d'));
+        $model->setState('unpublished_date',date('Y-m-d'));
         $model->setState('invite',0);
         // Just unpublish the character, so it isn't visible to the Member anymore
         if ($model->update()) {

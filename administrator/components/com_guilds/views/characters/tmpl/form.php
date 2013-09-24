@@ -64,8 +64,8 @@
                         <input type="text"
                                class="inputbox"
                                size="40"
-                               name="unpublisheddate"
-                               value="<?php echo $this->character->unpublisheddate; ?>"
+                               name="unpublished_date"
+                               value="<?php echo $this->character->unpublished_date; ?>"
                                disabled="disabled">
                     </td>
                 </tr>

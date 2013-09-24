@@ -124,7 +124,7 @@
                             data-id="<?php echo $character->id; ?>">
                         <i class="icon-<?php echo $pub['icon'][$character->published]; ?>"></i>
                     </button>
-                    <?php echo $character->unpublisheddate; ?>
+                    <?php echo $character->unpublished_date; ?>
                 </div>
             </div>
             <?php $i++; ?>
