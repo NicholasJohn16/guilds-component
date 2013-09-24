@@ -15,7 +15,7 @@
         </sql>
     </install>
     
-    <files folder="components">
+    <files folder="site">
         <folder>controllers</folder>
         <folder>helpers</folder>
         <folder>media</folder>
@@ -33,7 +33,7 @@
             <menu view="categories">Categories</menu>
             <menu view="types">Types</menu>
         </submenu>
-        <files folder="administrator/components">
+        <files folder="admin">
             <folder>controllers</folder>
             <folder>helpers</folder>
             <folder>models</folder>
