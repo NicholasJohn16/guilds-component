@@ -5,4 +5,8 @@
             Displays the viewer's characters.
         </message>
     </layout>
+    <state>
+        <name>Characters Layout</name>
+        <description>Displays a list of characters for the current user.</description>
+    </state>
 </metadata>
