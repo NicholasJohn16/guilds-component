@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `#__guilds_characters` (
   `handle` varchar(255) DEFAULT NULL,
   `checked` date DEFAULT NULL,
   `published` tinyint(1) NOT NULL DEFAULT '1',
-  `unpublisheddate` date DEFAULT NULL,
+  `unpublished_date` date DEFAULT NULL,
   `invite` tinyint(1) NOT NULL DEFAULT '0',
   `game` int(6) DEFAULT NULL,
   `allegiance` int(6) DEFAULT NULL,
