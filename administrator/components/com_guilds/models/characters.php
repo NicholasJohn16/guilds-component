@@ -390,12 +390,16 @@ class GuildsModelCharacters extends JModel {
             $db->setQuery($sql);
             $invites = $db->loadObjectList();
             
-            $ranks = $this->getInstance('ranks','GuildsModel');
-            $ranks->setState('members',$invites);
-            $ranks->updateStatus();
-            
-            $db->setQuery($sql);
-            $this->invites = $db->loadObjectList();
+            if(empty($invites)) {
+                return false;
+            } else {
+                $ranks = $this->getInstance('ranks','GuildsModel');
+                $ranks->setState('members',$invites);
+                $ranks->updateStatus();
+
+                $db->setQuery($sql);
+                $this->invites = $db->loadObjectList();
+            }
         }
 
         return $this->invites;
@@ -419,13 +423,17 @@ class GuildsModelCharacters extends JModel {
             $db->setQuery($sql);
             
             $promotions = $db->loadObjectList();
-            
-            $ranks = $this->getInstance('ranks','GuildsModel');
-            $ranks->setState('members',$promotions);
-            $ranks->updateStatus();
-            
-            $db->setQuery($sql);
-            $this->promotions = $db->loadObjectList();
+
+            if(empty($promotions)) {
+                return false;
+            } else {
+                $ranks = $this->getInstance('ranks','GuildsModel');
+                $ranks->setState('members',$promotions);
+                $ranks->updateStatus();
+
+                $db->setQuery($sql);
+                $this->promotions = $db->loadObjectList();
+            }
         }
         return $this->promotions;
     }
