@@ -1,6 +1,6 @@
 <?php $game_handle = $this->game_handle; ?>
 <h2>Pending Invites</h2>
-<?php if(count($this->invites) == 0): ?>
+<?php if(empty($this->invites)): ?>
     <div class="alert alert-block alert-info">
         <h4 class="alert-heading">No Pending Invites!</h4>
         <p>Yay! Go relax and play the game!</p>
@@ -82,7 +82,7 @@
 <?php endif; ?>
 </div>
 <h2>Pending Promotions</h2>
-<?php if(count($this->promotions) == 0): ?>
+<?php if(empty($this->promotions)): ?>
     <div class="alert alert-block alert-info">
         <h4 class="alert-heading">No Pending Promotions!</h4>
         <p>Hurrah! Nothing to take care of here! Go watch some tv, maybe?</p>
