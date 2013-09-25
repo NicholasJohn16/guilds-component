@@ -172,13 +172,17 @@ class GuildsModelCharacters extends JModel {
             
             $characters = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
             
-            $ranks = $this->getInstance('ranks','GuildsModel');
-            $ranks->setState('members',$characters);
-            $ranks->updateStatus();
-            
-            $characters = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-            
-            $this->characters = $characters;
+            if(empty($characters)) {
+                return false;
+            } else {
+                $ranks = $this->getInstance('ranks','GuildsModel');
+                $ranks->setState('members',$characters);
+                $ranks->updateStatus();
+
+                $characters = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+
+                $this->characters = $characters;
+            }
         }
         return $this->characters;
     }
