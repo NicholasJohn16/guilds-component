@@ -24,11 +24,11 @@
     </div>
     <?php foreach($this->characters as $character):?>
     <div class="row-fluid" data-character="<?php echo $character->id; ?>">
-        <div class="span2 editable-click" data-title="Edit Character Name" data-name="name" data-pk="<?php echo $character->id; ?>"><?php echo $character->name; ?></div>
+        <div class="span2 editable" data-title="Edit Character Name" data-name="name" data-pk="<?php echo $character->id; ?>"><?php echo $character->name; ?></div>
         <?php foreach($this->types as $type):?>
             <?php $type_name = $type->name.'_name'; ?>
             <?php $type_id = $type->name.'_id'; ?>
-            <div class="span2 com-guilds-<?php echo $type->name;?> editable-click category" data-title="Select Category" data-type="select" data-pk="<?php echo $character->id; ?>" data-name="category[<?php echo $type->name; ?>]" data-source="index.php?option=com_guilds&view=categories&format=json&type=<?php echo $type->name; ?>" data-value="<?php echo $character->$type_id; ?>"><?php echo $character->$type_name; ?></div>
+            <div class="span2 com-guilds-<?php echo $type->name;?> editable category" data-title="Select Category" data-type="select" data-pk="<?php echo $character->id; ?>" data-name="category[<?php echo $type->name; ?>]" data-source="index.php?option=com_guilds&view=categories&format=json&type=<?php echo $type->name; ?>" data-value="<?php echo $character->$type_id; ?>"><?php echo $character->$type_name; ?></div>
         <?php endforeach;?>
         <div class="span2" data-type="date" data-name="checked" data-placement="right" data-title="Update Date" data-pk="<?php echo $character->id; ?>"><?php echo $character->checked; ?></div>
         <div class="span3">
