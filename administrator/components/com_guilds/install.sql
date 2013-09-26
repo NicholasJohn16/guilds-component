@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `#__guilds_members` (
 INSERT INTO `#__guilds_members` (`user_id`,`username`)
 SELECT `id`,`username` FROM `#__users` ORDER BY `id` asc;
 
-CREATE TABLE IF NOT EXISTS `#__guilds_characters` (
+CREATE TABLE IF NOT EXISTS `jos_guilds_characters` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `user_id` int(6) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -70,6 +70,8 @@ CREATE TABLE IF NOT EXISTS `#__guilds_characters` (
   `checked` date DEFAULT NULL,
   `published` tinyint(1) NOT NULL DEFAULT '1',
   `unpublished_date` date DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_on` datetime DEFAULT NULL,
   `invite` tinyint(1) NOT NULL DEFAULT '0',
   `game` int(6) DEFAULT NULL,
   `allegiance` int(6) DEFAULT NULL,
