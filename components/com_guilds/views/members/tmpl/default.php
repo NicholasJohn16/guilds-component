@@ -82,7 +82,7 @@
     ?>   
     </div>
     <div class="row-fluid">
-        <div class="span5 offset4"><?php echo $this->pagination(); ?></div>
+        <?php echo $this->pagination(); ?>
     </div>
     <div style="clear:both"></div>
     <input type="hidden" name="limitstart" value="<?php echo $this->pagination->limitstart; ?>"/>

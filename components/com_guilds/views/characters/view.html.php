@@ -219,7 +219,7 @@ class GuildsViewCharacters extends JView {
             $pages[] = '<li ' . ($x == $cur_page ? 'class="active"' : null) . '><a href="' . $link . ($x - 1) * $limit . '">' . $x . '</a></li>';
         }
 
-        return '<div class="pagination"><ul>' . $first_page . $previous_page . implode($pages) . $next_page . $last_page . '</ul></div>';
+        return '<div class="pagination pagination-centered"><ul>' . $first_page . $previous_page . implode($pages) . $next_page . $last_page . '</ul></div>';
     }
 
     function sortable($title, $order = null) {

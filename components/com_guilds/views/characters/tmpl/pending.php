@@ -69,7 +69,7 @@
              <?php echo $invite->checked; ?>
         </div>
         <div class="span1">
-            <a class="btn btn-mini" 
+            <a class="btn btn-small" 
                title="Invite Sent!" 
                href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&task=invited&id='.$invite->id); ?>">
                 <i class="icon-share"></i>
@@ -150,7 +150,7 @@
              <?php echo $promotion->checked; ?>
         </div>
         <div class="span1">
-            <a class="btn btn-mini" 
+            <a class="btn btn-small" 
                title="Character Promoted!" 
                href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&layout=pending&task=promoted&id='.$promotion->id); ?>">
                 <i class="icon-check"></i>
