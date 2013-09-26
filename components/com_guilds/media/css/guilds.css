@@ -88,10 +88,6 @@
     float: left !important;
     margin-left:0px !important;
 }
-.accordion-group select {
-    border:1px solid transparent;
-    background: inherit;
-}
 .accordion-heading select:hover {
     border:1px solid #CCCCCC;
     background-color:#FFFFFF;
