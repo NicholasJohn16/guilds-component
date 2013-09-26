@@ -33,6 +33,7 @@ $(document).ready(function() {
     //$.fn.editable.defaults.mode = 'inline';
     $.fn.editable.defaults.emptytext = '';
     $.fn.editable.defaults.emptyclass = '';
+    $.fn.editable.defaults.container = 'body';
     $.fn.editable.defaults.params = function(params) {
             // Store the values so they won't be deleted
             var field = params.name;
