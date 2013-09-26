@@ -416,10 +416,14 @@ class GuildsModelCharacters extends JModel {
         
         if (empty($this->promotions)) {
             $sql = $this->buildSelect();
+            //       If there 14 days has passed
             $sql .= ' WHERE ((date_add(appdate,INTERVAL 14 DAY) <= "'.$today.'"'
+                    // and their checked date has not been updated since then
                  . ' AND date( checked ) < date_add(appdate,INTERVAL 14 DAY) )'
+                    // or they haven't been checked since they made an app
                  . ' OR ( checked IS NULL AND appdate IS NOT NULL )) '
-                 . ' AND game = '.$game;
+                 . ' AND `game` = '.$game.' AND `guild` != 1';
+            dump($sql);
             $db->setQuery($sql);
             
             $promotions = $db->loadObjectList();
