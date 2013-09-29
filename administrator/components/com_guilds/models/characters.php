@@ -423,7 +423,7 @@ class GuildsModelCharacters extends JModel {
                     // or they haven't been checked since they made an app
                  . ' OR ( checked IS NULL AND appdate IS NOT NULL )) '
                  . ' AND `game` = '.$game.' AND `guild` != 1';
-            dump($sql);
+            
             $db->setQuery($sql);
             
             $promotions = $db->loadObjectList();
