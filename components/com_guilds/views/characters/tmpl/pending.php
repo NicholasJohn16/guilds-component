@@ -152,7 +152,7 @@
         <div class="span1">
             <a class="btn btn-small" 
                title="Character Promoted!" 
-               href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&layout=pending&task=promoted&id='.$promotion->id); ?>">
+               href="<?php echo JRoute::_('index.php?option=com_guilds&view=characters&layout=pending&task=promoted&id='.$promotion->id.'&checked='.$promotion->checked); ?>">
                 <i class="icon-check"></i>
             </a>
         </div>

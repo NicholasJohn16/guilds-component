@@ -296,17 +296,40 @@ class GuildsControllerCharacters extends JController {
     
     function promoted() {
         $id = JRequest::getVar('id',NULL,'','array');
+        $checked = JRequest::getVar('checked',NULL,'','string');
         $model = $this->getModel('characters');
         $model->setState('id',$id);
         $model->setState('checked',date('Y-m-d'));
         $result = $model->update();
                 
         if($result) {
-              alertsHelper::alert(array('title' => 'Character Promoted!', 'msg' => 'The character was promoted successfully', 'class' => 'success'));
+            $url = JRoute::_('index.php?option=com_guilds&view=characters&layout=pending&task=undo&id='.$id[0].'&checked='.$checked);
+            $btn1 = array('el'=>'a','text'=>'Accept the changes','class'=>'success','id'=>'close');
+            $btn2 = array('el'=>'a','text'=>'Oops, undo!','class'=>'','link'=>$url);
+            $alert = array('title' =>'Character Promoted!','msg'=>'The character was promoted successfully.','class' =>'success','buttons'=>array($btn1,$btn2));
+            alertsHelper::alert($alert);
         } else {
-            alertsHelper::alert(array('title' => 'Promotion Failed!', 'msg' => 'There was an error promoting the character', 'class' => 'error'));
+            alertsHelper::alert(array('title'=>'Promotion Failed!','msg'=>'There was an error promoting the character','class'=>'error'));
         }
         $this->setRedirect(JRoute::_('index.php?option=com_guilds&view=characters&layout=pending',false));
+    }
+    
+    function undo() {
+        $id = JRequest::getVar('id',NULL,'','array');
+        $checked = JRequest::getVar('checked',NULL,'','string');
+        $model = $this->getModel('characters');
+        $model->setState('id',$id);
+        $model->setState('checked',$checked);
+        $result = $model->update();
+        
+        if($result) {
+            $msg = 'The character promotion was undone succesfully.  It should now be visible in the Pending Promotions.';
+            alertsHelper::alert(array('title' => 'Promotion Undone!', 'msg' => $msg, 'class' => 'success'));
+        } else {
+            $msg = "Sorry, but the promotion couldn't be undone.  You can manually undo the promotion by backdating the checked date.";
+            alertsHelper::alert(array('title' => 'Invite Failed!', 'msg' => 'There was an error updating the invite request.', 'class' => 'error'));
+        }
+            $this->setRedirect(JRoute::_('index.php?option=com_guilds&view=characters&layout=pending', false));
     }
     
     function characters() {
