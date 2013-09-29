@@ -54,25 +54,46 @@ class GuildsViewHoldings extends JView {
             )
         );
         
-        $tiers = array(
+        $tracks = array(
             'starbase' => array(
-                // 'starbase'=>array('count'=>5,'color'=>''),
-                'starbase'=>5,
-                // 'military'=>array('count'=>5,'color'=>'progress-danger'),
-                'military'=>5,
-                'engineering'=>5,
-                'science'=>5
+                'starbase'=>array('tiers'=>5,'color'=>''),
+                'military'=>array('tiers'=>5,'color'=>'bar-danger'),
+                'engineering'=>array('tiers'=>5,'color'=>'bar-warning'),
+                'science'=>array('tiers'=>5,'color'=>'bar-success')
             ),
             'embassy'=> array(
-                'embassy'=>3,
-                'diplomacy'=>3,
-                'recruitment'=>3
+                'embassy'=>array('tiers'=>3,'color'=>''),
+                'diplomacy'=>array('tiers'=>3,'color'=>'bar-success'),
+                'recruitment'=>array('tiers'=>3,'color'=>'bar-warning')
             ),
             'mine'=>array(
-                'mine'=>3,
-                'trade'=>3,
-                'development'=>3
+                'mine'=>array('tiers'=>3,'color'=>''),
+                'trade'=>array('tiers'=>3,'color'=>'bar-warning'),
+                'development'=>array('tiers'=>3,'color'=>'bar-danger')
             )
+        );
+        
+        $major_holding = array(1000,3000,3000,3000,3000); // Starbase
+        $minor_holding = array(1000,2000,3000); // Embassy & Dilithium Mine
+        $major_track = array(10000,15000,25000,50000,150000); // Military, Science, etc.
+        $minor_track = array(8500,17000,34000); // Diplomacy, Trade, etc.
+        
+//        $major_holding = array(1000,4000,7000,10000,13000); // Starbase
+//        $minor_holding = array(1000,3000,6000); // Embassy & Dilithium Mine
+//        $major_track = array(10000,25000,50000,100000,250000); // Military, Science, etc.
+//        $minor_track = array(8500,25000,59500); // Diplomacy, Trade, etc.
+        
+        $levels = array(
+            'starbase' => $major_holding,
+            'military' => $major_track,
+            'engineering' => $major_track,
+            'science' => $major_track,
+            'embassy' => $minor_holding,
+            'diplomacy' => $minor_track,
+            'recruitment' => $minor_track,
+            'mine' => $minor_holding,
+            'trade' => $minor_track,
+            'development' => $minor_track
         );
         
         $params = JComponentHelper::getParams('com_guilds');
@@ -81,17 +102,22 @@ class GuildsViewHoldings extends JView {
         foreach($fleets as $code => $fleet) {
             if(!is_array($fleet)) {
                 $xp[$code] = array();
-                foreach($tiers as $holding) {
+                foreach($tracks as $holding) {
                     foreach($holding as $tier => $count) {
-                        $xp[$code][$tier] = $params->get($code.'_'.$tier);
+                        $xp[$code][$tier] = intval($params->get($code.'_'.$tier));
                     }
                 }
             }
         }
-        //dump($xp,'XP');
+        
+        $numerals = array('I','II','III','IV','V');
+        
         $this->assignRef('fleets',$fleets);
         $this->assignRef('holdings',$holdings);
-        $this->assignRef('tiers',$tiers);
+        $this->assignRef('tracks',$tracks);
+        $this->assignRef('levels',$levels);
+        $this->assignRef('xp',$xp);
+        $this->assignRef('numerals',$numerals);
         
         parent::display();
     }
