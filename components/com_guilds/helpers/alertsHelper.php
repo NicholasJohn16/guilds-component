@@ -68,12 +68,12 @@ class Alert {
         }
         $this->buttons = $buttons;
     }
-
+    
     function display() {
         $this->id = $this->id == "" ? "" : 'id="' . $this->id . '"';
         $this->style = $this->style == "" ? "" : 'style="' . $this->style . '"';
 
-        $html = '<div class="alert alert-block alert-' . $this->class . '" ' . $this->id . ' ' . $this->style . '>';
+        $html = '<div class="alert alertHelper alert-block alert-' . $this->class . '" ' . $this->id . ' ' . $this->style . '>';
         $html .= '<a class="close" data-dismiss="alert" href="#">&times;</a>';
         $html .= '<h4 class="alert-heading">' . $this->title . '</h4>';
         $html .= '<p>' . $this->msg . '</p>';
@@ -84,7 +84,6 @@ class Alert {
                 $html .= $button->display();
                 $html .= "&nbsp;";
             }
-            $html .= '<a class="btn" data-dismiss="alert" href="#">Close</a>';
             $html .= '</p>';
         }
         $html .= '</div>';
@@ -108,17 +107,33 @@ class Button {
 
     function __construct($params) {
         $this->class = array_key_exists('class', $params) ? $params['class'] : $this->class;
-        $this->id = array_key_exists('id', $params) ? $params['id'] : $this->id;
         $this->el = array_key_exists('el', $params) ? $params['el'] : $this->el;
         $this->link = array_key_exists('link', $params) ? $params['link'] : $this->link;
         $this->text = array_key_exists('text', $params) ? $params['text'] : $this->text;
+        
+        if(array_key_exists('id',$params) && $params['id'] == 'close') {
+            $this->id = $params['id'];
+            
+            $document = JFactory::getDocument();
+            $document->addScriptDeclaration("
+                $(document).ready(function() {
+                    $('#close').click(function() {
+                        $('.alertHelper').alert('close');
+                    });
+                });   
+         ");
+            
+        }elseif(array_key_exists('id', $params)) {
+            $this->id = $params['id'];
+        }else{
+           $this->id = $this->id; 
+        }
     }
 
     function display() {
         $this->link = $this->link == "" ? "" : 'href="' . $this->link . '"';
         $this->id = $this->id == "" ? "" : 'id="' . $this->id . '"';
-        $html = '<' . $this->el . ' class="btn btn-' . $this->class . '" ' . $this->link . ' ' . $this->id . '>' . $this->text . '</' . $this->el . '>';
+        $html = '<' . $this->el . ' class="btn btn-' . $this->class . '"' . $this->link . ' ' . $this->id . '>' . $this->text . '</' . $this->el . '>';
         return $html;
     }
-
 }
