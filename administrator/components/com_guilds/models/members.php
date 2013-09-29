@@ -54,8 +54,8 @@ class GuildsModelMembers extends JModel {
         $limitstart = $mainframe->getUserStateFromRequest($option . 'limitstart', 'limitstart', 0);
 
         // Get filter values for Roster view
-        $order = $mainframe->getUserStateFromRequest($option . $view . $layout . 'order', 'order', null, 'cmd');
-        $direction = $mainframe->getUserStateFromRequest($option . $view . $layout . 'direction', 'direction', null, 'word');
+        $order = $mainframe->getUserStateFromRequest($option . $view . $layout . 'order', 'order', 'id','cmd');
+        $direction = $mainframe->getUserStateFromRequest($option . $view . $layout . 'direction', 'direction','desc', 'word');
         $search = $mainframe->getUserStateFromRequest($option . $view . $layout . 'search', 'search', '', 'string');
         $filter_type = $mainframe->getUserStateFromRequest($option . $view . $layout . 'filter_type', 'filter_type', array(), 'array');
 
@@ -104,7 +104,9 @@ class GuildsModelMembers extends JModel {
             $terms = explode(",", $search);
             // Trim each term, check if their ints and make strings lowercase
             foreach ($terms as $term) {
-                strtolower(trim($term));
+                $trimmed = trim($term);
+                $lowered = strtolower($trimmed);
+                $term = $lowered;
                 if (is_numeric($term)) {
                     $conditions[] = ' a.user_id = ' . intval($term);
                 } else {
@@ -196,7 +198,7 @@ class GuildsModelMembers extends JModel {
             $sql .= $this->buildFrom();
             $sql .= $this->buildWhere();
             $sql .= $this->buildOrderBy();
-            
+            dump($sql);
             $db->setQuery($sql,$this->getState('limitstart'),$this->getState('limit'));
             $this->ids = $db->loadResultArray();
         }
