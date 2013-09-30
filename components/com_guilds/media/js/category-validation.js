@@ -1,7 +1,6 @@
 $(document).ready(function() {
     // Form validation for Add Character field
     $('.validate option').click(function() {
-        console.log('Click!');
         //var form = $(this).parents('form');
         var parent = $(this).attr('data-parent');
         var children = $(this).attr('data-children');
