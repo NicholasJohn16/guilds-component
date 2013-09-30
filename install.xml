@@ -47,7 +47,7 @@
     </administration>
     
     <params>
-        <param name="admin_groups" type="usergroup" default="24|25" label="Select Admin groups" multiple="yes" />
+        <param name="officer" type="usergroup" default="24|25" label="Select Admin groups" multiple="yes" />
     </params>
     
 </install>
