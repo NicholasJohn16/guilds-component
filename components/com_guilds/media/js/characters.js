@@ -1,9 +1,12 @@
-$(document).ready(function() {
+jQuery.noConflict();
+
+jQuery(document).ready(function($) {
 	
     // Change some of the editable plugin defaults.
     //$.fn.editable.defaults.mode = 'inline';
     $.fn.editable.defaults.emptytext = '';
     $.fn.editable.defaults.emptyclass = '';
+    $.fn.editable.defaults.container = 'body';
         
     $('.editable').editable({
         url:'index.php?option=com_guilds&view=characters&task=ajaxSave&format=raw',

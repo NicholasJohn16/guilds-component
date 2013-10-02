@@ -1,11 +1,13 @@
+jQuery.noConflict();
+
 function refreshCharacters(user) {
-        $('#characters-'+user).addClass('com-guilds-ajax');
-        $('#characters-'+user).html("");
+        jQuery('#characters-'+user).addClass('com-guilds-ajax');
+        jQuery('#characters-'+user).html("");
         getCharactersByUserId(user);
     };
 
 function getCharactersByUserId(id){
-        $.get('index.php',{
+        jQuery.get('index.php',{
             option:'com_guilds',
             view:'characters',
             //task:'ajax',
@@ -15,13 +17,13 @@ function getCharactersByUserId(id){
             id:id
         },
         function(data){
-            var html = $(data);
-            $('#characters-'+id).removeClass('com-guilds-ajax');
-            $('#characters-'+id).append(html);
+            var html = jQuery(data);
+            jQuery('#characters-'+id).removeClass('com-guilds-ajax');
+            jQuery('#characters-'+id).append(html);
         });
     };
 
-$(document).ready(function() {
+jQuery(document).ready(function($) {
 
     // Whenever the form is submitted, reset the limit to 0
     // So the user is return to the first page

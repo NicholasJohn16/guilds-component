@@ -1,4 +1,6 @@
-$(document).ready(function() {
+jQuery.noConflict();
+
+jQuery(document).ready(function($) {
     
     $('#character-form-modal').modal({
        show:false 

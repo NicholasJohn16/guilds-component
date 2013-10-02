@@ -1,4 +1,6 @@
-$(document).ready(function() {
+jQuery.noConflict();
+
+jQuery(document).ready(function($) {
     // Form validation for Add Character field
     $('.validate option').click(function() {
         //var form = $(this).parents('form');
