@@ -11,6 +11,7 @@ class plgUserGuildsUser extends JPlugin {
     }
     
     function onAfterStoreUser($user,$isNew,$success,$msg) {
+        
         if($success) {
             $db = JFactory::getDBO();
             if($isNew) {

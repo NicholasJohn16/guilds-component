@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <install version="1.5" type="plugin" group="user" method="upgrade">
-    <name>User - Guilds User</name>
-    <author>Stonewall Gaming Network</author>
+    <name>User - Guilds Manager</name>
     <creationDate>September 2013</creationDate>
-    <copyright>2013</copyright>
-    <license></license>
-    <authorEmail>support@stonewallgaming.net</authorEmail>
     <authorUrl>http://stonewallgaming.net</authorUrl>
+    <copyright>2013</copyright>
     <version>1.0</version>
-    <description>A plugin to add and remove users to the Guilds Component</description>
+    <description>User plugin for Guilds Manager.  Automatically adds users to 
+    Members table on registration and removes them on deletion.</description>
+    
     <files>
         <filename plugin="guildsuser">guildsuser.php</filename>
     </files>
-    <params>
-    </params>
-    <config>
-    </config>
+    
 </install>
