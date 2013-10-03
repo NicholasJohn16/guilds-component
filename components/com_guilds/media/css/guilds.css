@@ -219,3 +219,7 @@ ul.nav {
     padding-left:0px !important;
     margin-top:0px !important;
 }
+/* Modal scroll fix */
+.modal {
+    position:absolute !important;
+}
