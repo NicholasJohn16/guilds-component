@@ -187,17 +187,17 @@
 
 /* Compatibility with Rockettheme templates */
 .alert-info {
-    background-color: #D9EDF7 !important;
+    background: #D9EDF7 !important;
     border: 1px solid #BCE8F1 !important;
     color: #3A87AD !important;
 }
 .alert-success {
-    background-color: #DFF0D8 !important;
+    background: #DFF0D8 !important;
     border: 1px solid #D6E9C6 !important;
     color: #468847 !important;
 }
 .alert-danger, .alert-error {
-    background-color: #F2DEDE;
+    background: #F2DEDE;
     border: 1px solid #EED3D7;
     color: #B94A48;
 }
@@ -209,7 +209,7 @@
 }
 .btn .icon-remove {
     /*not a valid option so declaration is overriden and ignored*/
-    background: clear !important; 
+    background: url("../img/glyphicons-halflings-white.png") no-repeat scroll -312px 0 rgba(0, 0, 0, 0) !important;
 }
 #editLink {
     width:auto !important;
