@@ -198,7 +198,7 @@ class GuildsModelMembers extends JModel {
             $sql .= $this->buildFrom();
             $sql .= $this->buildWhere();
             $sql .= $this->buildOrderBy();
-            dump($sql);
+            
             $db->setQuery($sql,$this->getState('limitstart'),$this->getState('limit'));
             $this->ids = $db->loadResultArray();
         }
