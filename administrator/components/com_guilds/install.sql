@@ -4,14 +4,14 @@ CREATE TABLE IF NOT EXISTS `#__guilds_ranks` (
   PRIMARY KEY (`id`)
 );
 
-INSERT INTO `#__guilds_ranks` (`status`) VALUES
-('Error'), 
-('Community'),
-('Visitor'),
-('MIA'),
-('Recruit'),
-('Cadet'),
-('Member');
+-- INSERT INTO `#__guilds_ranks` (`status`) VALUES
+-- ('Error'), 
+-- ('Community'),
+-- ('Visitor'),
+-- ('MIA'),
+-- ('Recruit'),
+-- ('Cadet'),
+-- ('Member');
 
 CREATE TABLE IF NOT EXISTS `#__guilds_types` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -21,11 +21,11 @@ CREATE TABLE IF NOT EXISTS `#__guilds_types` (
   PRIMARY KEY (`id`)
 );
 
-INSERT INTO `#__guilds_types` (`name`, `ordering`, `published`) VALUES
-('game', 1, 1),
-('allegiance', 2, 1),
-('class', 3, 1),
-('guild', 4, 1);
+-- INSERT INTO `#__guilds_types` (`name`, `ordering`, `published`) VALUES
+-- ('game', 1, 1),
+-- ('allegiance', 2, 1),
+-- ('class', 3, 1),
+-- ('guild', 4, 1);
 
 
 CREATE TABLE IF NOT EXISTS `#__guilds_categories` (
@@ -38,8 +38,8 @@ CREATE TABLE IF NOT EXISTS `#__guilds_categories` (
   PRIMARY KEY (`id`)
 );
 
-INSERT INTO `#__guilds_categories` (`name`, `parent`, `type`, `ordering`, `published`) VALUES
-('Discharged', 0, 1, 1, 1);
+-- INSERT INTO `#__guilds_categories` (`name`, `parent`, `type`, `ordering`, `published`) VALUES
+-- ('Discharged', 0, 1, 1, 1);
 
 CREATE TABLE IF NOT EXISTS `#__guilds_members` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
@@ -59,8 +59,8 @@ CREATE TABLE IF NOT EXISTS `#__guilds_members` (
   KEY `status` (`status`)
 );
 
-INSERT INTO `#__guilds_members` (`user_id`,`username`)
-SELECT `id`,`username` FROM `#__users` ORDER BY `id` asc;
+-- INSERT INTO `#__guilds_members` (`user_id`,`username`)
+-- SELECT `id`,`username` FROM `#__users` ORDER BY `id` asc;
 
 CREATE TABLE IF NOT EXISTS `jos_guilds_characters` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
