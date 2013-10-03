@@ -59,7 +59,7 @@
         <div class="span4">
             <h4>Request an Invite</h4>
             <p>When adding a new character, set Request Invite to Yes or with a 
-                current character just click the invite button (<button class="btn btn-mini"><i class="icon-share"></i></button>).</p>
+                current character just click the invite button (<button class="btn btn-s"><i class="icon-share"></i></button>).</p>
         </div>
     </div>
 </div>
