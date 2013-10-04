@@ -198,7 +198,7 @@ class GuildsModelCharacters extends JModel {
         if (empty($this->character)) {
             if ($id == NULL) {
                 $this->character = new stdClass();
-                $this->character->user_id = NULL;
+                $this->character->user_id = JFactory::getUser()->id;
                 $this->character->id = NULL;
                 $this->character->name = NULL;
                 $this->character->handle = NULL;
@@ -356,8 +356,8 @@ class GuildsModelCharacters extends JModel {
 
     function save() {
         $id = $this->getState('id');
-
-        if ($id < 1) {
+        
+        if ($id[0] < 1) {
             return $this->insert();
         } else {
             return $this->update();

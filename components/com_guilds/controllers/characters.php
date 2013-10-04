@@ -153,7 +153,7 @@ class GuildsControllerCharacters extends JController {
     }
 
     function drop() {
-        $id = JRequest::getVar('id',NULL,'','int');
+        $id = JRequest::getVar('id',NULL,'','array');
         $model = $this->getModel('characters');
         $model->setState('id',$id);
         $model->setState('published',0);
