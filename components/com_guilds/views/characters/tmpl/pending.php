@@ -170,4 +170,3 @@
             <!--<div style="clear:both"></div>-->
         </div>
     <?php endif; ?>
-</div>
